@@ -1,8 +1,8 @@
 import { styled } from "@mui/material/styles";
 
 type ContentProps = {
-  title: string;
-  content: string;
+  title: string | "";
+  content: string | "";
 };
 
 const ContentDiv = styled("div")({
@@ -25,7 +25,7 @@ const ContentSpan = styled("span")({
   textAlign: 'center',
 });
 
-function Content({ title, content }: ContentProps) {
+function Content({ title = "", content = "" }: ContentProps) {
   return (
     <ContentDiv>
       <TitleSpan>{title}</TitleSpan>
