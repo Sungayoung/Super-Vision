@@ -14,13 +14,14 @@ const ContentDiv = styled("div")({
 
 const TitleSpan = styled("span")({
   color: "#CEF3FF",
-  fontSize: "2rem",
+  fontSize: "24px",
   fontWeight: "600",
   padding: "5px",
 });
 
 const ContentSpan = styled("span")({
   padding: "10px",
+  fontSize: '18px',
   whiteSpace: "pre-wrap",
   textAlign: 'center',
 });
