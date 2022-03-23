@@ -68,8 +68,8 @@ const CustomSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 );
 
 const WebCamUploadDiv = styled("div")({
-  width: "640px",
-  height: "480px",
+  width: "320px",
+  height: "240px",
   borderRadius: "20px",
   border: "1.5px dashed #F2FFFF",
   overflow: "hidden",

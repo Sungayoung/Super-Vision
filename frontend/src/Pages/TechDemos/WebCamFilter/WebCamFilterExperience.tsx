@@ -1,6 +1,7 @@
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import Content from "../../../Components/Commons/Content";
 import WebCamUploadCard from "../../../Components/Cards/WebCamUploadCard";
+import ResultCard from "../../../Components/Cards/ResultCard";
 import { useState } from "react";
 
 function WebCamFilterExperience() {
@@ -33,6 +34,8 @@ function WebCamFilterExperience() {
       <div className="outside-card-container">
         <WebCamUploadCard videoSrc={videoSrc} toggleWebcam={toggleWebcam} />
         <ArrowRightIcon sx={{ color: "#F2FFFF", fontSize: 50 }} />
+        <ResultCard imgSrc={null} title="일반 필터" width="640px" height="480px"/>
+        <ResultCard imgSrc={null} title="AI 필터" width="640px" height="480px"/>
       </div>
     </div>
   );

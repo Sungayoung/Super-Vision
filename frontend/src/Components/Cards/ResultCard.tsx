@@ -1,33 +1,31 @@
-import { VideoHTMLAttributes, useEffect, useRef } from "react";
-import Content from '../Commons/Content'
-
-type PropsType = VideoHTMLAttributes<HTMLVideoElement> & {
-  srcObject: MediaStream;
-};
-
-const Video = ({ srcObject, ...props }: PropsType) => {
-  const refVideo = useRef<HTMLVideoElement>(null);
-  useEffect(() => {
-    if (!refVideo.current) return;
-    refVideo.current.srcObject = srcObject;
-  }, [srcObject]);
-  console.log(refVideo);
-  return <video className="webcam-video" ref={refVideo} {...props} autoPlay />;
-};
+import Content from "../Commons/Content";
 
 type ResultCardProps = {
-  imgSrc: string | null,
-  videoSrc: MediaStream | null,
-  title: string
-}
+  imgSrc: string | null;
+  title: string;
+  width: string;
+  height: string;
+};
 
-function ResultCard ({imgSrc = null, videoSrc = null, title=""}: ResultCardProps) {
+function ResultCard({ imgSrc = null, title = "", width, height }: ResultCardProps) {
+  const divStyle = {
+    width,
+    height,
+    borderRadius: "20px",
+    border: "1.5px dashed #F2FFFF",
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
   return (
     <div className="card-container">
-      <Content title={title} content=""/>
-      {/* { imgSrc ? <img src={imgSrc}/> : <Video srcObject={videoSrc}/>} */}
+      <Content title={title} content="" />
+      <div style={divStyle}>
+        {imgSrc ? <img style={{ width, height }} className="card-img" src={imgSrc} alt="" /> : "웹캠을 켜주세요"}
+      </div>
     </div>
-  )
+  );
 }
 
-export default ResultCard
+export default ResultCard;
