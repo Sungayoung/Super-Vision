@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
-import { Box, Stack, Button, AppBar, Toolbar, Slide, useScrollTrigger } from "@mui/material";
-import { Link as RouterLink, useLocation, matchPath } from "react-router-dom";
+import { Box, Stack, AppBar, Toolbar, Slide, useScrollTrigger } from "@mui/material";
+import { Link as RouterLink, useLocation } from "react-router-dom";
+import NavBarBtn from "./NavBarBtn";
 import logo from "../../Assets/Image/logo.png";
 
 function NavBar() {
@@ -22,12 +23,12 @@ function NavBar() {
       </Slide>
     );
   };
+
   const APPBAR_MOBILE = 64;
   const APPBAR_DESKTOP = 84;
-  const location = useLocation();
 
   const routes = [
-    { path: "/", name: "Home" },
+    { path: "/", name: "Home", children:[]},
     {
       path: "/Introduction",
       name: "Introduction",
@@ -70,21 +71,8 @@ function NavBar() {
           </Box>
           <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 6.5 }} sx={{ mr: 10 }}>
             {routes.map((route) => {
-              const isCurrentPath = matchPath(location.pathname, route.path);
-              const fontColor = isCurrentPath ? "#CEF3FF" : "#F2FFFF";
-              const fontWeight = isCurrentPath ? "600" : "200";
               return (
-                <span key={route.name}>
-                  <Button
-                    id={`${route.name}-btn`}
-                    to={route.path}
-                    size="large"
-                    sx={{ fontFamily: "Pretendard-Regular", color: fontColor, fontWeight }}
-                    component={RouterLink}
-                  >
-                    {route.name}
-                  </Button>
-                </span>
+                <NavBarBtn route={route}/>
               );
             })}
           </Stack>
