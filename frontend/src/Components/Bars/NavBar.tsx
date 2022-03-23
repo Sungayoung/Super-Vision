@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar, Slide, useScrollTrigger } from "@mui/material";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import NavBarBtn from "./NavBarBtn";
 import logo from "../../Assets/Image/logo.png";
 
@@ -9,10 +9,9 @@ function NavBar() {
     window?: () => Window;
     children: React.ReactElement;
   }
-
   const HideOnScroll = (props: scrollProps) => {
     const { children, window } = props;
-    console.log(props);
+
     const trigger = useScrollTrigger({
       target: window ? window() : undefined,
     });
@@ -28,7 +27,7 @@ function NavBar() {
   const APPBAR_DESKTOP = 84;
 
   const routes = [
-    { path: "/", name: "Home", children:[]},
+    { path: "/", name: "Home", children: [] },
     {
       path: "/Introduction",
       name: "Introduction",
@@ -60,6 +59,20 @@ function NavBar() {
       padding: theme.spacing(0, 3),
     },
   }));
+  // const RootStyle = styled('div')(({ theme }) => ({
+  //   boxShadow: "none",
+  //   backdropFilter: "blur(6px)",
+  //   WebkitBackdropFilter: "blur(6px)",
+  //   backgroundColor: "#031214",
+  // }));
+
+  // const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
+  //   minHeight: APPBAR_MOBILE,
+  //   [theme.breakpoints.up("lg")]: {
+  //     minHeight: APPBAR_DESKTOP,
+  //     padding: theme.spacing(0, 3),
+  //   },
+  // }));
   return (
     <HideOnScroll>
       <RootStyle>
@@ -71,9 +84,7 @@ function NavBar() {
           </Box>
           <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 6.5 }} sx={{ mr: 10 }}>
             {routes.map((route) => {
-              return (
-                <NavBarBtn route={route}/>
-              );
+              return <NavBarBtn key={route.name} route={route} />;
             })}
           </Stack>
         </ToolbarStyle>

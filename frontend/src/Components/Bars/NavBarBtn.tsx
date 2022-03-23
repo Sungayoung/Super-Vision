@@ -41,15 +41,19 @@ function NavBarBtn({ route }: NavBarBtnProps) {
       >
         {route.name}
       </Button>
-      { route.children.length > 0 ?
-      <Popper placement="bottom" disablePortal anchorEl={anchorEl} open={open}>
-        <Paper>
-          {route.children.map(child => {
-            return <MenuItem to={`${route.path}/${child.path}`} component={RouterLink}>{child.name}</MenuItem>
-          })}
-        </Paper>
-      </Popper>
-    : null}
+      {route.children.length > 0 ? (
+        <Popper placement="bottom" disablePortal anchorEl={anchorEl} open={open}>
+          <Paper>
+            {route.children.map((child) => {
+              return (
+                <MenuItem key={child.name} to={`${route.path}/${child.path}`} component={RouterLink}>
+                  {child.name}
+                </MenuItem>
+              );
+            })}
+          </Paper>
+        </Popper>
+      ) : null}
     </span>
   );
 }

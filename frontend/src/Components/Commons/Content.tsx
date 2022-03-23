@@ -32,7 +32,7 @@ function Content({ title = "", content = "" }: ContentProps) {
       <TitleSpan>{title}</TitleSpan>
       <ContentSpan>
         {content.split('\\n').map( line => {
-          return <>{line}<br/></>
+          return <span key={line}>{line}<br/></span>
         })}
       </ContentSpan>
     </ContentDiv>
