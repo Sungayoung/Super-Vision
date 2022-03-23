@@ -1,0 +1,38 @@
+.card-container {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem
+}
+
+img {
+  object-fit: cover;
+  height: 50vh;
+  width: 20vw;
+  border-radius: 20px;
+  border: 1.5px dashed #F2FFFF;
+}
+
+.upload-card {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  width: 20vw;
+  border-radius: 20px;
+  border: 1.5px dashed #F2FFFF;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.icon {
+  margin-bottom: 10px;
+}
+
+.upload-text {
+  margin-bottom: 14px;
+}
