@@ -1,19 +1,15 @@
 import React from "react"
+// Local
 import './CNN.css'
 // Mui
 import { styled } from "@mui/material/styles";
 import Grid from '@mui/material/Grid'
+import { useTheme } from '@material-ui/core'
 
-const layers = [
-  {
-    id: '',
-    color: '',
-    description: '',
-    title: '',
-  }
-]
 
 function CNN () {
+  const theme = useTheme()
+  console.log(theme.palette.primary.main)
   return (
     <div>
       <Grid 
@@ -53,11 +49,19 @@ function CNN () {
         {/* </Grid> */}
       </Grid>
       
-      
-
-
     </div>
   )
 }
 
 export default CNN
+
+
+
+// const layers = [
+//   {
+//     id: '',
+//     color: '',
+//     description: '',
+//     title: '',
+//   }
+// ]

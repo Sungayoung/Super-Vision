@@ -5,11 +5,3 @@
   align-items: center;
   margin: 2rem
 }
-
-img {
-  object-fit: cover;
-  height: 50vh;
-  width: 20vw;
-  border-radius: 20px;
-  border: 1.5px dashed #F2FFFF;
-}
