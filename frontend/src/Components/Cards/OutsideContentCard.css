@@ -6,7 +6,7 @@
   margin: 2rem
 }
 
-img {
+.card-img {
   object-fit: cover;
   height: 50vh;
   width: 20vw;

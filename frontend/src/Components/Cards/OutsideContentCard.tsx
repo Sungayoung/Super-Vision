@@ -12,7 +12,7 @@ function OutsideContentCard ({title, content, imgSrc}: OutsideContentCardProps) 
   return (
     <div className="card-container">
       <Content title={title} content={content}/>
-      <img src={imgSrc} alt="" />
+      <img className="card-img" src={imgSrc} alt="" />
     </div>
   )
 }
