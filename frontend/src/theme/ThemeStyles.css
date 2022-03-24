@@ -1,0 +1,94 @@
+/* 글자 크기 */
+/* 강조 */
+.font-1 {
+    font-size: 36px;
+}
+
+/* title */
+.font-2 {
+    font-size: 24px;
+}
+
+/* content */
+.font-3 {
+    font-size: 18px;
+}
+
+/* 컬러 (폰트, 배경, 테두리) */
+/* 폰트 강조 */
+.main-color {
+    color: #CEF3FF;
+}
+
+.main-bg-color {
+    background-color: #CEF3FF;
+}
+
+.main-border-color {
+    border-color: #CEF3FF;
+}
+
+/* 폰트 기본 */
+.sub-color {
+    color: #F2FFFF;
+}
+
+.sub-bg-color {
+    background-color: #F2FFFF;
+}
+
+.sub-border-color {
+    border-color: #F2FFFF;
+}
+
+/* 컴포넌트 기본 */
+.comp-color {
+    color: #5F7B84;
+}
+
+.comp-bg-color {
+    background-color: #5F7B84;
+}
+
+.comp-border-color {
+    border-color: #5F7B84;
+}
+
+/* 코드 배경 */
+.code-color {
+    color: #39424E;
+}
+
+.code-bg-color {
+    background-color: #39424E;
+}
+
+.code-border-color {
+    border-color: #39424E;
+}
+
+/* 기본 배경/어두운 포인트 */
+.dark-color {
+    color: #051527;
+}
+
+.dark-bg-color {
+    background-color: #051527;
+}
+
+.dark-border-color {
+    border-color: #051527;
+}
+
+/* 네브바 */
+.nav-color {
+    color: #031214;
+}
+
+.nav-bg-color {
+    background-color: #031214;
+}
+
+.nav-border-color {
+    border-color: #031214;
+}

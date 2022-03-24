@@ -1,9 +1,10 @@
-.card-container {
+.card_container {
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 2rem
+  margin: 2rem;
+  background-color: red;
 }
 
 .upload-card-img {
@@ -35,4 +36,8 @@
 
 .upload-text {
   margin-bottom: 14px;
+}
+
+body {
+  background-color: red !important;
 }
