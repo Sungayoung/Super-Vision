@@ -5,7 +5,7 @@ import "./WebCamFilterMain.css"
 function WebCamFilterMain() {
   return (
     <div>
-      <h2 style={{textAlign: 'center'}}>실시간으로 당신 웹캠의 화질개선을 느껴보세요!</h2>
+      <div style={{textAlign: 'center', fontSize: '36px', fontWeight: "600",}}>실시간으로 당신 웹캠의 화질개선을 느껴보세요!</div>
       <div className="outside-card-container">
         <OutsideContentCard
           title="ORIGINAL"

@@ -20,8 +20,8 @@ const TitleSpan = styled("span")({
 });
 
 const ContentSpan = styled("span")({
+  fontSize: "18px",
   padding: "10px",
-  fontSize: '18px',
   whiteSpace: "pre-wrap",
   textAlign: 'center',
 });

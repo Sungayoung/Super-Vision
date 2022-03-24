@@ -1,0 +1,26 @@
+.inside-card-container {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px;
+  height: 52vh;
+  width: 20vw;
+  border-radius: 20px;
+  border: 1.5px dashed #F2FFFF;
+}
+
+.inside-card-img {
+  height: 20vh;
+  width: 20vw;
+}
+
+.inside-card-content {
+  /* margin-top: 20px;
+  margin-bottom: 25px; */
+  margin: 20px 5px 25px 5px;
+}
+
+.inside-card-btn {
+  margin-bottom: 35px;
+}

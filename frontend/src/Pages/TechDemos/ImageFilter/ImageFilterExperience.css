@@ -1,6 +1,10 @@
-.outside-card-container {
+.cards {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
+  margin: 5px;
+}
+
+.icon {
+  margin: 15px;
 }

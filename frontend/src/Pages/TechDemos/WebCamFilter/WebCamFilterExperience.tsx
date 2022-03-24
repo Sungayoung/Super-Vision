@@ -27,16 +27,8 @@ function WebCamFilterExperience() {
 
   return (
     <div>
-      <Content
-        title="Try SUPER RESOLUTION on WEB CAM"
-        content="실시간으로 일반 필터와 AI 필터의 웹캠 화질 개선을 느껴보세요!\n어떤 필터의 화질이 더 좋아보이나요?"
-      />
-      <div className="outside-card-container">
-        <WebCamUploadCard videoSrc={videoSrc} toggleWebcam={toggleWebcam} />
-        <ArrowRightIcon sx={{ color: "#F2FFFF", fontSize: 50 }} />
-        <ResultCard imgSrc={null} title="일반 필터" width="640px" height="480px"/>
-        <ResultCard imgSrc={null} title="AI 필터" width="640px" height="480px"/>
-      </div>
+      <ResultCard imgSrc={null} title="일반 필터" width="640px" height="480px"/>
+      <ResultCard imgSrc={null} title="AI 필터" width="640px" height="480px"/>
     </div>
   );
 }
