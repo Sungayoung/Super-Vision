@@ -3,7 +3,8 @@ import WebCamFilterMain from "./WebCamFilterMain";
 import { styled } from "@mui/material/styles";
 
 const PageDiv = styled('div')({
-  height: '95vh'
+  padding: '84px',
+  height: '100vh'
 })
 
 

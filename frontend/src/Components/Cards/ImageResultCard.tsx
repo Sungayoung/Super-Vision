@@ -27,7 +27,7 @@ function ImageResultCard ({file, imgPreviewUrl, isImgPreview}: ImageResultCardPr
   return (
     <div className="card-container">
       <TitleSpan>AFTER</TitleSpan>
-      {isImgPreview && <img className="clickable" src={imgPreviewUrl} alt="img" />}
+      {isImgPreview && <img className="clickable result-card-img" src={imgPreviewUrl} alt="img" />}
       {!isImgPreview && 
         <div className="upload-card">
           <ContentSpan>사진을 업로드하면{"\n"}결과를 확인할 수 있습니다.</ContentSpan>

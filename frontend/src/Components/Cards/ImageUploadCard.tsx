@@ -66,7 +66,7 @@ function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
         onChange={handleImgChange}
         hidden={true}
       />
-      {isImgPreview && <img className="clickable" src={imgPreviewUrl} alt="img" onClick={handleFileBtnClick} />}
+      {isImgPreview && <img className="clickable upload-card-img" src={imgPreviewUrl} alt="img" onClick={handleFileBtnClick} />}
       {!isImgPreview && 
         <div className="upload-card">
           <div className="icon clickable" onClick={handleFileBtnClick}>
