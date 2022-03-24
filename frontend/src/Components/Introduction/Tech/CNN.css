@@ -1,0 +1,63 @@
+.CNN {
+  height: 85vh;
+  display: flex;
+  align-items: top;
+}
+
+h1::first-letter {
+  font-size: 130%;
+}
+
+
+.cnnName {
+  padding-top: 6rem;
+  margin-left: 10rem;
+}
+
+.card {
+  /* display: inline; */
+  margin: 10px;
+  padding: 15px;
+  /* min-width: 200px; */
+}
+
+.card .box {
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.card .box .fill {
+  width: 10rem;
+  height: 30rem;
+  margin: 0;
+  position: relative;
+  /* background: #03A9F4; */
+  /* opacity: .8; */
+}
+
+.brightBox {
+  background: #cef3ff;
+}
+
+.darkBox {
+  background: #5F7B84;
+}
+
+.rotateY .fill {
+  -webkit-transform: skewy(-30deg);
+  transform: skewy(-30deg);
+}
+
+.rotateY:hover .fill {
+  -webkit-transform: scale(1.2) skewy(-30deg);
+  transform: scale(1.2) skewY(-30deg);
+  transition-duration: 0.3s;
+}
+
+
+.box {
+  -webkit-perspective: 100px;
+  perspective: 100px;
+}
