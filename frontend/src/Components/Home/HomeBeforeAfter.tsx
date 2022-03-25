@@ -1,5 +1,6 @@
-import { DragEvent, MouseEvent } from "react";
+import { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
+import {useTheme} from "@material-ui/core/styles"
 import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
 import beforeImage from "../../Assets/Image/beforeImage.png";
@@ -9,28 +10,43 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 const PageDiv = styled("div")({
   position: "relative",
-  height: "100%",
+  height: "100vh",
   width: "99.5vw",
   background: `url(${afterImage})`,
   backgroundSize: "cover",
+  overflow: "hidden",
 });
-
 function HomeBeforeAfter() {
+  const theme = useTheme()
   const [imgWidth, setImgWidth] = useState<number>(window.innerWidth / 2);
   const buttonStyle = {
     position: "absolute",
+    zIndex: "2",
     left: imgWidth,
     top: "50%",
     transform: "translate(-50%)",
     cursor: "move",
-    transitionProperty: "all",
-    transitionDuration: "0.5s",
   };
-  const handleMove = (event: MouseEvent<HTMLDivElement>) => {
-    setImgWidth(event.clientX);
+  const beforeTextStyle = {
+    color: theme.palette.primary.contrastText,
+    position: "absolute",
+    top: "50%",
+    left: window.screen.availWidth / 2 - 100 - 200 * ((window.screen.availWidth - imgWidth) / window.screen.availWidth),
+    transform: "translate(-50%, -50%)",
   };
+  const AfterTextStyle = {
+    color: theme.palette.primary.main,
+    position: "absolute",
+    top: "50%",
+    left: window.screen.availWidth / 2 + 100 + 200 * (1 - (window.screen.availWidth - imgWidth) / window.screen.availWidth),
+    transform: "translate(-50%, -50%)",
+  };
+  const CustomTypography = styled("span")({
+    fontFamily: "Dancing Script",
+    fontSize: "150px",
+  });
 
-  const handleDrag = (event: DragEvent<HTMLButtonElement>) => {
+  const handleMove = (event: MouseEvent<HTMLDivElement>) => {
     setImgWidth(event.clientX);
   };
 
@@ -42,15 +58,15 @@ function HomeBeforeAfter() {
       <PageDiv onClick={handleClick} onMouseMove={handleMove}>
         <div
           style={{
+            position: "relative",
+            zIndex: "1",
             width: imgWidth,
-            maxWidth: "99.5vw",
             height: "100%",
             overflow: "hidden",
             borderRight: "solid 1px white",
-            transitionProperty: "all",
-            transitionDuration: "0.5s",
           }}
         >
+          <CustomTypography sx={beforeTextStyle}>Before</CustomTypography>
           <Box
             component="img"
             src={beforeImage}
@@ -61,19 +77,7 @@ function HomeBeforeAfter() {
           <ArrowLeftIcon sx={{ color: "#F2FFFF" }} />
           <ArrowRightIcon sx={{ color: "#F2FFFF" }} />
         </IconButton>
-      </PageDiv>
-      <PageDiv onClick={handleClick}>
-        <div style={{ width: imgWidth, maxWidth: "99.5vw", height: "100%", overflow: "hidden", borderRight: "solid 1px white" }}>
-          <Box
-            component="img"
-            src={beforeImage}
-            sx={{ width: "99.5vw", height: "100%", objectFit: "cover", objectPosition: "left top" }}
-          ></Box>
-        </div>
-        <IconButton draggable="true" onDrag={handleDrag} onDragEnd={handleDrag} className="home-before-after-btn" sx={buttonStyle}>
-          <ArrowLeftIcon />
-          <ArrowRightIcon />
-        </IconButton>
+        <CustomTypography sx={AfterTextStyle}>After</CustomTypography>
       </PageDiv>
     </>
   );
