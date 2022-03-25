@@ -79,6 +79,11 @@ const WebCamUploadDiv = styled("div")({
   alignItems: "center",
 });
 
+const WebCamUploadCanvas = styled("canvas")({
+  width: "320px",
+  height: "240px",
+});
+
 const TitleSpan = styled("span")({
   color: "#CEF3FF",
   fontSize: "2rem",
@@ -91,36 +96,77 @@ type WebCamUploadCardProp = {
   toggleWebcam: Function;
 };
 
-function WebCamUploadCard({ videoSrc = null, toggleWebcam }: WebCamUploadCardProp) {
-  const [ webcamOn, setWebcamOn ] = useState<boolean>(videoSrc ? true : false)
+function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam }: WebCamUploadCardProp) {
+  const [webcamOn, setWebcamOn] = useState<boolean>(videoSrc ? true : false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const video = document.createElement("video");
+  video.autoplay = true;
+  const refVideo = useRef<HTMLVideoElement>(video);
+  useEffect(() => {
+    if (!refVideo.current) return;
+    refVideo.current.srcObject = videoSrc;
+    console.log(refVideo);
+  }, [videoSrc]);
+
+  useEffect(() => {
+    if (!webcamOn) return;
+    const timer = setInterval(drawImg, 1000 / 15);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [webcamOn]);
+
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
+    setWebcamOn(prev => !prev)
     if (e.target.checked) {
       setWebcamOn(await toggleWebcam(true));
     } else {
       setWebcamOn(await toggleWebcam(false));
-
     }
   };
+
+  const readImg = () => {
+    let canvasImg: string | undefined = canvasRef.current?.toDataURL("image/jpeg", 1);
+
+    let decodedImg: string = canvasImg !== undefined ? atob(canvasImg?.split(",")[1]) : "";
+    let arr = [];
+    for (let i = 0; i < decodedImg.length; i++) {
+      arr.push(decodedImg.charCodeAt(i));
+    }
+    let img = new Blob([new Uint8Array(arr)], { type: "image/jpeg" });
+
+    // 소켓으로 보내기
+  };
+
+  const drawImg = () => {
+    const ctx = canvasRef.current?.getContext("2d");
+    console.log(refVideo.current);
+    ctx?.drawImage(refVideo.current, 0, 0, 320, 240);
+  };
+
   return (
     <div className="card-container">
       <TitleSpan>ORIGINAL</TitleSpan>
       <FormControlLabel
-        control={<CustomSwitch sx={{ m: 1 }} onChange={onChange} value={webcamOn}/>}
+        control={<CustomSwitch sx={{ m: 1 }} onChange={onChange} checked={webcamOn} />}
         label={`웹캠 ${webcamOn ? "On" : "Off"}`}
         labelPlacement="start"
       />
-      
+
       <WebCamUploadDiv>
-        {videoSrc ? 
-          <Video srcObject={videoSrc} /> : 
+        {videoSrc ? (
           <>
-          <VideocamOutlinedIcon sx={{ color: "#5F7B84", fontSize: 50 }} />
-          <span>웹캠을 켜주세요</span> 
-          </>}
+            <WebCamUploadCanvas ref={canvasRef} height="240" width="320"></WebCamUploadCanvas>
+          </>
+        ) : (
+          <>
+            <VideocamOutlinedIcon sx={{ color: "#5F7B84", fontSize: 50 }} />
+            <span>웹캠을 켜주세요</span>
+          </>
+        )}
       </WebCamUploadDiv>
     </div>
   );
 }
 
-export default WebCamUploadCard;
+export default WebCamUploadCardTmp;
