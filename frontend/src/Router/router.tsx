@@ -7,7 +7,7 @@ import QuickStart from "../Pages/Introduction/QuickStart";
 
 import ImageFilterMain from "../Pages/TechDemos/ImageFilter/ImageFilterMain";
 import ImageFilterExperienceA from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceA";
-import WebCamFilterMain from "../Pages/TechDemos/WebCamFilter/WebCamFilterMain";
+import WebCamFilterPage from "../Pages/TechDemos/WebCamFilter";
 
 // 화면 라우팅 테이블
 export default function Router() {
@@ -42,7 +42,7 @@ export default function Router() {
             { path: 'ExperienceA', element: <ImageFilterExperienceA /> },
           ]
         },
-        { path: "WebCamFilter", element: <WebCamFilterMain /> },
+        { path: "WebCamFilter", element: <WebCamFilterPage /> },
       ],
     },
     { path: '*', element: <Navigate to="/404" replace /> }
