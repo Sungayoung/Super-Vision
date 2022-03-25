@@ -12,7 +12,7 @@ function WebCamFilterPage() {
   return (
     <div>
       <PageDiv>
-        <WebCamFilterMain />
+        <WebCamFilterMain/>
       </PageDiv>
       <PageDiv>
         <WebCamFilterExperience />
