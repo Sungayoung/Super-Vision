@@ -15,7 +15,8 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, window.screen.availHeight * page)
+    console.log(window)
+    window.scrollTo(0, window.innerHeight * page)
   }, [page])
 
   const handleScroll = (e: WheelEvent) => {
