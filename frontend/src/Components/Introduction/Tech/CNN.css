@@ -1,8 +1,8 @@
-.CNN {
+/* .CNN {
   height: 85vh;
   display: flex;
   align-items: top;
-}
+} */
 
 h1::first-letter {
   font-size: 130%;
@@ -14,12 +14,6 @@ h1::first-letter {
   margin-left: 10rem;
 }
 
-.card {
-  /* display: inline; */
-  margin: 10px;
-  padding: 15px;
-  /* min-width: 200px; */
-}
 
 .card .box {
   width: 100px;
