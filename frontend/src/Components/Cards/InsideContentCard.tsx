@@ -1,5 +1,5 @@
 import React from 'react'
-import './InsideContentCard.css'
+import styles from './InsideContentCard.module.css'
 import Content from '../Commons/Content'
 import { useNavigate } from "react-router-dom";
 import Btn from '../Commons/Btn';
@@ -18,16 +18,18 @@ function InsideContentCard ({title, content, imgSrc}: InsideContentCardProps) {
   }
 
   return (
-    <div className="inside-card-container">
-      <img className="inside-card-img" src={imgSrc} alt="" />
-      <div className="inside-card-content">
-        <Content title={title} content={content}/>
-      </div>
-      <div className="inside-card-btn"> 
-        <Btn
-          content="직접 해보기"
-          onClick={onClick}
-        />
+    <div className="mx-1 margin-x text-center">
+      <div className={styles.inside_card_container}>
+        <img className={styles.inside_card_img} src={imgSrc} alt="" />
+        <div className="">
+          <Content title={title} content={content}/>
+        </div>
+        <div className="mb-4"> 
+          <Btn
+            content="직접 해보기"
+            onClick={onClick}
+          />
+        </div>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Btn from '../Commons/Btn'
-import styles from './ImageUploadCard.module.css'
+// import styles from './ImageUploadCard.module.css'
 import { styled } from "@mui/material/styles";
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 
@@ -58,7 +58,7 @@ function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
 
 
   return (
-    <div className={styles.cardContainer+' m-4'}>
+    <div className="card_container">
       <TitleSpan>BEFORE</TitleSpan>
       <input
         ref={fileRef}
@@ -66,10 +66,10 @@ function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
         onChange={handleImgChange}
         hidden={true}
       />
-      {isImgPreview && <img className="clickable upload-card-img" src={imgPreviewUrl} alt="img" onClick={handleFileBtnClick} />}
+      {isImgPreview && <img className="clickable full_img_card" src={imgPreviewUrl} alt="img" onClick={handleFileBtnClick} />}
       {!isImgPreview && 
-        <div className="upload-card">
-          <div className="icon clickable" onClick={handleFileBtnClick}>
+        <div className="blank_card">
+          <div className="clickable" onClick={handleFileBtnClick}>
             <FileUploadOutlinedIcon sx={{ color: '#5F7B84', fontSize: 70}}/>
           </div>
           <div>
