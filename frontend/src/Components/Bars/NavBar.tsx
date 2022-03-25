@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Box, Stack, AppBar, Toolbar, Slide, useScrollTrigger } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import NavBarBtn from "./NavBarBtn";
-import logo from "../../Assets/Image/logo.png";
+import logoWhite from "../../Assets/Image/logoWhite.png";
 
 function NavBar() {
   interface scrollProps {
@@ -23,8 +23,8 @@ function NavBar() {
     );
   };
 
-  const APPBAR_MOBILE = 64;
-  const APPBAR_DESKTOP = 84;
+  const APPBAR_MOBILE = 44;
+  const APPBAR_DESKTOP = 74;
 
   const routes = [
     { path: "/", name: "Home", children: [] },
@@ -38,7 +38,7 @@ function NavBar() {
     },
     {
       path: "/TechDemos",
-      name: "TechDemos",
+      name: "Tech Demos",
       children: [
         { path: "ImageFilter", name: "ImageFilter" },
         { path: "WebcamFilter", name: "WebcamFilter" },
@@ -79,10 +79,10 @@ function NavBar() {
         <ToolbarStyle>
           <Box sx={{ px: 2, py: 1, pr: 4 }}>
             <RouterLink to="/">
-              <Box component="img" src={logo} sx={{ height: 60 }}></Box>
+              <Box component="img" src={logoWhite} sx={{ height: 46 }}></Box>
             </RouterLink>
           </Box>
-          <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 6.5 }} sx={{ mr: 10 }}>
+          <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 6.5 }} sx={{ ml: 3 }}>
             {routes.map((route) => {
               return <NavBarBtn key={route.name} route={route} />;
             })}

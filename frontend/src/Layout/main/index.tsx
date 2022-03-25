@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import NavBar from "../../Components/Bars/NavBar";
+import "../../theme/ComponentStyles.css"
+import "../../theme/ThemeStyles.css"
 
 const MainLayout = () => {
   const APP_BAR_MOBILE = 64;
-  const APP_BAR_DESKTOP = 84;
+  const APP_BAR_DESKTOP = 74;
 
   const RootStyle = styled("div")({
     backgroundColor: "#051527",
@@ -34,7 +36,7 @@ const MainLayout = () => {
     },
     // paddingBottom: theme.spacing(10),
     [theme.breakpoints.up("lg")]: {
-      paddingTop: APP_BAR_DESKTOP ,
+      paddingTop: APP_BAR_DESKTOP,
     },
   }));
 

@@ -1,12 +1,3 @@
-.card_container {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem;
-  background-color: red;
-}
-
 .upload-card-img {
   object-fit: cover;
   height: 50vh;
@@ -24,20 +15,4 @@
   width: 20vw;
   border-radius: 20px;
   border: 1.5px dashed #F2FFFF;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.icon {
-  margin-bottom: 10px;
-}
-
-.upload-text {
-  margin-bottom: 14px;
-}
-
-body {
-  background-color: red !important;
 }

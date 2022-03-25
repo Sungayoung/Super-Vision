@@ -30,7 +30,7 @@ const CustomBtn = styled(Button)({
     borderColor: '#39424E',
   },
   '&:focus': {
-    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+    boxShadow: '0 0 0 0.2rem #39424E',
   },
 });
 

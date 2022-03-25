@@ -3,7 +3,6 @@ import ImageUploadCard from "../../../Components/Cards/ImageUploadCard"
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ImageResultCard from '../../../Components/Cards/ImageResultCard';
 import Content from '../../../Components/Commons/Content';
-import "./ImageFilterExperience.css"
 
 function ImageFilterExperienceA () {
   const [file, setFile] = useState<Blob>(new Blob())
@@ -21,11 +20,15 @@ function ImageFilterExperienceA () {
 
   return (
     <>
-      <Content title={title} content={content} />
-      <div className="cards">
-        <ImageUploadCard parentImgChange={parentImgChange} />
-        <ArrowRightIcon className="icon" sx={{ color: '#F2FFFF', fontSize: 50}}/>
-        <ImageResultCard file={file} imgPreviewUrl={imgPreviewUrl} isImgPreview ={isImgPreview} />
+      <div className="relative">
+        <div className="center">
+          <Content title={title} content={content} />
+          <div className="cards">
+            <ImageUploadCard parentImgChange={parentImgChange} />
+            <ArrowRightIcon className="m-4" sx={{ color: '#F2FFFF', fontSize: 50}}/>
+            <ImageResultCard file={file} imgPreviewUrl={imgPreviewUrl} isImgPreview ={isImgPreview} />
+          </div>
+        </div>
       </div>
     </>
   )

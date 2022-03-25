@@ -11,13 +11,22 @@ function ImageFilterMain () {
 
   return (
     <>
-      <div style={{textAlign: 'center', fontSize: '36px', fontWeight: "600", margin: "20px",}}>이런 것들을 할 수 있어요!</div>
-      <div className="cards">
-        <InsideContentCard title={state.experienceA.title} content={state.experienceA.content} imgSrc={state.experienceA.imgSrc} />
-        <InsideContentCard title={state.experienceA.title} content={state.experienceA.content} imgSrc={state.experienceA.imgSrc} />
-        <InsideContentCard title={state.experienceA.title} content={state.experienceA.content} imgSrc={state.experienceA.imgSrc} />
+      <div className="relative">
+        <div className="center container">
+          <div className="big_title">이런 것들을 할 수 있어요!</div>
+          <div className="cards row g-5">
+            <div className="col col-12 col-lg-4">
+              <InsideContentCard title={state.experienceA.title} content={state.experienceA.content} imgSrc={state.experienceA.imgSrc} />
+            </div>
+            <div className="col col-12 col-lg-4">
+              <InsideContentCard title={state.experienceA.title} content={state.experienceA.content} imgSrc={state.experienceA.imgSrc} />
+            </div>
+            <div className="col col-12 col-lg-4">
+              <InsideContentCard title={state.experienceA.title} content={state.experienceA.content} imgSrc={state.experienceA.imgSrc} />
+            </div>
+          </div>
+        </div>
       </div>
-      {/* sdfsf */}
     </>
   )
 }
