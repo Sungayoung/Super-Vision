@@ -29,12 +29,6 @@ const CustomBtn = styled(Button)({
     backgroundColor: '#39424E',
     borderColor: '#39424E',
   },
-<<<<<<< HEAD
-  '&:focus': {
-    boxShadow: '0 0 0 0.2rem #39424E',
-  },
-=======
->>>>>>> feat/front/webcamFilter/AY
 });
 
 function Btn({ 
