@@ -1,12 +1,13 @@
 import { styled } from "@mui/material/styles";
 
 type ImageResultCardProps = {
+  title: string;
   file: Blob;
   imgPreviewUrl: string;
   isImgPreview: boolean;
 };
 
-function ImageResultCard ({file, imgPreviewUrl, isImgPreview}: ImageResultCardProps) {
+function ImageResultCard ({title, file, imgPreviewUrl, isImgPreview}: ImageResultCardProps) {
 
   const TitleSpan = styled("span")({
     color: "#CEF3FF",
@@ -25,13 +26,17 @@ function ImageResultCard ({file, imgPreviewUrl, isImgPreview}: ImageResultCardPr
 
   return (
     <div className="card_container">
-      <TitleSpan>AFTER</TitleSpan>
+      <TitleSpan>{title}</TitleSpan>
       {isImgPreview && <img className="full_img_card" src={imgPreviewUrl} alt="img" />}
       {!isImgPreview && 
         <div className="blank_card">
           <ContentSpan>사진을 업로드하면{"\n"}결과를 확인할 수 있습니다.</ContentSpan>
         </div>
       }
+      <div className="p-4 font_3">
+        <span className="main_color">Vmaf Score : </span>
+        <span>90</span>
+      </div>
     </div>
   )
 }

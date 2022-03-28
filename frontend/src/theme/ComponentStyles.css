@@ -22,10 +22,13 @@
     border: 1.5px dashed #F2FFFF;
 }
 
+/* 세로가 더 큰 버전 */
 .full_img_card {
     object-fit: cover;
-    height: 450px;
-    width: 350px;
+    /* min-height: 25vh; */
+    height: 22em;
+    max-width: 22em;
+    /* min-width: 30vw; */
     border-radius: 20px;
     border: 1.5px dashed #F2FFFF;
 }

@@ -14,7 +14,7 @@ function InsideContentCard ({title, content, imgSrc}: InsideContentCardProps) {
 
   const navigate = useNavigate();
   function onClick(event: React.MouseEvent<HTMLButtonElement>) {
-    navigate('/techDemos/ImageFilter/ExperienceA');
+    navigate('/techDemos/ImageFilter/Experience');
   }
 
   return (
