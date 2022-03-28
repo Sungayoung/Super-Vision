@@ -15,7 +15,6 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    console.log(window)
     window.scrollTo(0, window.innerHeight * page)
   }, [page])
 
