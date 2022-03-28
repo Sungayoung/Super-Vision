@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { io } from "socket.io-client";
 
-const socketAi = io("http://j6s005.p.ssafy.io:5001/cnn");
-const socketNormal = io("http://j6s005.p.ssafy.io:5001/normal");
+const socketAi = io("http://70.12.130.102:5000/cnn");
+const socketNormal = io("http://j6s005.p.ssafy.io:5000/normal");
 
 const WebcamContainerDiv = styled("div")({
   display: 'flex',
@@ -30,16 +30,13 @@ function WebCamFilterExperience() {
       } catch {
         alert("비디오 소스에 접근할 수 없습니다.");
         setVideoSrc(null);
-        setAiImageSrc(undefined);
-        setNormalImageSrc(undefined);
+
         return false;
       }
     } else {
       if (videoSrc) {
         videoSrc.getTracks()[0].stop();
         setVideoSrc(null);
-        setAiImageSrc(undefined);
-        setNormalImageSrc(undefined);
       }
       return false;
     }
@@ -48,18 +45,26 @@ function WebCamFilterExperience() {
   // 데이터 전송받는 부분
 
   useEffect(() => {
-    socketAi.on("message", (data) => {
-      let arrayBufferView = new Uint8Array(data);
-      let blob = new Blob([arrayBufferView], { type: "image/jpeg" });
-      setAiImageSrc(URL.createObjectURL(blob));
-    });
-    socketNormal.on("message", (data) => {
-      let arrayBufferView = new Uint8Array(data);
-      let blob = new Blob([arrayBufferView], { type: "image/jpeg" });
-      setNormalImageSrc(URL.createObjectURL(blob));
-    });
+    if (videoSrc) {
+      socketAi.on("message", (data) => {
+        let arrayBufferView = new Uint8Array(data);
+        let blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+        setAiImageSrc(URL.createObjectURL(blob));
+      });
+      socketNormal.on("message", (data) => {
+        let arrayBufferView = new Uint8Array(data);
+        let blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+        setNormalImageSrc(URL.createObjectURL(blob));
+      });
+    }
+    else {
+      socketAi.off();
+      socketNormal.off();
+      setAiImageSrc(undefined);
+      setNormalImageSrc(undefined);
+    }
 
-  }, []);
+  }, [videoSrc]);
 
   const sendImage = (canvasImg: string | undefined) => {
     let decodedImg: string = canvasImg !== undefined ? atob(canvasImg?.split(",")[1]) : "";
