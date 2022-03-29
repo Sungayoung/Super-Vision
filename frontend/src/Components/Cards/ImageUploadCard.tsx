@@ -32,55 +32,31 @@ function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
       };
       reader.readAsDataURL(uploadFile);
       // 백엔드 API 요청
-      // const form = document.forms[0];
-      // // const data = new FormData();
-      // const data = new FormData(form);
-      // data.append('mode', 'LANCZOS')
-      // data.append('rate', '4')
-      // // data.append('image', event.target.files[0], 'input.jpg')
-      // console.log('data', data)
-      // console.log('data mode', data.get('mode'))
-      // console.log('data rate', data.get('rate'))
-      // console.log('data image', data.get('image'))
-      
-      // const headers = {
-      //   'Content-Type': 'multipart/form-data',
-      // }
-      // axios({
-      //   method: 'post',
-      //   url: "http://70.12.130.102:5000/image/normal",
-      //   data,
-      //   headers,
-      // })
-      // .then((res) => {
-      //   console.log(res)
-      //   const imgSrc = "data:image/jpeg;base64," + res.data
-      //   parentImgChange(imgSrc, imgSrc, true)
-      // })
-      // .catch((err) => {
-      //   console.log(err)
-      // })
       const form = document.forms[0];
       const data = new FormData(form);
       console.log(form)
       console.log(data)
+      console.log('data image', data.get('image'))
       
       const headers = {
         'Content-Type': 'multipart/form-data',
       }
       axios({
         method: 'post',
-        url: "http://70.12.130.102:5000/image/gan",
+        url: "http://70.12.130.102:5000/image",
         data,
         headers,
       })
       .then((res) => {
-        console.log(res)
-        const imgSrc = "data:image/jpeg;base64," + res.data
-        parentImgChange(imgSrc, imgSrc, true)
+        console.log('handleImgChange 성공', res)
+        const normalImgSrc = "data:image/jpeg;base64," + res.data.normal_upscaled
+        const normalVmaf = res.data.normal_vmaf_score
+        const srImgSrc = "data:image/jpeg;base64," + res.data.sr_upscaled
+        const srVmaf = res.data.sr_vmaf_score
+        parentImgChange(normalImgSrc, srImgSrc, normalVmaf, srVmaf, true)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('handleImgChange 에러', err)
       })
     }
   };
@@ -109,7 +85,7 @@ function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
 
   return (
     <div className="card_container">
-      <TitleSpan>원본</TitleSpan>
+      <div className="mb-2 font_2 main_color bold">원본</div>
 
       <form id="upload" action="/">
         <input
@@ -133,10 +109,12 @@ function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
               onClick={handleFileBtnClick}
             />
           </div>
-          <ContentSpan className="upload-text">사진을 업로드 해주세요.</ContentSpan>
+          <div className="font_3 sub_color text-center pre_wrap mt-2">
+            <div>사진을 업로드 해주세요.</div>
+          </div>
+          {/* <ContentSpan className="upload-text">사진을 업로드 해주세요.</ContentSpan> */}
         </div>
       }
-      <div className="p-4 font_3">Origin Image</div>
     </div>
   )
 }

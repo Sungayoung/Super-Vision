@@ -92,3 +92,12 @@
 .nav_border_color {
     border-color: #031214;
 }
+
+/* 굵기 */
+.bold {
+    font-weight: 600;
+}
+
+.pre_wrap {
+    white-space: pre-wrap;
+}

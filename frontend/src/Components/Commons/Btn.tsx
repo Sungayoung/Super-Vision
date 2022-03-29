@@ -10,7 +10,7 @@ const CustomBtn = styled(Button)({
   boxShadow: 'none',
   textTransform: 'none',
   fontSize: 18,
-  padding: '8px 18px',
+  padding: '10px 20px',
   lineHeight: 1.5,
   color: '#F2FFFF',
   borderRadius: 100,
