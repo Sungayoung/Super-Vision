@@ -67,8 +67,6 @@ const CustomSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 );
 
 const WebCamUploadDiv = styled("div")({
-  // width: "640px",
-  // height: "480px",
   width: "640px",
   height: "480px",
   borderRadius: "20px",
@@ -81,8 +79,6 @@ const WebCamUploadDiv = styled("div")({
 });
 
 const WebCamUploadCanvas = styled("canvas")({
-  // width: "640px",
-  // height: "480px",
   display: 'none',
   width: "320px",
   height: "240px",

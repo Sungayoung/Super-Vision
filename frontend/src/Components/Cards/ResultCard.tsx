@@ -1,101 +1,54 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useState, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@material-ui/core";
-import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
-
+import { Box, ToggleButton, ToggleButtonGroup, Switch, FormControlLabel } from "@mui/material";
+import Magnify from "../Commons/Magnify";
 type ResultCardProps = {
-  aiImgSrc: string | undefined;
-  normalImgSrc: string | undefined;
+  imgSrc: string | undefined;
+  title: string;
   width: string;
   height: string;
+  setMousePos: Function;
+  pos: { x: number; y: number } | undefined;
 };
 
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  "& .MuiToggleButtonGroup-grouped": {
-    border: 0,
-    backgroundColor: "#39424E",
-    color: "#F2FFFF",
-    "&.Mui-disabled": {
-      border: 0,
-    },
-    "&.Mui-selected": {
-      backgroundColor: "#5F7B84",
-      color: "#F2FFFF",
-    },
-  },
-}));
-
-const BeforeAfterDiv = styled("div")({
-  position: "relative",
-  borderRadius: "20px",
-  border: "1.5px dashed #F2FFFF",
-  overflow: "hidden",
+const TitleSpan = styled("span")({
+  color: "#CEF3FF",
+  fontSize: "1.5rem",
+  fontWeight: "600",
+  padding: "5px",
+  marginBottom: "36px",
 });
 
-function ResultCard({ aiImgSrc, normalImgSrc, width, height }: ResultCardProps) {
-  const [imgWidth, setImgWidth] = useState<number>(960 / 2);
-  const [viewType, setViewType] = useState<string>("both");
-  const theme = useTheme();
-  // const divStyle = {
-  //   width,
-  //   height,
-  //   // position: "relative",
-  //   // backgroundImage: `url(${aiImgSrc})`,
-  //   // backgroundSize: `${width} $h`,
-  //   borderRadius: "20px",
-  //   border: "1.5px dashed #F2FFFF",
-  //   overflow: "hidden",
-  // };
+function ResultCard({ imgSrc, title, width, height, setMousePos, pos }: ResultCardProps) {
 
-  const handleMove = (event: any) => {
-    setImgWidth(event.clientX - event.currentTarget.offsetLeft);
+  const handleMove = (event: MouseEvent<HTMLElement>) => {
+    if (!imgSrc) return
+    let mouseX = event.pageX - event.currentTarget.offsetLeft;
+    let mouseY = event.pageY - event.currentTarget.offsetTop;
+    if (mouseX <= 0 || mouseX > event.currentTarget.offsetWidth || mouseY <= 0 || mouseY > event.currentTarget.offsetHeight) {
+      setMousePos(undefined)
+      return
+    }
+    setMousePos({x: mouseX, y: mouseY})
   };
 
-  const handleChange = (event: MouseEvent<HTMLElement>, newViewType: string) => {
-    console.log(newViewType);
-    setViewType(newViewType || "both");
-  };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-      <BeforeAfterDiv sx={{ width, height }} onMouseMove={handleMove}>
-        {aiImgSrc && normalImgSrc ? (
-          <>
-            {viewType === "both" ? (
-              <>
-                <Box
-                  component="img"
-                  src={aiImgSrc}
-                  sx={{ position: "absolute", top: "0", left: "0", width, height, objectFit: "cover", objectPosition: "left" }}
-                ></Box>
-                <div
-                  style={{
-                    position: 'absolute',
-                    zIndex: "1",
-                    width: imgWidth,
-                    height,
-                    overflow: "hidden",
-                    borderRight: "solid 2px black",
-                  }}
-                >
-                  <Box component="img" src={normalImgSrc} sx={{ width, height, objectFit: "cover", objectPosition: "left" }}></Box>
-                </div>
-              </>
-            ) : viewType === "normal" ? (
-              <img src={normalImgSrc} style={{ height, width }} alt="normal" />
-            ) : (
-              <img src={aiImgSrc} style={{ height, width }} alt="ai" />
-            )}
-          </>
-        ) : (
-          <div style={{ textAlign: "center" }}>웹캠을 켜주세요</div>
-        )}
-      </BeforeAfterDiv>
-      <StyledToggleButtonGroup value={viewType} onChange={handleChange} exclusive>
-        <ToggleButton value="both">both</ToggleButton>
-        <ToggleButton value="ai">ai</ToggleButton>
-        <ToggleButton value="normal">normal</ToggleButton>
-      </StyledToggleButtonGroup>
+    <div>
+      <div style={{ display: "flex", margin: "1.5rem", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <TitleSpan>{title}</TitleSpan>
+        <div onMouseMove={handleMove} className="dashed_border d-flex justify-content-center align-items-center" style={{ overflow: "hidden", height, width }}>
+          {imgSrc ? (
+            <>
+            <Magnify pos={pos} imgSrc={imgSrc} RATIO={3} width={width} height={height} />
+            <img src={imgSrc} style={{ height, width }} alt="img" />
+            </>
+          ) : (
+            "웹캠을 켜주세요"
+          )}
+        </div>
+      </div>
     </div>
   );
 }
