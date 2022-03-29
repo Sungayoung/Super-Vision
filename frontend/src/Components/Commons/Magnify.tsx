@@ -6,7 +6,7 @@ type MagnifyProps = {
   height: string;
   RATIO: number;
   imgSrc: string | undefined;
-  pos: {x: number, y: number} | undefined;
+  pos: { x: number; y: number } | undefined;
 };
 
 const MagnifyDiv = styled("div")({
@@ -36,10 +36,12 @@ function Magnify({ width, height, RATIO, imgSrc, pos }: MagnifyProps) {
     const w = magnifyRef.current.offsetWidth / 2;
     const h = magnifyRef.current.offsetHeight / 2;
     magnifyRef.current.style.display = "inline-block";
-    if (!magnifyRef.current.parentElement) return
+    if (!magnifyRef.current.parentElement) return;
     magnifyRef.current.style.left = `${magnifyRef.current.parentElement?.offsetLeft + pos.x - w}px`;
-    magnifyRef.current.style.top = `${magnifyRef.current.parentElement?.offsetTop + pos.y- h}px`;
-    setObjectPosition(`-${pos.x * RATIO - w}px -${pos.y * RATIO - h}px`);
+    magnifyRef.current.style.top = `${magnifyRef.current.parentElement?.offsetTop + pos.y - h}px`;
+    let objectPosX = -(pos.x * RATIO - w);
+    let objectPosY = -(pos.y * RATIO - h);
+    setObjectPosition(`${objectPosX}px ${objectPosY}px`);
   };
 
   return (
@@ -49,8 +51,6 @@ function Magnify({ width, height, RATIO, imgSrc, pos }: MagnifyProps) {
         src={imgSrc}
         sx={{
           position: "relative",
-          top: "0",
-          left: "0",
           width: `${parseInt(width.substring(0, width.length - 2)) * RATIO}px`,
           height: `${parseInt(height.substring(0, height.length - 2)) * RATIO}px`,
           objectPosition,

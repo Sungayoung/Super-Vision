@@ -1,7 +1,5 @@
-import { MouseEvent, useState, useRef } from "react";
+import { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
-import { useTheme } from "@material-ui/core";
-import { Box, ToggleButton, ToggleButtonGroup, Switch, FormControlLabel } from "@mui/material";
 import Magnify from "../Commons/Magnify";
 type ResultCardProps = {
   imgSrc: string | undefined;

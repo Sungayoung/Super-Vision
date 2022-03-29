@@ -156,7 +156,7 @@ function WebCamFilterExperience() {
   };
 
   const toggleMagnify = (e: ChangeEvent<HTMLInputElement>) => {
-    setShowMagnify(e.target.checked);
+    setShowMagnify(prev => !prev);
   };
   const toggleDialog = () => {
     setDialog((prev) => !prev);
