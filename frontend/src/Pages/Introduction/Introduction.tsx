@@ -1,36 +1,59 @@
 import Grid from '@mui/material/Grid'
 import './Introduction.css'
+// mui
+import { styled } from "@mui/material/styles";
 
 // Local
+// 사이드 바 
 import Sidebar from "../../Components/Bars/SideBar"
+// Pages
 import CNN from "../../Components/Introduction/Tech/CNN"
 import SuperResolution from "../../Components/Introduction/Tech/SuperResolution"
 import VMAF1 from "../../Components/Introduction/Tech/VMAF1"
 import VMAF2 from "../../Components/Introduction/Tech/VMAF2"
 import Project from "../../Components/Introduction/Project/Project"
+// components
+import Content from '../../Components/Commons/Content'
+
+
+const PageDiv = styled("div")({
+  position: "relative",
+  height: "100%",
+  width: "99.5vw",
+});
 
 
 function Introduction () {
   return (
-    <div className="introduction">
-      <h1>Introduction</h1>
-      <Grid container>
+    <PageDiv className="introduction">
+      <Grid 
+        container
+        marginTop={5}
+      >
         <Grid
-          className="introSideBar"
-          item xs={2}>
+          className = "introSideBar"
+          item xs = {3}
+        >
           <Sidebar />
         </Grid>
         <Grid
-          className="introMain"
-          item xs={10}>
-          <CNN></CNN>
-          <SuperResolution></SuperResolution>
-          <VMAF1></VMAF1>
-          <VMAF2></VMAF2>
-          <Project></Project>
+          className = "introMain"
+          item xs = {9}
+          marginTop = {10}
+        >
+          <CNN />
+          <SuperResolution />
+          <VMAF1 />
+          <VMAF2 />
+          <Project />
         </Grid>
       </Grid>
-    </div>
+
+      <Content
+        title = '아아아'
+        content = '아아아'
+      ></Content>
+    </PageDiv>
   )
 }
 
