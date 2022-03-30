@@ -15,7 +15,6 @@ const Video = ({ srcObject, ...props }: PropsType) => {
     if (!refVideo.current) return;
     refVideo.current.srcObject = srcObject;
   }, [srcObject]);
-  console.log(refVideo);
   return <video className="webcam-video" ref={refVideo} {...props} autoPlay />;
 };
 
@@ -68,8 +67,8 @@ const CustomSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 );
 
 const WebCamUploadDiv = styled("div")({
-  width: "320px",
-  height: "240px",
+  width: "640px",
+  height: "480px",
   borderRadius: "20px",
   border: "1.5px dashed #F2FFFF",
   overflow: "hidden",
@@ -80,13 +79,14 @@ const WebCamUploadDiv = styled("div")({
 });
 
 const WebCamUploadCanvas = styled("canvas")({
+  display: 'none',
   width: "320px",
   height: "240px",
 });
 
 const TitleSpan = styled("span")({
   color: "#CEF3FF",
-  fontSize: "2rem",
+  fontSize: "1.5rem",
   fontWeight: "600",
   padding: "5px",
 });
@@ -94,10 +94,12 @@ const TitleSpan = styled("span")({
 type WebCamUploadCardProp = {
   videoSrc: MediaStream | null | undefined;
   toggleWebcam: Function;
+  sendImage: Function;
 };
 
-function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam }: WebCamUploadCardProp) {
+function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam, sendImage }: WebCamUploadCardProp) {
   const [webcamOn, setWebcamOn] = useState<boolean>(videoSrc ? true : false);
+  const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const video = document.createElement("video");
   video.autoplay = true;
@@ -105,19 +107,19 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam }: WebCamUploadCard
   useEffect(() => {
     if (!refVideo.current) return;
     refVideo.current.srcObject = videoSrc;
-    console.log(refVideo);
   }, [videoSrc]);
 
+
   useEffect(() => {
-    if (!webcamOn) return;
+    if (!videoSrc) return;
     const timer = setInterval(drawImg, 1000 / 15);
     return () => {
       clearInterval(timer);
     };
-  }, [webcamOn]);
+  }, [videoSrc]);
 
   const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setWebcamOn(prev => !prev)
+    setWebcamOn((prev) => !prev);
     if (e.target.checked) {
       setWebcamOn(await toggleWebcam(true));
     } else {
@@ -125,23 +127,13 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam }: WebCamUploadCard
     }
   };
 
-  const readImg = () => {
-    let canvasImg: string | undefined = canvasRef.current?.toDataURL("image/jpeg", 1);
-
-    let decodedImg: string = canvasImg !== undefined ? atob(canvasImg?.split(",")[1]) : "";
-    let arr = [];
-    for (let i = 0; i < decodedImg.length; i++) {
-      arr.push(decodedImg.charCodeAt(i));
-    }
-    let img = new Blob([new Uint8Array(arr)], { type: "image/jpeg" });
-
-    // 소켓으로 보내기
-  };
 
   const drawImg = () => {
     const ctx = canvasRef.current?.getContext("2d");
-    console.log(refVideo.current);
-    ctx?.drawImage(refVideo.current, 0, 0, 320, 240);
+    ctx?.drawImage(refVideo.current, 0, 0, 320, 240 );
+    let canvasImg: string | undefined = canvasRef.current?.toDataURL("image/jpeg", 1);
+    setImgSrc(canvasImg)
+    sendImage(canvasImg);
   };
 
   return (
@@ -152,10 +144,10 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam }: WebCamUploadCard
         label={`웹캠 ${webcamOn ? "On" : "Off"}`}
         labelPlacement="start"
       />
-
       <WebCamUploadDiv>
         {videoSrc ? (
           <>
+            <img style={{height: '480px', width: '640px'}}src={imgSrc} alt="img"/>
             <WebCamUploadCanvas ref={canvasRef} height="240" width="320"></WebCamUploadCanvas>
           </>
         ) : (

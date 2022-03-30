@@ -1,9 +1,11 @@
+// import { useState, useEffect } from 'react'
+
 import WebCamFilterExperience from "./WebCamFilterExperience";
 import WebCamFilterMain from "./WebCamFilterMain";
 import { styled } from "@mui/material/styles";
 
 const PageDiv = styled('div')({
-  padding: '84px',
+  paddingTop: '84px',
   height: '100vh'
 })
 
