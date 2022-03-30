@@ -9,7 +9,7 @@ import { IconButton, Tooltip, Switch, SwitchProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { io } from "socket.io-client";
 
-const socketAi = io("https://70.12.130.102:5000/cnn");
+const socketAi = io("http://70.12.130.102:5000/cnn");
 const socketNormal = io("https://j6s005.p.ssafy.io:5000/normal");
 
 const WebcamContainerDiv = styled("div")({
