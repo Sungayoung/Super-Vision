@@ -5,32 +5,58 @@ import { useTheme } from '@material-ui/core'
 import { styled } from "@mui/material/styles";
 
 import Grid from '@mui/material/Grid'
-// import Container from "@mui/material/Container"
-// import Box from "@mui/material/Box"
 import logo from '../../../Assets/Image/logoWhite.png'
 
-// import logo from "../../Assets/Image/logo.png";
+import Card from '@mui/material/Card'
+import CardMedia from '@mui/material/CardMedia'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-
-import Typography from '@mui/material/Typography';
 import { ReactNode } from 'react';
-
-
 
 
 const PageDiv = styled("div")({
   position: "relative",
   height: "100%",
-  width: "99.5vw",
+  // width: "99.5vw",
 });
 
 const sampleTitle = '아아'
 const sampleContent = '에에'
 const sampleImgSrc = "https://ichef.bbci.co.uk/news/640/cpsprodpb/41CF/production/_109474861_angrycat-index-getty3-3.jpg"
+const filters = [
+  {
+    title: '',
+    content: '',
+    imgSrc: '',
+  },
+  {
+    title: '',
+    content: '',
+    imgSrc: '',
+  },
+  {
+    title: '',
+    content: '',
+    imgSrc: '',
+  },
+  {
+    title: '',
+    content: '',
+    imgSrc: '',
+  },
+  {
+    title: '',
+    content: '',
+    imgSrc: '',
+  },
+  {
+    title: '',
+    content: '',
+    imgSrc: '',
+  },
+]
+
 
 type sampleImgCardProps = {
   children: ReactNode,
@@ -40,18 +66,36 @@ type sampleImgCardProps = {
 }
 
 function SampleImgCard ({title, content, imgSrc} : sampleImgCardProps) {
+  const theme = useTheme()
   return (
-    <Card>
-      <CardHeader>
-        <p>{ title }</p>
-      </CardHeader>
+    <Card
+      sx = {{ 
+        bgcolor: theme.palette.primary.dark
+      }}
+    >
+      <CardContent
+        className='py-1'
+      >
+        <Typography 
+          className = 'text-center'
+          variant="body1" 
+          color={ theme.palette.primary.contrastText }
+        >
+          { title }
+        </Typography>
+      </CardContent>
       <CardMedia
         component="img"
         image = { imgSrc }
       >
       </CardMedia>
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
+      <CardContent
+        className='py-1'
+      >
+        <Typography
+          className = 'text-center'
+          variant="body2" 
+          color={ theme.palette.primary.contrastText }>
           { content }
         </Typography>
       </CardContent>
@@ -71,49 +115,43 @@ function Project () {
           container
           xs={3}
           justifyContent='center'
-          pt = {10}
+          alignContent= 'center' 
+          // pt = {10}
           ml = {10}
         >
-          <img
-            className='ProjectLogo'
-            src={logo} 
-            alt=""
-            // style = { width: 100% }
-          />
+          <div>
+            <img
+              className='ProjectLogo'
+              src={logo} 
+              alt=""
+            />
+            <Typography>
+              Super Resolution 기술을 이용해
+              이미지 및 영상의 화질을 개선하는 서비스입니다.
+            </Typography>
+          </div>
         </Grid>
         <Grid 
           container
           xs = { 8 }
-          // item
-          // item xs = {9}
-          // marginLeft = {2}
-          // columns = {{xs: 2 }}
+          spacing = { 2 }
           padding = {2}
         >
-          <Grid
-            item
-
-          >            
-            <SampleImgCard
-              title = { sampleTitle }
-              content = { sampleContent }
-              imgSrc = { sampleImgSrc }
+          {Array.from(Array(6)).map((_, index) => 
+            <Grid
+              item
+              xs={ 4 }
             >
-            </SampleImgCard>
-
-          </Grid>
-          <Grid
-            item
-          >            
-            <SampleImgCard
-              title = { sampleTitle }
-              content = { sampleContent }
-              imgSrc = { sampleImgSrc }
-            >
-            </SampleImgCard>
-          </Grid>
-
-
+              <div>
+                <SampleImgCard
+                  title = { sampleTitle }
+                  content = { sampleContent }
+                  imgSrc = { sampleImgSrc }
+                >
+                </SampleImgCard>
+              </div>            
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </PageDiv>

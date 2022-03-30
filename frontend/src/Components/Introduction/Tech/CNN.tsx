@@ -1,14 +1,10 @@
-
 // Mui
 import { styled } from "@mui/material/styles";
 import Grid from '@mui/material/Grid'
 import { useTheme } from '@material-ui/core'
 
-
-import Container from "@mui/material/Container"
-import Box from "@mui/material/Box"
-
 // Local
+import CodeTextBox from '../../TextBoxes/CodeTextBox'
 import './CNN.css'
 
 type Props = {
@@ -17,8 +13,8 @@ type Props = {
 
 const PageDiv = styled("div")({
   position: "relative",
-  height: "100%",
-  width: "99.5vw",
+  height: "45vw",
+  // width: "99.5vw",
 });
 
 
@@ -47,12 +43,13 @@ function CNN () {
       <Grid 
         className="CNN"
         container
+        paddingY = { 10}
         >
         <Grid
           container
-          item xs={2}
+          item xs={12} sm = {2}
           justifyContent='center'
-          pt = {10}
+          pt = {{ xs: 1, sm: 10}}
           ml = {10}
         >
           <div>
@@ -73,16 +70,6 @@ function CNN () {
         </Grid>
       </Grid>
       {/* 레이어별 설명 박스가 들어갈 부분 */}
-
-      {/* <Container >
-        <Box
-          marginLeft={0}
-          marginRight = { 0 }
-          sx={{ bgcolor: '#cfe8fc', height: '5vh' }} 
-        />
-        <h1>아아</h1>
-
-      </Container> */}
     </PageDiv>
   )
 }

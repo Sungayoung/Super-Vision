@@ -18,42 +18,38 @@ import Content from '../../Components/Commons/Content'
 
 const PageDiv = styled("div")({
   position: "relative",
-  height: "100%",
-  width: "99.5vw",
+  height: "45vw",
+  // width: "99.5vw",
 });
 
 
 function Introduction () {
   return (
-    <PageDiv className="introduction">
-      <Grid 
-        container
-        marginTop={5}
+    <Grid 
+      container
+      marginTop={5}
+    >
+      <Grid
+        className = "introSideBar"
+        item xs = {3}
       >
-        <Grid
-          className = "introSideBar"
-          item xs = {3}
-        >
-          <Sidebar />
-        </Grid>
-        <Grid
-          className = "introMain"
-          item xs = {9}
-          marginTop = {10}
-        >
-          <CNN />
-          <SuperResolution />
-          <VMAF1 />
-          <VMAF2 />
-          <Project />
-        </Grid>
+        <Sidebar />
       </Grid>
+      <Grid
+        className = "introMain"
+        item xs = {9}
+        marginTop = {10}
+      >
+        <PageDiv>
+          <CNN />
+        </PageDiv>
 
-      <Content
-        title = '아아아'
-        content = '아아아'
-      ></Content>
-    </PageDiv>
+        <SuperResolution />
+        <VMAF1 />
+        <VMAF2 />
+        <Project />
+      </Grid>
+    </Grid>
   )
 }
 
