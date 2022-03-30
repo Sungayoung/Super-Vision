@@ -1,48 +1,15 @@
-.CNN {
-  height: 85vh;
-  display: flex;
-  align-items: top;
-}
-
 h1::first-letter {
-  font-size: 130%;
+  font-size: 150%;
 }
 
-
-.cnnName {
-  padding-top: 6rem;
-  margin-left: 10rem;
-}
-
-.card {
-  /* display: inline; */
-  margin: 10px;
-  padding: 15px;
-  /* min-width: 200px; */
-}
-
-.card .box {
-  width: 100px;
-  height: 100px;
-  margin: auto;
+.cnnLayer {
   cursor: pointer;
 }
 
-.card .box .fill {
+.cnnLayer .fill {
   width: 10rem;
   height: 30rem;
-  margin: 0;
   position: relative;
-  /* background: #03A9F4; */
-  /* opacity: .8; */
-}
-
-.brightBox {
-  background: #cef3ff;
-}
-
-.darkBox {
-  background: #5F7B84;
 }
 
 .rotateY .fill {
@@ -56,8 +23,14 @@ h1::first-letter {
   transition-duration: 0.3s;
 }
 
-
-.box {
-  -webkit-perspective: 100px;
-  perspective: 100px;
+.brightBox {
+  background: #cef3ff;
 }
+
+.darkBox {
+  background: #5F7B84;
+}
+
+
+
+

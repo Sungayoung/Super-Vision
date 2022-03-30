@@ -1,4 +1,4 @@
-import { styled } from "@mui/material/styles";
+import { styled, keyframes } from "@mui/material/styles";
 import { Box, Button } from "@mui/material";
 import mainBackground from "../../Assets/Image/mainBackground.jpg";
 import logoWhite from "../../Assets/Image/logoWhite.png";
@@ -28,10 +28,34 @@ const Btn = styled(Button)({
     boxShadow: "none",
     backgroundColor: "#516970",
   },
-  "&:focus": {
-    boxShadow: "0 0 0 0.2rem rgba(0,123,255,.5)",
-  },
 });
+const scroll = keyframes`
+  0% { opacity: 0; }
+  10% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(13px); opacity: 0;}
+`
+const ScrollDownIcon = styled("div")({
+  position: "absolute",
+  bottom: "7vh",
+  width: "3px",
+  padding: "7px 12px",
+  height: "35px",
+  border: "1.5px solid #fff",
+  borderRadius: "25px",
+  opacity: "0.75",
+  boxSizing: "content-box",
+});
+
+const Scroller = styled("div") ({
+  width: "2.5px",
+  height: "8px",
+  borderRadius: "25%",
+  backgroundColor: "#fff",
+  animationName: scroll,
+  animationDuration: "2.2s",
+  animationTimingFunction: "cubic-bezier(.15,.41,.69,.94)",
+  animationIterationCount: "infinite",
+})
 
 function HomeMain() {
   return (
@@ -44,6 +68,7 @@ function HomeMain() {
       <Btn variant="contained" sx={{ margin: "30px" }}>
         GET STARTED
       </Btn>
+      <ScrollDownIcon><Scroller></Scroller></ScrollDownIcon>
     </PageDiv>
   );
 }

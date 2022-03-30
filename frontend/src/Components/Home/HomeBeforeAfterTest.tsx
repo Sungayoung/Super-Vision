@@ -1,8 +1,8 @@
 import { MouseEvent } from "react";
 import { styled } from "@mui/material/styles";
-import {useTheme} from "@material-ui/core/styles"
+import { useTheme } from "@material-ui/core/styles";
 import { Box, IconButton } from "@mui/material";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import beforeImage from "../../Assets/Image/beforeImage.png";
 import afterImage from "../../Assets/Image/afterImage.png";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
@@ -16,9 +16,24 @@ const PageDiv = styled("div")({
   backgroundSize: "cover",
   overflow: "hidden",
 });
-function HomeBeforeAfter() {
-  const theme = useTheme()
+
+const Magnify = styled("div")({
+  width: "300px",
+  height: "300px",
+  position: "absolute",
+  boxShadow: "0 0 0 3px rgba(255, 255, 255, 0.85), 0 0 3px 3px rgba(0, 0, 0, 0.25)",
+  display: "none",
+  overflow: "hidden",
+  zIndex: "2",
+});
+
+function HomeBeforeAfterTest() {
+  const theme = useTheme();
+  const RATIO = 2;
+  const magnifyRef = useRef<HTMLDivElement>(null);
   const [imgWidth, setImgWidth] = useState<number>(window.innerWidth / 2);
+  const [objectPosition, setObjectPosition] = useState<string>("-10px 50px");
+
   const buttonStyle = {
     position: "absolute",
     zIndex: "2",
@@ -48,14 +63,34 @@ function HomeBeforeAfter() {
 
   const handleMove = (event: MouseEvent<HTMLDivElement>) => {
     setImgWidth(event.clientX);
+    setMagnify(event);
   };
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     setImgWidth(event.clientX);
   };
+
+  const setMagnify = (event: MouseEvent<HTMLElement>) => {
+    let mouseX = event.pageX - event.currentTarget.offsetLeft;
+    let mouseY = event.pageY - event.currentTarget.offsetTop;
+    if (!magnifyRef.current?.style) return;
+    const w = magnifyRef.current.offsetWidth / 2;
+    const h = magnifyRef.current.offsetHeight / 2;
+    magnifyRef.current.style.display = "inline-block";
+    magnifyRef.current.style.left = `${mouseX - w}px`;
+    magnifyRef.current.style.top = `${mouseY - h}px`;
+    setObjectPosition(`-${mouseX * RATIO - w}px -${mouseY * RATIO - h}px`);
+    console.log(objectPosition);
+  };
+
+  const handleMouseLeave = () => {
+    if (!magnifyRef.current?.style) return;
+    magnifyRef.current.style.display = "none";
+  };
+
   return (
     <>
-      <PageDiv onClick={handleClick} onMouseMove={handleMove}>
+      <PageDiv onClick={handleClick} onMouseMove={handleMove} onMouseLeave={handleMouseLeave}>
         <div
           style={{
             position: "relative",
@@ -78,9 +113,36 @@ function HomeBeforeAfter() {
           <ArrowRightIcon sx={{ color: "#F2FFFF" }} />
         </IconButton>
         <CustomTypography sx={AfterTextStyle}>After</CustomTypography>
+        <Magnify ref={magnifyRef}>
+          <Box
+            component="img"
+            src={afterImage}
+            sx={{
+              position: "absolute",
+              top: "0",
+              left: "0",
+              width: "190vw",
+              height: "100vh",
+              objectFit: "cover",
+              objectPosition,
+            }}
+          ></Box>
+          <div style={{ position: "relative", width: "150px", borderRight: "solid 1px white", overflow: "hidden" }}>
+            <Box
+              component="img"
+              src={beforeImage}
+              sx={{
+                width: "190vw",
+                height: "200vh",
+                objectFit: "cover",
+                objectPosition,
+              }}
+            ></Box>
+          </div>
+        </Magnify>
       </PageDiv>
     </>
   );
 }
 
-export default HomeBeforeAfter;
+export default HomeBeforeAfterTest;
