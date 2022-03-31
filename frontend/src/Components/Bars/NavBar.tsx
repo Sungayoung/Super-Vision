@@ -41,6 +41,7 @@ function NavBar() {
       name: "Tech Demos",
       children: [
         { path: "ImageFilter", name: "ImageFilter" },
+        { path: "VideoFilter", name: "VideoFilter" },
         { path: "WebcamFilter", name: "WebcamFilter" },
       ],
     },
