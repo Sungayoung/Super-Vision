@@ -16,40 +16,16 @@ import Project from "../../Components/Introduction/Project/Project"
 import Content from '../../Components/Commons/Content'
 
 
-const PageDiv = styled("div")({
-  position: "relative",
-  height: "45vw",
-  // width: "99.5vw",
-});
-
 
 function Introduction () {
   return (
-    <Grid 
-      container
-      marginTop={5}
-    >
-      <Grid
-        className = "introSideBar"
-        item xs = {3}
-      >
-        <Sidebar />
-      </Grid>
-      <Grid
-        className = "introMain"
-        item xs = {9}
-        marginTop = {10}
-      >
-        <PageDiv>
-          <CNN />
-        </PageDiv>
-
+    <>
+        <CNN />
         <SuperResolution />
         <VMAF1 />
         <VMAF2 />
-        <Project />
-      </Grid>
-    </Grid>
+        <Project/>
+    </>
   )
 }
 

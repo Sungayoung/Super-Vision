@@ -2,7 +2,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 import MainLayout from "../Layout/main/index";
 
 import Home from "../Pages/Home/Home";
-import Introduction from "../Pages/Introduction/Introduction";
+import IntroductionMain from "../Pages/Introduction";
 import QuickStart from "../Pages/Introduction/QuickStart";
 
 import ImageFilterMain from "../Pages/TechDemos/ImageFilter/ImageFilterMain";
@@ -25,8 +25,8 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { element: <Navigate to="/Introduction" replace /> },
-        { path: "", element: <Introduction /> },
-        { path: "QuickStart", element: <QuickStart /> },
+        { path: "", element: <IntroductionMain /> },
+        { path: "QuickStart", element: <IntroductionMain /> },
       ],
     },
     {
