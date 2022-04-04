@@ -7,13 +7,16 @@ const SideBarContents  =
         title: '기술 소개',
         subtitles: [
           {
-            title: 'CNN'
+            title: 'CNN',
+            link: 'cnn'
           },
           {
-            title: 'Super Resolution'
+            title: 'Super Resolution',
+            link: 'super-resolution'
           },
           {
-            title: 'VMAF'
+            title: 'VMAF',
+            link: 'vmaf'
           },
         ]
       },
@@ -22,13 +25,8 @@ const SideBarContents  =
         title: '프로젝트 소개',
         subtitles: [
           {
-            title: 'Super Resolution'
-          },
-          {
-            title: 'Super Cute'
-          },
-          {
-            title: 'Super Memory'
+            title: 'Super Vision',
+            link: 'super-vision'
           },
         ]
       },
@@ -37,13 +35,16 @@ const SideBarContents  =
         title: 'QUICK START',
         subtitles: [
           {
-            title: '설치하기'
+            title: '설치하기',
+            link: 'install'
           },
           {
-            title: '실행하기'
+            title: '실행하기',
+            link: 'execute'
           },
           {
-            title: '비교하기'
+            title: '비교하기',
+            link: 'compare'
           },
         ]
       }

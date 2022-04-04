@@ -2,12 +2,15 @@ import { Navigate, useRoutes } from "react-router-dom";
 import MainLayout from "../Layout/main/index";
 
 import Home from "../Pages/Home/Home";
-import Introduction from "../Pages/Introduction/Introduction";
+import IntroductionMain from "../Pages/Introduction";
 import QuickStart from "../Pages/Introduction/QuickStart";
 
 import ImageFilterMain from "../Pages/TechDemos/ImageFilter/ImageFilterMain";
 import ImageFilterExperience from "../Pages/TechDemos/ImageFilter/ImageFilterExperience";
-import WebCamFilterPage from "../Pages/TechDemos/WebCamFilter";
+import VideoFilterMain from "../Pages/TechDemos/VideoFilter/VideoFilterMain";
+import VideoFilterExperience from "../Pages/TechDemos/VideoFilter/VideoFilterExperience";
+import WebcamFilterMain from "../Pages/TechDemos/WebCamFilter/WebCamFilterMain";
+import WebcamFilterExperience from "../Pages/TechDemos/WebCamFilter/WebCamFilterExperience";
 
 // 화면 라우팅 테이블
 export default function Router() {
@@ -15,18 +18,15 @@ export default function Router() {
     {
       path: "/",
       element: <MainLayout />,
-      children: [
-        { element: <Navigate to="/" replace /> }, 
-        { path: "", element: <Home /> }
-      ],
+      children: [{ element: <Navigate to="/" replace /> }, { path: "", element: <Home /> }],
     },
     {
       path: "/Introduction",
       element: <MainLayout />,
       children: [
-        { element: <Navigate to="/Introduction" replace /> }, 
-        { path: '', element: <Introduction />},
-        { path: "QuickStart", element: <QuickStart /> }
+        { element: <Navigate to="/Introduction" replace /> },
+        { path: "", element: <IntroductionMain /> },
+        { path: "QuickStart", element: <IntroductionMain /> },
       ],
     },
     {
@@ -34,17 +34,33 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { element: <Navigate to="/TechDemos" replace /> },
-        { path: '', element: <ImageFilterMain />},
-        { path: "ImageFilter",
+        { path: "", element: <ImageFilterMain /> },
+        {
+          path: "ImageFilter",
           children: [
             { element: <Navigate to="/TechDemos/ImageFilter" replace /> },
-            { path: '', element: <ImageFilterMain /> },
-            { path: 'Experience', element: <ImageFilterExperience /> },
-          ]
+            { path: "", element: <ImageFilterMain /> },
+            { path: "Experience", element: <ImageFilterExperience /> },
+          ],
         },
-        { path: "WebCamFilter", element: <WebCamFilterPage /> },
+        {
+          path: "VideoFilter",
+          children: [
+            { element: <Navigate to="/TechDemos/VideoFilter" replace /> },
+            { path: "", element: <VideoFilterMain /> },
+            { path: "Experience", element: <VideoFilterExperience /> },
+          ],
+        },
+        {
+          path: "WebCamFilter",
+          children: [
+            { element: <Navigate to="/TechDemos/WebCamFilter" replace /> },
+            { path: "", element: <WebcamFilterMain /> },
+            { path: "Experience", element: <WebcamFilterExperience /> },
+          ],
+        },
       ],
     },
-    { path: '*', element: <Navigate to="/404" replace /> }
+    { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }

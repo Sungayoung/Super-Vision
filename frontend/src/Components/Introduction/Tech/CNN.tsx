@@ -1,77 +1,81 @@
 // Mui
 import { styled } from "@mui/material/styles";
-import Grid from '@mui/material/Grid'
-import { useTheme } from '@material-ui/core'
+import Grid from "@mui/material/Grid";
+import { useTheme } from "@material-ui/core";
 
 // Local
-import CodeTextBox from '../../TextBoxes/CodeTextBox'
-import './CNN.css'
+import CodeTextBox from "../../TextBoxes/CodeTextBox";
+import "./CNN.css";
+import { useState } from "react";
 
 type Props = {
-  isDark: boolean
-}
+  isDark: boolean;
+  onMouseOver: Function;
+  onMouseLeave: Function;
+};
 
 const PageDiv = styled("div")({
   position: "relative",
-  height: "45vw",
-  // width: "99.5vw",
+  height: "100vh",
+  display: "flex",
+  width: "100%",
+  justifyContent: "center",
+  alignItems: "center",
 });
 
-
-function LayerSquare ({ isDark } : Props) {
-  const theme = useTheme()
-  const dark = theme.palette.primary.main
-  const light = theme.palette.primary.main
+function LayerSquare({ isDark, onMouseOver, onMouseLeave }: Props) {
+  const theme = useTheme();
+  const dark = theme.palette.primary.main;
+  const light = theme.palette.primary.main;
 
   return (
-    <Grid
-      marginX={-2}
-    >
-      <div className="box" >
+    <Grid marginX={-2}>
+      <div className="box" onMouseOver={() => onMouseOver()} onMouseLeave={() => onMouseLeave()}>
         <div className="cnnLayer rotateY">
-          <div className={ 'fill' + ' ' + (isDark? 'brightBox' : 'darkBox')}></div>
+          <div className={"fill" + " " + (isDark ? "brightBox" : "darkBox")}></div>
         </div>
       </div>
     </Grid>
-  )
+  );
 }
 
-function CNN () {
+const ExplainDiv = styled("div")({
+  position: "absolute",
+  bottom: "90px",
+  backgroundColor: "#000000A0",
+  width: "800px",
+  height: "150px",
+  textAlign: "center",
+  transition: "all .2s",
+});
 
+function CNN() {
+  const [showExplain, setShowExplain] = useState<boolean>(false);
+  const handleMouseOver = () => {
+    setShowExplain(true);
+  };
+  const handleMouseLeave = () => {
+    setShowExplain(false);
+  };
   return (
-    <PageDiv>
-      <Grid 
-        className="CNN"
-        container
-        paddingY = { 10}
-        >
-        <Grid
-          container
-          item xs={12} sm = {2}
-          justifyContent='center'
-          pt = {{ xs: 1, sm: 10}}
-          ml = {10}
-        >
-          <div>
-            <h1>Convolution</h1>
-            <h1>Neural</h1>
-            <h1>Network</h1>
-          </div>
-        </Grid>
-        <Grid 
-          container
-          item xs = {9}
-          marginLeft = {2}
-        >
-          <LayerSquare isDark={true} />
-          <LayerSquare isDark={false} />
-          <LayerSquare isDark={true} />
-          <LayerSquare isDark={false} />
-        </Grid>
-      </Grid>
-      {/* 레이어별 설명 박스가 들어갈 부분 */}
+    <PageDiv id="cnn">
+      <div className="d-flex align-items-center">
+        <div style={{ marginRight: "5rem" }}>
+          <h1>Convolution</h1>
+          <h1>Neural</h1>
+          <h1>Network</h1>
+        </div>
+        <div className="d-flex pb-3">
+          <LayerSquare isDark={true} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={false} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={true} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={false} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
+        </div>
+        {/* 레이어별 설명 박스가 들어갈 부분 */}
+      </div>
+      <ExplainDiv style={{ opacity: `${showExplain ? "1" : "0"}` }}>설명</ExplainDiv>
     </PageDiv>
-  )
+  );
 }
 
-export default CNN
+export default CNN;

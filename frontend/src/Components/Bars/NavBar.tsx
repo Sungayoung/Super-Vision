@@ -41,11 +41,13 @@ function NavBar() {
       name: "Tech Demos",
       children: [
         { path: "ImageFilter", name: "ImageFilter" },
+        { path: "VideoFilter", name: "VideoFilter" },
         { path: "WebcamFilter", name: "WebcamFilter" },
       ],
     },
   ];
   const RootStyle = styled(AppBar)(({ theme }) => ({
+    zIndex: theme.zIndex.drawer + 1,
     boxShadow: "none",
     backdropFilter: "blur(6px)",
     WebkitBackdropFilter: "blur(6px)",
