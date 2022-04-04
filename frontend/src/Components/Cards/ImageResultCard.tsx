@@ -5,21 +5,27 @@ type ImageResultCardProps = {
   file: Blob;
   imgPreviewUrl: string;
   isImgPreview: boolean;
-  vmaf: Number;
-  diff?: Number;
+  vmaf: number;
+  diff?: number;
 };
 
-function ImageResultCard ({title, file, imgPreviewUrl, isImgPreview, vmaf, diff}: ImageResultCardProps) {
-
+function ImageResultCard({
+  title,
+  file,
+  imgPreviewUrl,
+  isImgPreview,
+  vmaf,
+  diff,
+}: ImageResultCardProps) {
   return (
     <div className="card_container">
       <div className="mb-2 font_2 main_color bold">{title}</div>
       {isImgPreview && <img className="full_img_card" src={imgPreviewUrl} alt="img" />}
-      {!isImgPreview && 
-        <div className="blank_card font_3 sub_color text-center pre_wrap">
+      {!isImgPreview && (
+        <div className="blank_card font_3 comp_color text-center pre_wrap">
           <div>{"사진을 업로드하면\n결과를 확인할 수 있습니다."}</div>
         </div>
-      }
+      )}
       {/* {isImgPreview &&
         <div className="p-4 font_3">
           <span className="">Vmaf Score : </span>
@@ -28,7 +34,7 @@ function ImageResultCard ({title, file, imgPreviewUrl, isImgPreview, vmaf, diff}
         </div>
       } */}
     </div>
-  )
+  );
 }
 
-export default ImageResultCard
+export default ImageResultCard;
