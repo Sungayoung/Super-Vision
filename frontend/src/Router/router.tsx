@@ -6,9 +6,8 @@ import IntroductionMain from "../Pages/Introduction";
 import QuickStart from "../Pages/Introduction/QuickStart";
 
 import ImageFilterMain from "../Pages/TechDemos/ImageFilter/ImageFilterMain";
-import ImageFilterExperience from "../Pages/TechDemos/ImageFilter/ImageFilterExperience";
-import VideoFilterMain from "../Pages/TechDemos/VideoFilter/VideoFilterMain";
-import VideoFilterExperience from "../Pages/TechDemos/VideoFilter/VideoFilterExperience";
+import ImageFilterExperienceA from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceA";
+import ImageFilterExperienceB from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceB";
 import WebcamFilterMain from "../Pages/TechDemos/WebCamFilter/WebCamFilterMain";
 import WebcamFilterExperience from "../Pages/TechDemos/WebCamFilter/WebCamFilterExperience";
 
@@ -39,17 +38,10 @@ export default function Router() {
           path: "ImageFilter",
           children: [
             { element: <Navigate to="/TechDemos/ImageFilter" replace /> },
-            { path: "", element: <ImageFilterMain /> },
-            { path: "Experience", element: <ImageFilterExperience /> },
-          ],
-        },
-        {
-          path: "VideoFilter",
-          children: [
-            { element: <Navigate to="/TechDemos/VideoFilter" replace /> },
-            { path: "", element: <VideoFilterMain /> },
-            { path: "Experience", element: <VideoFilterExperience /> },
-          ],
+            { path: '', element: <ImageFilterMain /> },
+            { path: 'ExperienceA', element: <ImageFilterExperienceA /> },
+            { path: 'ExperienceB', element: <ImageFilterExperienceB /> },
+          ]
         },
         {
           path: "WebCamFilter",

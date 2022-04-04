@@ -19,28 +19,41 @@ const TitleSpan = styled("span")({
 });
 
 function ResultCard({ imgSrc, title, width, height, setMousePos, pos }: ResultCardProps) {
-
   const handleMove = (event: MouseEvent<HTMLElement>) => {
-    if (!imgSrc) return
+    if (!imgSrc) return;
     let mouseX = event.pageX - event.currentTarget.offsetLeft;
     let mouseY = event.pageY - event.currentTarget.offsetTop;
-    if (mouseX <= 0 || mouseX > event.currentTarget.offsetWidth || mouseY <= 0 || mouseY > event.currentTarget.offsetHeight) {
-      setMousePos(undefined)
-      return
+    if (
+      mouseX <= 0 ||
+      mouseX > event.currentTarget.offsetWidth ||
+      mouseY <= 0 ||
+      mouseY > event.currentTarget.offsetHeight
+    ) {
+      setMousePos(undefined);
+      return;
     }
-    setMousePos({x: mouseX, y: mouseY})
+    setMousePos({ x: mouseX, y: mouseY });
   };
-
 
   return (
     <div>
-      <div style={{ display: "flex", margin: "1.5rem", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          margin: "1.5rem",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
         <TitleSpan>{title}</TitleSpan>
-        <div onMouseMove={handleMove} className="dashed_border d-flex justify-content-center align-items-center" style={{ overflow: "hidden", height, width }}>
+        <div
+          onMouseMove={handleMove}
+          className="dashed_border d-flex justify-content-center align-items-center"
+          style={{ overflow: "hidden", height, width }}>
           {imgSrc ? (
             <>
-            <Magnify pos={pos} imgSrc={imgSrc} RATIO={3} width={width} height={height} />
-            <img src={imgSrc} style={{ height, width }} alt="img" />
+              <Magnify pos={pos} imgSrc={imgSrc} RATIO={3} width={width} height={height} />
+              <img src={imgSrc} style={{ height, width }} alt="img" />
             </>
           ) : (
             "웹캠을 켜주세요"

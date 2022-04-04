@@ -1,122 +1,258 @@
-import React, { useRef, useState } from 'react'
-import Btn from '../Commons/Btn'
-import axios from 'axios'
+import React, { useEffect, useRef, useState } from "react";
+import Btn from "../Commons/Btn";
+import axios from "axios";
 import { styled } from "@mui/material/styles";
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 type ImageUploadCardProps = {
+  page: string;
+  originImg: string;
   parentImgChange: Function;
+  showCropImgModal?: Function;
 };
 
-function ImageUploadCard ({parentImgChange}: ImageUploadCardProps) {
-  const [file, setFile] = useState<Blob>(new Blob())
-  const [fileName, setFileName] = useState<string>('')
-  const [imgPreviewUrl, setImgPreviewUrl] = useState<string>('')
-  const [isImgPreview, setIsImgPreview] = useState<boolean>(false)
+type DetectObj = {
+  class: string;
+  score: string;
+  x1: string;
+  x2: string;
+  y1: string;
+  y2: string;
+}
+
+type Size = number[]
+
+function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal }: ImageUploadCardProps) {
+  const [file, setFile] = useState<Blob>(new Blob());
+  const [fileName, setFileName] = useState<string>("");
+  const [imgPreviewUrl, setImgPreviewUrl] = useState<string>("");
+  const [isImgPreview, setIsImgPreview] = useState<boolean>(false);
+  const [detectList, setDetectList] = useState<Path2D[]>([]);
+  const [detectSizeList, setDetectSizeList] = useState<Size[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  function handleImgChange (event: React.ChangeEvent<HTMLInputElement>) {
+  useEffect(() => {
+    setImgPreviewUrl(originImg)
+    if (originImg !== "") {
+      setIsImgPreview(true)
+    }
+  }, [originImg])
+
+  function handleImgChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
 
     // 사진 미리보기
     if (event.target.files) {
-      let reader = new FileReader();
-      let uploadFile = event.target.files[0];
+      const reader = new FileReader();
+      const uploadFile = event.target.files[0];
+
+      // 확장자 예외 처리
+      if (
+        String(uploadFile.type) !== "image/png" &&
+        String(uploadFile.type) !== "image/jpeg" &&
+        String(uploadFile.type) !== "image/jpg"
+      ) {
+        alert("파일 확장자는 [.png/.jpg/.jpeg] 로 끝나야 합니다.");
+        return false;
+      }
+
+      // 사이즈 예외 처리
+      if (uploadFile.size > 10e6) {
+        alert("파일 크기는 10MB 이하로 업로드해야 합니다.");
+        return false;
+      }
+
       setFile(uploadFile);
       setFileName(event.target.files[0].name);
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
           setImgPreviewUrl(reader.result);
           setIsImgPreview(true);
+          detectImage(reader.result)
         }
       };
       reader.readAsDataURL(uploadFile);
-      // 백엔드 API 요청
-      const form = document.forms[0];
-      const data = new FormData(form);
-      console.log(form)
-      console.log(data)
-      console.log('data image', data.get('image'))
-      
-      const headers = {
-        'Content-Type': 'multipart/form-data',
-      }
-      axios({
-        method: 'post',
-        url: "http://70.12.130.102:5000/image",
-        data,
-        headers,
-      })
+
+    }
+  }
+  
+  function detectImage(imgPreviewUrl: string) {
+    // 백엔드 detect API 요청
+    const form = document.forms[0];
+    const data = new FormData(form);
+  
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    axios({
+      method: "post",
+      url: "http://70.12.130.102:5000/detect",
+      data,
+      headers,
+    })
       .then((res) => {
-        console.log('handleImgChange 성공', res)
-        const normalImgSrc = "data:image/jpeg;base64," + res.data.normal_upscaled
-        const normalVmaf = res.data.normal_vmaf_score
-        const srImgSrc = "data:image/jpeg;base64," + res.data.sr_upscaled
-        const srVmaf = res.data.sr_vmaf_score
-        parentImgChange(normalImgSrc, srImgSrc, normalVmaf, srVmaf, true)
+        console.log("handleImgChange 성공", res);
+        const image = document.querySelector("#preview_img") as HTMLImageElement
+        console.log('detecting', image)
+        if (image) {
+          const originWidth = image.naturalWidth
+          const originHeight = image.naturalHeight
+          const imgPos = image.getBoundingClientRect()
+          setDetectList(res.data)
+          setCanvas(imgPreviewUrl, res.data, imgPos, originWidth, originHeight)
+        }
       })
       .catch((err) => {
-        console.log('handleImgChange 에러', err)
-      })
+        console.log("handleImgChange 에러", err);
+      });
+  }
+
+  function setCanvas(imgPreviewUrl: string, detectInfo: DetectObj[], imgPos: DOMRect, originWidth: number, originHeight: number) {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement
+    console.log('canvas', canvas)
+    if (canvas.getContext('2d')) {
+        const ctx = canvas.getContext('2d');
+        const imageObj = new Image();
+        imageObj.onload = function () {
+          canvas.width=originWidth;
+          canvas.height=originHeight;
+          if (ctx) {
+            ctx.drawImage(imageObj, 0, 0, originWidth, originHeight);
+            
+            // multi boxing 처리
+            $.each(detectInfo, function(key, item){
+              const x = parseInt(item.x1)
+              const y = parseInt(item.y1)
+              const w = parseInt(item.x2)-parseInt(item.x1)
+              const h = parseInt(item.y2)-parseInt(item.y1)
+              
+              ctx.beginPath();
+
+              ctx.strokeStyle = '#CEF3FF';
+              ctx.lineWidth = 3;
+              
+              ctx.strokeRect(x, y, w, h);
+              console.log(x, y, w, h)
+              // Text 처리 
+              ctx.textBaseline = 'top';
+              ctx.font="18px Pretendard-Regular";
+              // ctx.fillStyle = '#CEF3FF';
+              ctx.fillText(item.class + ' (' + item.score.slice(0, 4) + ')', parseInt(item.x1), parseInt(item.y1) - 18);
+              ctx.fill();
+
+
+              const path = new Path2D();
+              path.rect(x, y, w, h)
+              const newDetectList = detectList
+              const newDetectSizeList = detectSizeList
+              detectList.push(path)
+              detectSizeList.push([x, y, w, h])
+              setDetectList(newDetectList)
+              setDetectSizeList(newDetectSizeList)
+            });
+          }
+        };
+        imageObj.src = imgPreviewUrl;
+        console.log('detectList', detectList)
+        // console.log('imageObj', imageObj)
+		}
+	};
+
+  // 디텍트된 이미지 선택시
+  function handleSelectDetectedImg(event: React.MouseEvent) {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement
+    const image = document.querySelector("#preview_img") as HTMLImageElement
+    if (image) {
+      const originWidth = image.naturalWidth
+      const originHeight = image.naturalHeight
+      if (canvas.getContext('2d')) {
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+        const x = event.nativeEvent.offsetX * (originWidth / image.width)  // 원본이미지의 x, y좌표에 맞게 재계산
+        const y = event.nativeEvent.offsetY * (originHeight / image.height)
+        for (let i=0; i<detectList.length; i++) {
+          const detect = detectList[i]
+          const detectSize = detectSizeList[i]
+          ctx.beginPath();
+          if (ctx.isPointInPath(detect, x, y)) {
+            ctx.strokeStyle = '#CEF3FF';
+            // ctx.fillStyle = '#CEF3FF';
+          } else {
+            ctx.strokeStyle = '#5F7B84';
+            // ctx.fillStyle = '#5F7B84';
+          }
+          ctx.lineWidth = 3;
+          console.log(detect)
+          ctx.strokeRect(detectSize[0], detectSize[1], detectSize[2], detectSize[3]);
+          ctx.fill(detect)
+          // ctx.strokeRect(x, y, w, h)
+        }
+      }
     }
-  };
+    // const canvas = document.getElementById('canvas') as HTMLCanvasElement
+    // const rect = canvas.getBoundingClientRect()
 
+    // const x = event.clientX - rect.left
+    // const y = event.clientY - rect.top
 
-  function handleFileBtnClick (event: React.MouseEvent) {
+    // console.log()
+  }
+
+  function handleFileBtnClick(event: React.MouseEvent) {
     if (fileRef.current) {
       fileRef.current.click();
     }
   }
 
-  const TitleSpan = styled("span")({
-    color: "#CEF3FF",
-    fontSize: "24px",
-    fontWeight: "600",
-    padding: "5px",
-  });
-
-  const ContentSpan = styled("span")({
-    fontSize: "18px",
-    padding: "10px",
-    whiteSpace: "pre-wrap",
-    textAlign: 'center',
-  });
-
+  // 사진 업로드 클릭시 크롭 모달창 show
+  function onClickUploadBtn(event: React.MouseEvent) {
+    if (page === "A" && showCropImgModal) {
+      showCropImgModal()
+    } else if (fileRef.current) {
+      fileRef.current.click();
+    }
+  }
 
   return (
     <div className="card_container">
+      
+
       <div className="mb-2 font_2 main_color bold">원본</div>
 
       <form id="upload" action="/">
-        <input
-          ref={fileRef}
-          type="file"
-          onChange={handleImgChange}
-          hidden={true}
-          name="image"
-        />
+        <input ref={fileRef} type="file" onChange={handleImgChange} hidden={true} name="image" />
       </form>
 
-      {isImgPreview && <img className="clickable full_img_card" src={imgPreviewUrl} alt="img" onClick={handleFileBtnClick} />}
-      {!isImgPreview && 
+      {isImgPreview && (
+        <div>
+          <img
+            id="preview_img"
+            className="clickable full_img_card"
+            src={imgPreviewUrl}
+            alt="img"
+            onClick={onClickUploadBtn}
+          />
+          {
+            <canvas id='canvas' className="clickable full_img_card" onMouseMove={handleSelectDetectedImg}>Your browswer does not support HTML5 canvas</canvas>
+          }
+        </div>
+      )}
+      {!isImgPreview && (
         <div className="blank_card">
           <div className="clickable" onClick={handleFileBtnClick}>
-            <FileUploadOutlinedIcon sx={{ color: '#5F7B84', fontSize: 70}}/>
+            <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
           </div>
           <div>
-            <Btn
-              content="사진 업로드"
-              onClick={handleFileBtnClick}
-            />
+            <Btn content="사진 업로드" onClick={onClickUploadBtn} />
           </div>
-          <div className="font_3 sub_color text-center pre_wrap mt-2">
-            <div>사진을 업로드 해주세요.</div>
+          <div className="font_3 comp_color text-center pre_wrap mt-3">
+            <div>10MB 이내 파일을</div>
+            <div>업로드 해주세요.</div>
+            <div>(jpg, jpeg, png)</div>
           </div>
-          {/* <ContentSpan className="upload-text">사진을 업로드 해주세요.</ContentSpan> */}
         </div>
-      }
+      )}
     </div>
-  )
+  );
 }
 
-export default ImageUploadCard
+export default ImageUploadCard;
