@@ -4,7 +4,7 @@ import Magnify from "../Commons/Magnify";
 
 type ImageResultCardProps = {
   title: string;
-  file: Blob;
+  file?: Blob;
   imgPreviewUrl: string;
   isImgPreview: boolean;
   vmaf: Number;
@@ -37,7 +37,7 @@ function ImageResultCard({ title, file, imgPreviewUrl, isImgPreview, vmaf, diff,
 
   return (
     <div className="card_container">
-      <div className="mb-2 font_2 main_color bold">{title}</div>
+      <div className="mb-2 font_2 main_color bold card_title">{title}</div>
       {isImgPreview && (
         <span onMouseMove={handleMove}>
           <Magnify pos={pos} imgSrc={imgPreviewUrl} RATIO={3} width={`${width}px`} height={`${height}px`} />
@@ -49,13 +49,6 @@ function ImageResultCard({ title, file, imgPreviewUrl, isImgPreview, vmaf, diff,
           <div>{"사진을 업로드하면\n결과를 확인할 수 있습니다."}</div>
         </div>
       )}
-      {/* {isImgPreview &&
-        <div className="p-4 font_3">
-          <span className="">Vmaf Score : </span>
-          <span>{parseInt(vmaf)} </span> 
-          <span className="main_color">{title === 'AI 필터' ? '(+'+diff+')' : ''}</span>
-        </div>
-      } */}
     </div>
   );
 }

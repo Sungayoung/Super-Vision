@@ -151,7 +151,6 @@ function ImageFilterExperienceA() {
             <ArrowRightIcon className="mt-5 mx-4" sx={{ color: "#F2FFFF", fontSize: 50 }} />
             <ImageResultCard
               title="일반 필터"
-              file={file}
               imgPreviewUrl={normalImg}
               isImgPreview={isImgPreview}
               vmaf={normalVmaf}
@@ -160,7 +159,6 @@ function ImageFilterExperienceA() {
             />
             <ImageResultCard
               title="AI 필터"
-              file={file}
               imgPreviewUrl={srImg}
               isImgPreview={isImgPreview}
               vmaf={srVmaf}
@@ -168,7 +166,7 @@ function ImageFilterExperienceA() {
               setMousePos={sendMousePos}
               pos={mousePos}
             />
-            <VmafResult normalVmaf={normalVmaf} srVmaf={srVmaf} diff={diff} />
+            <VmafResult normalVmaf={normalVmaf} srVmaf={srVmaf} />
           </div>
         </div>
       </div>

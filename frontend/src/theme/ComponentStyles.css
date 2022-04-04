@@ -11,6 +11,11 @@
 }
 
 
+.card_title {
+    min-width: 100px;
+    text-align: center;
+}
+
 .blank_card {
     display: inline-flex;
     flex-direction: column;
@@ -31,6 +36,18 @@
     /* min-width: 30vw; */
     border-radius: 20px;
     border: 1.5px dashed #F2FFFF;
+}
+
+.detect_card {
+    background-color: #39424E;
+    border-radius: 20px;
+}
+
+.detect_img_card {
+    position: absolute;
+    object-fit: contain;
+    visibility: hidden;
+    height: 24em;
 }
 
 .clickable {

@@ -6,10 +6,9 @@ import BarChart from "../../Commons/BarChart";
 type VmafResultProps = {
   normalVmaf: number;
   srVmaf: number;
-  diff: number;
 };
 
-function VmafResult({ normalVmaf, srVmaf, diff }: VmafResultProps) {
+function VmafResult({ normalVmaf, srVmaf }: VmafResultProps) {
   const colors = ["#39424E", "#CEF3FF"];
 
   return (

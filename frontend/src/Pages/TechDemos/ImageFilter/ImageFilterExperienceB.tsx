@@ -71,51 +71,37 @@ const CustomSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 );
 
 function ImageFilterExperienceB() {
-  const [file, setFile] = useState<Blob>(new Blob());
   const [isImgPreview, setIsImgPreview] = useState<boolean>(false);
   const [originImg, setOriginImg] = useState<string>("");
+  const [croppedImg, setCroppedImg] = useState<string>("");
   const [normalImg, setNormalImg] = useState<string>("");
   const [srImg, setSrImg] = useState<string>("");
   const [normalVmaf, setNormalVmaf] = useState<number>(0);
   const [srVmaf, setSrVmaf] = useState<number>(0);
-  const [diff, setDiff] = useState<number>(0);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | undefined>(undefined);
   const [showMagnify, setShowMagnify] = useState<boolean>(true);
 
-  const [isCropModal, setIsCropModal] = useState<boolean>(false)
 
-  const title: string = "TRY SUPER RESOLUTION on IMAGE";
+
+  const title: string = "TRY SUPER RESOLUTION on DETECTED IMAGE";
   const content: string =
-    "이미지를 업로드해서 일반 필터와 AI 필터의 화질 개선을 직접 확인하세요!\n화질이 개선된 이미지는 다운로드가 가능합니다";
-
-  // function parentImgChange (file: Blob, imgPreviewUrl: string, isImgPreview: boolean): void {
-  //   setFile(file)
-  //   setImgPreviewUrl(imgPreviewUrl)
-  //   setIsImgPreview(isImgPreview)
-  //   console.log('parentImgChange', file)
-  // }
+    "이미지를 디텍팅해서 일반 필터와 AI 필터의 화질 개선을 직접 확인하세요!\n디텍팅한 박스를 클릭하면 화질 개선을 확인할 수 있습니다.";
 
   function parentImgChange(
-    originImg: string,
+    croppedImg: string,
     normalImg: string,
     srImg: string,
     normalVmaf: string,
     srVmaf: string,
     isImgPreview: boolean
   ): void {
-    setOriginImg(originImg)
+    // setOriginImg(originImg)
+    setCroppedImg(croppedImg)
     setNormalImg(normalImg);
     setSrImg(srImg);
     setNormalVmaf(parseInt(normalVmaf));
     setSrVmaf(parseInt(srVmaf));
     setIsImgPreview(isImgPreview);
-    const diff = parseInt(srVmaf) - parseInt(normalVmaf);
-    setDiff(diff);
-    console.log("parentImgChange", file);
-  }
-
-  function showCropImgModal() {
-    setIsCropModal(!isCropModal)
   }
 
   const sendMousePos = (pos: { x: number; y: number } | undefined) => {
@@ -147,11 +133,20 @@ function ImageFilterExperienceB() {
             </span>
           </Tooltip>
           <div className="cards">
-            <ImageUploadCard page="B" originImg={originImg} parentImgChange={parentImgChange} showCropImgModal={showCropImgModal} />
-            <ArrowRightIcon className="mt-5 mx-4" sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <div className="detect_card mx-5">
+              <ImageUploadCard page="B" originImg={originImg} parentImgChange={parentImgChange} />
+            </div>
+            <ImageResultCard
+              title="크롭"
+              imgPreviewUrl={croppedImg}
+              isImgPreview={isImgPreview}
+              vmaf={srVmaf}
+              setMousePos={sendMousePos}
+              pos={mousePos}
+            />
+            <ArrowRightIcon className="mt-5 mx-1" sx={{ color: "#F2FFFF", fontSize: 50 }} />
             <ImageResultCard
               title="일반 필터"
-              file={file}
               imgPreviewUrl={normalImg}
               isImgPreview={isImgPreview}
               vmaf={normalVmaf}
@@ -160,28 +155,16 @@ function ImageFilterExperienceB() {
             />
             <ImageResultCard
               title="AI 필터"
-              file={file}
               imgPreviewUrl={srImg}
               isImgPreview={isImgPreview}
               vmaf={srVmaf}
-              diff={diff}
               setMousePos={sendMousePos}
               pos={mousePos}
             />
-            <VmafResult normalVmaf={normalVmaf} srVmaf={srVmaf} diff={diff} />
+            <VmafResult normalVmaf={normalVmaf} srVmaf={srVmaf} />
           </div>
         </div>
       </div>
-      {
-      isCropModal &&
-      <div className="">
-        <CropImage 
-          src="https://interbalance.org/wp-content/uploads/2021/08/flouffy-VBkIK3qj3QE-unsplash-scaled-e1631077364762.jpg"
-          parentImgChange={parentImgChange}
-          showCropImgModal={showCropImgModal}
-        ></CropImage>
-      </div>
-      }
     </>
   );
 }
