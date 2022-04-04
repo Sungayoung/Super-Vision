@@ -1,8 +1,11 @@
 import React from "react"
 
+
 function VMAF2 () {
   return (
-    <h1>VMAF2</h1>
+    <div>
+      <h1>VMAF2</h1>
+    </div>
   )
 }
 

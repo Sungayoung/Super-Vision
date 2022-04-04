@@ -18,9 +18,11 @@ h1::first-letter {
 }
 
 .rotateY:hover .fill {
-  -webkit-transform: scale(1.2) skewy(-30deg);
-  transform: scale(1.2) skewY(-30deg);
+  -webkit-transform: translateY(-50px) skewy(-30deg);
+  transform: translateY(-50px) skewY(-30deg);
   transition-duration: 0.3s;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
 }
 
 .brightBox {

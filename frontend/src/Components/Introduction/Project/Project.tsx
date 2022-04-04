@@ -17,8 +17,11 @@ import { ReactNode } from 'react';
 
 const PageDiv = styled("div")({
   position: "relative",
-  height: "100%",
-  // width: "99.5vw",
+  height: "100vh",
+  display: 'flex',
+  width: "100%",
+  justifyContent: 'center',
+  alignItems: 'center'
 });
 
 const sampleTitle = '아아'
@@ -69,6 +72,7 @@ function SampleImgCard ({title, content, imgSrc} : sampleImgCardProps) {
   const theme = useTheme()
   return (
     <Card
+      id="project"
       sx = {{ 
         bgcolor: theme.palette.primary.dark
       }}
@@ -105,7 +109,7 @@ function SampleImgCard ({title, content, imgSrc} : sampleImgCardProps) {
 
 function Project () {
   return (
-    <PageDiv>
+    <PageDiv id="super-vision">
       <Grid 
         className="CNN"
         container

@@ -19,9 +19,9 @@ function Home() {
   }, [page]);
 
   const handleScroll = (e: WheelEvent) => {
-    if (e.deltaY === 100) {
+    if (e.deltaY > 0) {
       setPage((prev) => (prev + 1 > MAX_PAGE ? MAX_PAGE : prev + 1));
-    } else if (e.deltaY === -100) {
+    } else if (e.deltaY < 0) {
       setPage((prev) => (prev - 1 < MIN_PAGE ? MIN_PAGE : prev - 1));
     }
   };
