@@ -51,29 +51,76 @@ const ExplainDiv = styled("div")({
 
 function CNN() {
   const [showExplain, setShowExplain] = useState<boolean>(false);
-  const handleMouseOver = () => {
+  const [layerDescription, setLayerDescription] = useState({
+    Title: '바뀌어라얍',
+    Content: '바뀌는게 좋지 않겠니',
+  })
+
+  const handleMouseOver = (index: number) => {
+    setLayerDescription({
+      Title: explanation[index].Title,
+      Content: explanation[index].Content
+    });
     setShowExplain(true);
+    console.log(layerExplanation)
   };
   const handleMouseLeave = () => {
     setShowExplain(false);
   };
+  // const setLayerDescription = function ( index : number) {
+  //   layerExplanation.Title = explanation[index].Title
+  //   layerExplanation.Content = explanation[index].Content
+  //   // console.log(11231231231231)
+  // }
+  const layerExplanation = {
+    Title: '왜 안 바뀌니',
+    Content: '바뀌는게 좋지 않겠니..!',
+  };
+  const explanation = [
+    {
+      Title: 'Input',
+      Content: '사용자에게 이미지를 입력받는 layer.',
+    },
+    {
+      Title:'Convolutional Layer',
+      Content: 'Convolution filter를 적용시켜 이미지의 특징을 추출하는 layer.',
+    },
+    {
+      Title: 'Pooling layer',
+      Content: 'sub_sampling을 이용해 feature-map의 크기를 줄이고, 위치나 이동 등의 특징을 추출하는 layer.',
+    },
+    {
+      Title: 'Fully connected Layer',
+      Content: '앞선 단계에서 계산된 feature 를 바탕으로 분류 작업을 시행하는 layer.',
+    },
+  ]
+  
   return (
     <PageDiv id="cnn">
       <div className="d-flex align-items-center">
         <div style={{ marginRight: "5rem" }}>
-          <h1>Convolution</h1>
-          <h1>Neural</h1>
-          <h1>Network</h1>
+          <h1 className='cnnName'>Convolution</h1>
+          <h1 className='cnnName'>Neural</h1>
+          <h1 className='cnnName'>Network</h1>
         </div>
         <div className="d-flex pb-3">
-          <LayerSquare isDark={true} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
-          <LayerSquare isDark={false} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
-          <LayerSquare isDark={true} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
-          <LayerSquare isDark={false} onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={true} onMouseOver={() => handleMouseOver(0)} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={false} onMouseOver={() => handleMouseOver(1)} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={true} onMouseOver={() => handleMouseOver(2)} onMouseLeave={handleMouseLeave} />
+          <LayerSquare isDark={false} onMouseOver={() => handleMouseOver(3)} onMouseLeave={handleMouseLeave} />
         </div>
         {/* 레이어별 설명 박스가 들어갈 부분 */}
       </div>
-      <ExplainDiv style={{ opacity: `${showExplain ? "1" : "0"}` }}>설명</ExplainDiv>
+      <ExplainDiv
+        key={ showExplain + 'dkdkdk' } 
+        style={{ opacity: `${showExplain ? "1" : "0"}` }}
+      >
+        <h4 className="pt-3">
+          { layerDescription.Title }
+        </h4>
+        <hr className='mx-2'/>
+        <p>{ layerDescription.Content }</p>
+      </ExplainDiv>
     </PageDiv>
   );
 }
