@@ -39,7 +39,6 @@ function SideBar() {
         const subList = list.map((item, idx) => {
           let element = document.getElementById(item);
           if (!element?.getBoundingClientRect()) return false;
-          console.log(item, window.pageYOffset + element.getBoundingClientRect().top, window.scrollY, window.pageYOffset + element.getBoundingClientRect().bottom)
           let result = Boolean(
             window.pageYOffset + element.getBoundingClientRect().top < window.scrollY &&
               window.scrollY <= window.pageYOffset + element.getBoundingClientRect().bottom
