@@ -24,7 +24,6 @@ function WebcamBeforeAfterDialog({ open, handleClose, aiImgSrc, normalImgSrc, wi
   const handleMove = (event: any) => {
     if (!event.currentTarget.parentElement) return;
     setImgWidth(event.clientX - 24 - event.currentTarget.parentElement.parentElement.offsetLeft);
-    console.log(event.currentTarget.parentElement.parentElement.offsetLeft);
   };
 
 

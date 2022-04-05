@@ -33,7 +33,6 @@ const Blockquote = (children: { children: ReactNode }) => {
 };
 
 const ATag = (children: { children: ReactNode; href?: string }) => {
-  console.log(children);
   return (
     <>
       <Link />

@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography'
 
 import { ReactNode } from 'react';
 
+import compareVmaf from '../../../Assets/Image/compareVmaf.png'
+
 
 const PageDiv = styled("div")({
   position: "relative",
@@ -123,7 +125,7 @@ function Project () {
           // pt = {10}
           ml = {10}
         >
-          <div>
+          <div className="m-2">
             <img
               className='ProjectLogo'
               src={logo} 
@@ -131,6 +133,8 @@ function Project () {
             />
             <Typography>
               Super Resolution 기술을 이용해
+            </Typography>
+            <Typography>
               이미지 및 영상의 화질을 개선하는 서비스입니다.
             </Typography>
           </div>
@@ -141,7 +145,8 @@ function Project () {
           spacing = { 2 }
           padding = {2}
         >
-          {Array.from(Array(6)).map((_, index) => 
+          <img src={compareVmaf} alt="vmaf-compare" />
+          {/* {Array.from(Array(6)).map((_, index) => 
             <Grid
               item
               xs={ 4 }
@@ -155,7 +160,7 @@ function Project () {
                 </SampleImgCard>
               </div>            
             </Grid>
-          )}
+          )} */}
         </Grid>
       </Grid>
     </PageDiv>
