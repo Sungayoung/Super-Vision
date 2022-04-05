@@ -10,8 +10,8 @@ type MagnifyProps = {
 };
 
 const MagnifyDiv = styled("div")({
-  width: "250px",
-  height: "250px",
+  width: "300px",
+  height: "300px",
   position: "absolute",
   boxShadow: "0 0 0 3px rgba(255, 255, 255, 0.85), 0 0 3px 3px rgba(0, 0, 0, 0.25)",
   display: "none",

@@ -19,35 +19,34 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
-
 function SideBar() {
   const [clickedItems, setClickedItems] = React.useState([false, false, false]);
-  const [clickedSubItems, setClickedSubItems] = React.useState([[false, false, false], [false], [false, false, false]]);
+  const [clickedSubItems, setClickedSubItems] = React.useState([[false, false, false], [false], [false, false]]);
   const drawerWidth = 300;
   const theme = useTheme();
 
   function handleClick(id: any) {
-    setClickedItems(prev => {
+    setClickedItems((prev) => {
       return prev.map((item, index) => {
-        return Boolean(index === id)
-      })
-    })
+        return Boolean(index === id && !item);
+      });
+    });
   }
-
-  const listId = [["cnn", "super-resolution", "vmaf"], ["super-vision"], ["install", "execute", "compare"]];
+  const listId = [["cnn", "super-resolution", "vmaf"], ["super-vision"], ["install", "execute"]];
   window.onscroll = (e: any) => {
     setClickedSubItems(
       listId.map((list, idx) => {
         const subList = list.map((item, idx) => {
           let element = document.getElementById(item);
-          if (!element?.getBoundingClientRect()) return false
+          if (!element?.getBoundingClientRect()) return false;
+          console.log(item, window.pageYOffset + element.getBoundingClientRect().top, window.scrollY, window.pageYOffset + element.getBoundingClientRect().bottom)
           let result = Boolean(
-            window.pageYOffset + element.getBoundingClientRect().top <= window.scrollY &&
-              window.scrollY < window.pageYOffset + element.getBoundingClientRect().bottom
+            window.pageYOffset + element.getBoundingClientRect().top < window.scrollY &&
+              window.scrollY <= window.pageYOffset + element.getBoundingClientRect().bottom
           );
           return result;
-        })
-        return subList
+        });
+        return subList;
       })
     );
   };
@@ -82,15 +81,29 @@ function SideBar() {
                 key={SideBarContent.title}
                 onClick={() => handleClick(SideBarContent.id)}
               >
-                <ListItemText className={clickedSubItems[SideBarContent.id].some(item => item) || clickedItems[SideBarContent.id]? styles.active : ""} primary={SideBarContent.title} />
+                <ListItemText
+                  className={
+                    clickedSubItems[SideBarContent.id].some((item) => item) || clickedItems[SideBarContent.id] ? styles.active : ""
+                  }
+                  primary={SideBarContent.title}
+                />
                 {clickedItems[SideBarContent.id] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
 
               {/* 1-1. 세부 목차 */}
-              <Collapse in={clickedSubItems[SideBarContent.id].some(item => item) || clickedItems[SideBarContent.id]} timeout="auto" unmountOnExit>
+              <Collapse
+                in={clickedSubItems[SideBarContent.id].some((item) => item) || clickedItems[SideBarContent.id]}
+                timeout="auto"
+                unmountOnExit
+              >
                 {SideBarContent.subtitles.map((subtitle: any, index: number) => {
                   return (
-                    <ListItem component="a" href={`#${subtitle.link}`} key={subtitle.title + subtitle.id} sx={{ pl: 4, color: 'white', '&:hover': {color: 'white'}}}>
+                    <ListItem
+                      component="a"
+                      href={subtitle.link}
+                      key={subtitle.title + subtitle.id}
+                      sx={{ pl: 4, color: "white", "&:hover": { color: "white" } }}
+                    >
                       <ListItemText primary={subtitle.title} className={clickedSubItems[SideBarContent.id][index] ? styles.active : ""} />
                     </ListItem>
                   );
