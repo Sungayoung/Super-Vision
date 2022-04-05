@@ -36,11 +36,11 @@ const SideBarContents  =
         subtitles: [
           {
             title: '설치하기',
-            link: 'QuickStart#install'
+            link: '/Introduction/QuickStart/#install'
           },
           {
             title: '실행하기',
-            link: 'QuickStart#execute'
+            link: '/Introduction/QuickStart/#execute'
           },
         ]
       }
