@@ -52,7 +52,7 @@ function ResultCard({ imgSrc, title, width, height, setMousePos, pos }: ResultCa
           style={{ overflow: "hidden", height, width }}>
           {imgSrc ? (
             <>
-              <Magnify pos={pos} imgSrc={imgSrc} RATIO={3} width={width} height={height} />
+              <Magnify pos={pos} imgSrc={imgSrc} RATIO={4} width={width} height={height} />
               <img src={imgSrc} style={{ height, width }} alt="img" />
             </>
           ) : (

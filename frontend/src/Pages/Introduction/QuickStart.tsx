@@ -19,10 +19,13 @@ function QuickStart() {
 
   return (
     <>
-      <h1>QuickStart</h1>
-      <div style={{width: '80%'}}>
-        <MarkdownRenderer text={installMarkdownText} />
-        <MarkdownRenderer text={excuteMarkdownText} />
+      <div style={{width: '80%'}} className="mx-auto">
+        <div id="install" className="m-5">
+          <MarkdownRenderer  text={installMarkdownText} />
+        </div>
+        <div id="execute" className="m-5">
+          <MarkdownRenderer text={excuteMarkdownText} />
+        </div>
       </div>
     </>
   );

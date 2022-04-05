@@ -67,8 +67,8 @@ const CustomSwitch = styled((props: SwitchProps) => (
 }));
 
 const WebCamUploadDiv = styled("div")({
-  width: "640px",
-  height: "480px",
+  width: "320px",
+  height: "240px",
   borderRadius: "20px",
   border: "1.5px dashed #F2FFFF",
   overflow: "hidden",
@@ -82,6 +82,7 @@ const WebCamUploadCanvas = styled("canvas")({
   display: "none",
   width: "320px",
   height: "240px",
+  "-ms-interpolation-mode" : "nearest-neighbor"
 });
 
 const TitleSpan = styled("span")({
@@ -145,7 +146,7 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam, sendImage }: WebCa
       <WebCamUploadDiv>
         {videoSrc ? (
           <>
-            <img style={{ height: "480px", width: "640px" }} src={imgSrc} alt="img" />
+            <img style={{ height: "240px", width: "320px" }} src={imgSrc} alt="img" />
             <WebCamUploadCanvas ref={canvasRef} height="240" width="320"></WebCamUploadCanvas>
           </>
         ) : (
