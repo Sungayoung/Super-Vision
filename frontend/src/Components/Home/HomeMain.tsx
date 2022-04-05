@@ -3,11 +3,12 @@ import { Box, Button } from "@mui/material";
 import mainBackground from "../../Assets/Image/mainBackground.jpg";
 import logoWhite from "../../Assets/Image/logoWhite.png";
 import "./HomeMain.css";
-
+import { useInternalRouter } from "../../Router/routing"
 const PageDiv = styled("div")({
   height: "100%",
   width: "99.5vw",
-  background: `linear-gradient( rgba(5, 21, 39, 0.5), rgba(5, 21, 39, 0.5)), url(${mainBackground})`,
+  // background: `linear-gradient( rgba(5, 21, 39, 0.5), rgba(5, 21, 39, 0.5)), url(${mainBackground})`,
+  background: `linear-gradient( rgba(5, 21, 39, 0.2), rgba(5, 21, 39, 0.2)), url(${mainBackground})`,
   backgroundSize: "cover",
   display: "flex",
   flexDirection: "column",
@@ -58,6 +59,10 @@ const Scroller = styled("div") ({
 })
 
 function HomeMain() {
+  const router = useInternalRouter();
+  const onClick = () => {
+    router.push("/techDemos")
+  }
   return (
     <PageDiv>
       <Box component="img" src={logoWhite} sx={{ height: 102 }}></Box>
@@ -65,7 +70,7 @@ function HomeMain() {
         <div className="home-main-text">Super Vision은 Super Resolution 기술을 이용해</div>
         <div className="home-main-text">이미지 및 영상의 화질을 개선하는 서비스입니다</div>
       </div>
-      <Btn variant="contained" sx={{ margin: "30px" }}>
+      <Btn variant="contained" onClick={onClick} sx={{ margin: "30px" }}>
         GET STARTED
       </Btn>
       <ScrollDownIcon><Scroller></Scroller></ScrollDownIcon>

@@ -1,7 +1,7 @@
 import { Dialog, Box, DialogTitle, DialogContent, Divider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-
+import {useTheme} from '@material-ui/core'
 type WebcamBeforeAfterDialogProps = {
   open: boolean;
   handleClose: Function;
@@ -19,12 +19,14 @@ const BeforeAfterDiv = styled("div")({
 });
 
 function WebcamBeforeAfterDialog({ open, handleClose, aiImgSrc, normalImgSrc, width, height }: WebcamBeforeAfterDialogProps) {
+  const theme = useTheme()
   const [imgWidth, setImgWidth] = useState<number>(parseInt(width.substring(0, width.length - 2)));
   const handleMove = (event: any) => {
     if (!event.currentTarget.parentElement) return;
     setImgWidth(event.clientX - 24 - event.currentTarget.parentElement.parentElement.offsetLeft);
-    console.log(event.currentTarget.parentElement.parentElement.offsetLeft);
   };
+
+
 
   return (
     <Dialog
@@ -36,11 +38,11 @@ function WebcamBeforeAfterDialog({ open, handleClose, aiImgSrc, normalImgSrc, wi
       }}
       className="d-flex justify-content-center align-items-center"
     >
-      <DialogTitle className="mx-auto">
-        <span>일반필터</span>
-        <Divider orientation="vertical" flexItem></Divider>
-        <span>AI필터</span>
-      </DialogTitle>
+      <div className="d-flex justify-content-between px-5 pt-3 fs-4">
+
+        <span className="m-2">일반필터</span>
+        <span className="m-2">AI필터</span>
+      </div>
       <DialogContent>
         <BeforeAfterDiv sx={{ width, height }} onMouseMove={handleMove}>
           <Box component="img" src={aiImgSrc} sx={{ position: "absolute", width, height, objectPosition: "left" }}></Box>

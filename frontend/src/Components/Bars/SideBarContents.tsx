@@ -8,15 +8,15 @@ const SideBarContents  =
         subtitles: [
           {
             title: 'CNN',
-            link: 'cnn'
+            link: '/Introduction/#cnn'
           },
           {
             title: 'Super Resolution',
-            link: 'super-resolution'
+            link: '/Introduction/#super-resolution'
           },
           {
             title: 'VMAF',
-            link: 'vmaf'
+            link: '/Introduction/#vmaf'
           },
         ]
       },
@@ -26,7 +26,7 @@ const SideBarContents  =
         subtitles: [
           {
             title: 'Super Vision',
-            link: 'super-vision'
+            link: '/Introduction/#super-vision'
           },
         ]
       },
@@ -36,15 +36,11 @@ const SideBarContents  =
         subtitles: [
           {
             title: '설치하기',
-            link: 'install'
+            link: '/Introduction/QuickStart/#install'
           },
           {
             title: '실행하기',
-            link: 'execute'
-          },
-          {
-            title: '비교하기',
-            link: 'compare'
+            link: '/Introduction/QuickStart/#execute'
           },
         ]
       }

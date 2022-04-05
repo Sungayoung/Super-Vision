@@ -80,7 +80,6 @@ function HomeBeforeAfterTest() {
     magnifyRef.current.style.left = `${mouseX - w}px`;
     magnifyRef.current.style.top = `${mouseY - h}px`;
     setObjectPosition(`-${mouseX * RATIO - w}px -${mouseY * RATIO - h}px`);
-    console.log(objectPosition);
   };
 
   const handleMouseLeave = () => {
