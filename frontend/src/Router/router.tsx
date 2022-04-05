@@ -3,7 +3,6 @@ import MainLayout from "../Layout/main/index";
 
 import Home from "../Pages/Home/Home";
 import IntroductionMain from "../Pages/Introduction";
-import QuickStart from "../Pages/Introduction/QuickStart";
 
 import ImageFilterMain from "../Pages/TechDemos/ImageFilter/ImageFilterMain";
 import ImageFilterExperienceA from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceA";
