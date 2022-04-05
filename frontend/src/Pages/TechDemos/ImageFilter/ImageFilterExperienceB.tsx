@@ -83,9 +83,9 @@ function ImageFilterExperienceB() {
 
 
 
-  const title: string = "TRY SUPER RESOLUTION on DETECTED IMAGE";
+  const title: string = "Try SUPER VISION on {{ DETECTED IMAGE }}";
   const content: string =
-    "이미지를 디텍팅해서 일반 필터와 AI 필터의 화질 개선을 직접 확인하세요!\n디텍팅한 박스를 클릭하면 화질 개선을 확인할 수 있습니다.";
+    "이미지 내 사물을 디텍팅해서 일반 필터와 AI 필터의 화질 개선을 직접 확인하세요!\n디텍팅한 박스를 클릭하면 화질 개선을 확인할 수 있습니다.";
 
   function parentImgChange(
     croppedImg: string,
@@ -122,42 +122,49 @@ function ImageFilterExperienceB() {
       <div className="relative container">
         <div className="center">
           <Content title={title} content={content} />
-          <Tooltip title="돋보기 켜기">
-            <span>
-              <CustomSwitch
-                onChange={toggleMagnify}
-                checked={showMagnify}
-                icon={<SearchIcon className="comp_color" sx={{ height: "20px", width: "20px" }} />}
-                disabled={!isImgPreview}
-              />
-            </span>
-          </Tooltip>
-          <div className="cards">
-            <div className="detect_card mx-5">
+          <div className="cards mt-5">
+            <div className="mx-5 d-flex flex-column">
+              <div className="origin_card_txt">
+              <div className="mb-2 text-center font_2 main_color bold" style={{visibility: "hidden"}}>사진 업로드</div>
+                <div className="magnify">
+                  <Tooltip title="돋보기 켜기">
+                    <span>
+                      <CustomSwitch
+                        onChange={toggleMagnify}
+                        checked={showMagnify}
+                        icon={<SearchIcon className="comp_color" sx={{ height: "20px", width: "20px" }} />}
+                        disabled={!isImgPreview}
+                      />
+                    </span>
+                  </Tooltip>
+                </div>
+              </div>
               <ImageUploadCard page="B" originImg={originImg} parentImgChange={parentImgChange} />
             </div>
             <ImageResultCard
-              title="크롭"
+              page="B"
+              title="원본"
               imgPreviewUrl={croppedImg}
               isImgPreview={isImgPreview}
-              vmaf={srVmaf}
               setMousePos={sendMousePos}
               pos={mousePos}
             />
-            <ArrowRightIcon className="mt-5 mx-1" sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <ArrowRightIcon className="mt-5 mx-2" sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <div className="me-4">
+              <ImageResultCard
+                page="B"
+                title="일반 필터"
+                imgPreviewUrl={normalImg}
+                isImgPreview={isImgPreview}
+                setMousePos={sendMousePos}
+                pos={mousePos}
+              />
+            </div>
             <ImageResultCard
-              title="일반 필터"
-              imgPreviewUrl={normalImg}
-              isImgPreview={isImgPreview}
-              vmaf={normalVmaf}
-              setMousePos={sendMousePos}
-              pos={mousePos}
-            />
-            <ImageResultCard
+              page="B"
               title="AI 필터"
               imgPreviewUrl={srImg}
               isImgPreview={isImgPreview}
-              vmaf={srVmaf}
               setMousePos={sendMousePos}
               pos={mousePos}
             />

@@ -67,6 +67,18 @@
     border-color: #39424E;
 }
 
+.gray_color {
+    color: #9fa5a8;
+}
+
+.gray_bg_color {
+    background-color: #9fa5a8;
+}
+
+.gray_border_color {
+    border-color: #9fa5a8;
+}
+
 /* 기본 배경/어두운 포인트 */
 .dark_color {
     color: #051527;

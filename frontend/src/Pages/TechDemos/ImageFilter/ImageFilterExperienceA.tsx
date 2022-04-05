@@ -7,6 +7,7 @@ import VmafResult from "../../../Components/TechDemos/ImageFilter/VmafResult";
 import CropImage from "../../../Components/TechDemos/ImageFilter/CropImage";
 import { Switch, SwitchProps, Tooltip, SvgIconProps, SvgIcon } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import 'animate.css';
 
 const SearchIcon = (props: SvgIconProps) => {
   return (
@@ -84,16 +85,9 @@ function ImageFilterExperienceA() {
 
   const [isCropModal, setIsCropModal] = useState<boolean>(false)
 
-  const title: string = "TRY SUPER RESOLUTION on IMAGE";
+  const title: string = "Try SUPER VISION on {{ UPLOADED IMAGE }}";
   const content: string =
-    "이미지를 업로드해서 일반 필터와 AI 필터의 화질 개선을 직접 확인하세요!\n화질이 개선된 이미지는 다운로드가 가능합니다";
-
-  // function parentImgChange (file: Blob, imgPreviewUrl: string, isImgPreview: boolean): void {
-  //   setFile(file)
-  //   setImgPreviewUrl(imgPreviewUrl)
-  //   setIsImgPreview(isImgPreview)
-  //   console.log('parentImgChange', file)
-  // }
+    "이미지를 업로드해서 일반 필터와 AI 필터의 화질 개선을 직접 확인하세요!\n이미지 업로드시 크롭하여 원하는 부분만 업로드가 가능합니다.";
 
   function parentImgChange(
     originImg: string,
@@ -111,7 +105,7 @@ function ImageFilterExperienceA() {
     setIsImgPreview(isImgPreview);
     const diff = parseInt(srVmaf) - parseInt(normalVmaf);
     setDiff(diff);
-    console.log("parentImgChange", file);
+    console.log("parentImgChange", originImg);
   }
 
   function showCropImgModal() {
@@ -136,33 +130,41 @@ function ImageFilterExperienceA() {
       <div className="relative container">
         <div className="center">
           <Content title={title} content={content} />
-          <Tooltip title="돋보기 켜기">
-            <span>
-              <CustomSwitch
-                onChange={toggleMagnify}
-                checked={showMagnify}
-                icon={<SearchIcon className="comp_color" sx={{ height: "20px", width: "20px" }} />}
-                disabled={!isImgPreview}
-              />
-            </span>
-          </Tooltip>
-          <div className="cards">
-            <ImageUploadCard page="A" originImg={originImg} parentImgChange={parentImgChange} showCropImgModal={showCropImgModal} />
+          <div className="cards mt-5">
+            <div className="d-flex flex-column">
+              <div className="origin_card_txt">
+                <div className="mb-2 text-center font_2 main_color bold">원본</div>
+                <div className="magnify">
+                  <Tooltip title="돋보기 켜기">
+                    <span>
+                      <CustomSwitch
+                        onChange={toggleMagnify}
+                        checked={showMagnify}
+                        icon={<SearchIcon className="comp_color" sx={{ height: "20px", width: "20px" }} />}
+                        disabled={!isImgPreview}
+                      />
+                    </span>
+                  </Tooltip>
+                </div>
+              </div>
+              <ImageUploadCard page="A" originImg={originImg} parentImgChange={parentImgChange} showCropImgModal={showCropImgModal} />
+            </div>
             <ArrowRightIcon className="mt-5 mx-4" sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <div className="me-5">
+              <ImageResultCard
+                page="A"
+                title="일반 필터"
+                imgPreviewUrl={normalImg}
+                isImgPreview={isImgPreview}
+                setMousePos={sendMousePos}
+                pos={mousePos}
+              />
+            </div>
             <ImageResultCard
-              title="일반 필터"
-              imgPreviewUrl={normalImg}
-              isImgPreview={isImgPreview}
-              vmaf={normalVmaf}
-              setMousePos={sendMousePos}
-              pos={mousePos}
-            />
-            <ImageResultCard
+              page="A"
               title="AI 필터"
               imgPreviewUrl={srImg}
               isImgPreview={isImgPreview}
-              vmaf={srVmaf}
-              diff={diff}
               setMousePos={sendMousePos}
               pos={mousePos}
             />

@@ -5,11 +5,14 @@ import Home from "../Pages/Home/Home";
 import IntroductionMain from "../Pages/Introduction";
 import QuickStart from "../Pages/Introduction/QuickStart";
 
+import TechDemosMain from "../Pages/TechDemos/TechDemosMain";
 import ImageFilterMain from "../Pages/TechDemos/ImageFilter/ImageFilterMain";
 import ImageFilterExperienceA from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceA";
 import ImageFilterExperienceB from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceB";
 import WebcamFilterMain from "../Pages/TechDemos/WebCamFilter/WebCamFilterMain";
 import WebcamFilterExperience from "../Pages/TechDemos/WebCamFilter/WebCamFilterExperience";
+import ImageFilterExperienceMainA from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceMainA";
+import ImageFilterExperienceMainB from "../Pages/TechDemos/ImageFilter/ImageFilterExperienceMainB";
 
 // 화면 라우팅 테이블
 export default function Router() {
@@ -33,14 +36,26 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { element: <Navigate to="/TechDemos" replace /> },
-        { path: "", element: <ImageFilterMain /> },
+        { path: "", element: <TechDemosMain /> },
         {
           path: "ImageFilter",
           children: [
             { element: <Navigate to="/TechDemos/ImageFilter" replace /> },
             { path: '', element: <ImageFilterMain /> },
-            { path: 'ExperienceA', element: <ImageFilterExperienceA /> },
-            { path: 'ExperienceB', element: <ImageFilterExperienceB /> },
+            { path: 'A', 
+              children: [
+                { element: <Navigate to="/TechDemos/ImageFilter/A" replace /> },
+                { path: '', element: <ImageFilterExperienceMainA />},
+                { path: 'Experience', element: <ImageFilterExperienceA />},
+              ]
+            },
+            { path: 'B', 
+              children: [
+                { element: <Navigate to="/TechDemos/ImageFilter/B" replace /> },
+                { path: '', element: <ImageFilterExperienceMainB />},
+                { path: 'Experience', element: <ImageFilterExperienceB />},
+              ]
+            }
           ]
         },
         {

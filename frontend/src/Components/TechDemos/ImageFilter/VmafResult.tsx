@@ -1,6 +1,3 @@
-import React, { useRef, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import Chart from "chart.js/auto";
 import BarChart from "../../Commons/BarChart";
 
 type VmafResultProps = {
@@ -18,6 +15,10 @@ function VmafResult({ normalVmaf, srVmaf }: VmafResultProps) {
           <div className="mb-2 font_2 main_color bold">VMAF SCORE</div>
           <div className="">
             <BarChart
+              indexAxis="x"
+              barThickness={40}
+              width="10em"
+              height="22em"
               data={[normalVmaf, srVmaf]}
               labels={["일반 필터", "AI 필터"]}
               colors={colors}

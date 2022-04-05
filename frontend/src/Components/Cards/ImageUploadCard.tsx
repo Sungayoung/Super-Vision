@@ -123,9 +123,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
 
   function setCanvas(imgPreviewUrl: string, detectInfo: DetectObj[], originWidth: number, originHeight: number) {
     setIsDetected(true)
-    console.log('isDetected', isDetected)
     const canvas = document.getElementById('canvas') as HTMLCanvasElement
-    console.log('canvas', canvas)
     if (canvas.getContext('2d')) {
         const ctx = canvas.getContext('2d');
         const imageObj = new Image();
@@ -141,17 +139,9 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
               const y = parseInt(item.y1)
               const w = parseInt(item.x2)-parseInt(item.x1)
               const h = parseInt(item.y2)-parseInt(item.y1)
-              
-              ctx.beginPath();
-              ctx.strokeStyle = '#CEF3FF';
-              ctx.lineWidth = 3;
-              ctx.strokeRect(x, y, w, h);
-              // Text 처리 
-              ctx.textBaseline = 'top';
-              ctx.font="18px Pretendard-Regular";
-              ctx.fillStyle = '#CEF3FF';
-              ctx.fillText(item.class + ' (' + item.score.slice(0, 4) + ')', parseInt(item.x1), parseInt(item.y1) - 18);
-              ctx.fill();
+              const detect = item
+              const detectSize = [x, y, w, h]
+              drawCtx(ctx, '#CEF3FF', detectSize, '#CEF3FF', detect)
 
               const path = new Path2D();
               path.rect(x, y, w, h)
@@ -165,18 +155,28 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
           }
         };
         imageObj.src = imgPreviewUrl;
-        console.log('detectPathList', detectPathList)
-        // console.log('imageObj', imageObj)
 		}
 	};
 
-  // 디텍트된 이미지 선택시
+  // Context에 그려넣기
+  function drawCtx (ctx: CanvasRenderingContext2D, strokeStyle: string, rectSize: Size, fillStyle: string, detect: DetectObj) {
+    ctx.beginPath();
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(rectSize[0], rectSize[1], rectSize[2], rectSize[3]);
+    ctx.fillStyle = fillStyle;
+    ctx.textBaseline = 'top';
+    ctx.font="18px Pretendard-Regular";
+    ctx.fillStyle = fillStyle;
+    ctx.fillText(detect.class + ' (' + detect.score.slice(0, 4) + ')', parseInt(detect.x1), parseInt(detect.y1) - 18);
+    ctx.fill();
+  }
+
+  // 디텍트된 이미지 위에 마우스오버시
   function handleSelectDetectedImg(event: React.MouseEvent) {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement
     const image = document.querySelector("#preview_img") as HTMLImageElement
-    // const image = new Image()
-    // image.src = imgPreviewUrl
-    console.log('image', image, originHeight, height)
+
     if (image) {
       const originWidth = image.naturalWidth
       const originHeight = image.naturalHeight
@@ -192,41 +192,16 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
           const detectPath = detectPathList[i]
           const detect = detectList[i]
           const detectSize = detectSizeList[i]
-          ctx.beginPath();
           if (ctx.isPointInPath(detectPath, x, y) && (!isFound || (isFound && foundSize[2] > detectSize[2] && foundSize[3] > detectSize[3]))) {
-            ctx.strokeStyle = '#5F7B84';
-            ctx.lineWidth = 3;
-            ctx.strokeRect(detectSize[0], detectSize[1], detectSize[2], detectSize[3]);
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.textBaseline = 'top';
-            ctx.font="18px Pretendard-Regular";
-            ctx.fillStyle = '#5F7B84';
-            ctx.fillText(detect.class + ' (' + detect.score.slice(0, 4) + ')', parseInt(detect.x1), parseInt(detect.y1) - 18);
-            ctx.fill();
+            drawCtx(ctx, '#5F7B84', detectSize, '#5F7B84', detect)
             if (found) {
-              ctx.strokeStyle = '#CEF3FF';
-              ctx.lineWidth = 3;
-              ctx.strokeRect(foundSize[0], foundSize[1], foundSize[2], foundSize[3]);
-              ctx.fillStyle = 'rgba(0,0,0,0.3)';
-              ctx.textBaseline = 'top';
-              ctx.font="18px Pretendard-Regular";
-              ctx.fillStyle = '#CEF3FF';
-              ctx.fillText(found.class + ' (' + found.score.slice(0, 4) + ')', parseInt(found.x1), parseInt(found.y1) - 18);
-              ctx.fill();
+              drawCtx(ctx, '#5F7B84', detectSize, '#5F7B84', detect)
             }
             isFound = true
             foundSize = detectSize
             found = detect
           } else {
-            ctx.strokeStyle = '#CEF3FF';
-            ctx.lineWidth = 3;
-            ctx.strokeRect(detectSize[0], detectSize[1], detectSize[2], detectSize[3]);
-            ctx.fillStyle = 'rgba(0,0,0,0)';
-            ctx.textBaseline = 'top';
-            ctx.font="18px Pretendard-Regular";
-            ctx.fillStyle = '#CEF3FF';
-            ctx.fillText(detect.class + ' (' + detect.score.slice(0, 4) + ')', parseInt(detect.x1), parseInt(detect.y1) - 18);
-            ctx.fill();
+            drawCtx(ctx, '#CEF3FF', detectSize, '#CEF3FF', detect)
           }
         }
       }
@@ -237,8 +212,6 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
   function handleClickDetectedImg(event: React.MouseEvent) {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement
     const image = document.querySelector("#preview_img") as HTMLImageElement
-    // image.src = imgPreviewUrl
-    console.log('image', image)
     if (image) {
       const originWidth = image.naturalWidth
       const originHeight = image.naturalHeight
@@ -254,12 +227,10 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
           const detectPath = detectPathList[i]
           const detect = detectList[i]
           const detectSize = detectSizeList[i]
-          ctx.beginPath();
           if (ctx.isPointInPath(detectPath, x, y) && (!isFound || (isFound && foundSize[2] > detectSize[2] && foundSize[3] > detectSize[3]))) {
             isFound = true
             foundSize = detectSize
             found = detect
-            console.log('detect', detect, detectList)
           }
         }
         const data = {
@@ -305,9 +276,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
   return (
     <div className="card_container">
       
-      {
-      <div className="mb-2 font_2 main_color bold">원본</div>
-      }
+      {/* <div className="mb-2 font_2 main_color bold">원본</div> */}
 
       <form id="upload" action="/">
         <input ref={fileRef} type="file" onChange={handleImgChange} hidden={true} name="image" />
@@ -315,14 +284,20 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
 
       {isImgPreview && (
         <div>
-          {
-            <img
-              id="preview_img"
-              className="clickable detect_img_card"
-              src={imgPreviewUrl}
-              alt="img"
-              onClick={onClickUploadBtn}
-              // style={{visibility: "hidden", position: "fixed"}}
+          <img
+            id="preview_img"
+            className="clickable detect_img_card"
+            src={imgPreviewUrl}
+            alt="img"
+            onClick={onClickUploadBtn}
+            style={{visibility: "hidden"}}
+          />
+          {!isDetected &&
+          <img
+            className="clickable full_img_card"
+            src={imgPreviewUrl}
+            alt="img"
+            onClick={onClickUploadBtn}
           />
           }
           {isDetected &&
@@ -331,17 +306,19 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
         </div>
       )}
       {!isImgPreview && (
-        <div className="blank_card">
-          <div className="clickable" onClick={handleFileBtnClick}>
-            <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
-          </div>
-          <div>
-            <Btn content="사진 업로드" onClick={onClickUploadBtn} />
-          </div>
-          <div className="font_3 comp_color text-center pre_wrap mt-3">
-            <div>10MB 이내 파일을</div>
-            <div>업로드 해주세요.</div>
-            <div>(jpg, jpeg, png)</div>
+        <div>
+          <div className={page === 'A' ? "blank_card" : "detect_upload_card"}>
+            <div className="clickable" onClick={onClickUploadBtn}>
+              <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
+            </div>
+            <div>
+              <Btn content="사진 업로드" onClick={onClickUploadBtn} />
+            </div>
+            <div className="font_3 comp_color text-center pre_wrap mt-3">
+              <div>10MB 이내 파일을</div>
+              <div>업로드 해주세요.</div>
+              <div>(jpg, jpeg, png)</div>
+            </div>
           </div>
         </div>
       )}

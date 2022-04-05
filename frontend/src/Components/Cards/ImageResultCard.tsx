@@ -3,17 +3,16 @@ import { useEffect, useRef, useState, MouseEvent, SyntheticEvent } from "react";
 import Magnify from "../Commons/Magnify";
 
 type ImageResultCardProps = {
+  page: string;
   title: string;
   file?: Blob;
   imgPreviewUrl: string;
   isImgPreview: boolean;
-  vmaf: Number;
-  diff?: Number;
   setMousePos: Function;
   pos: { x: number; y: number } | undefined;
 };
 
-function ImageResultCard({ title, file, imgPreviewUrl, isImgPreview, vmaf, diff, setMousePos, pos }: ImageResultCardProps) {
+function ImageResultCard({ page, title, file, imgPreviewUrl, isImgPreview, setMousePos, pos }: ImageResultCardProps) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
@@ -44,11 +43,18 @@ function ImageResultCard({ title, file, imgPreviewUrl, isImgPreview, vmaf, diff,
           <img ref={imgRef} onLoad={setSize} className="full_img_card" src={imgPreviewUrl} alt="img" />
         </span>
       )}
-      {!isImgPreview && (
-        <div className="blank_card font_3 sub_color text-center pre_wrap">
+      {!isImgPreview && page === 'A' && (
+        <div className={"blank_card font_3 comp_color text-center pre_wrap"}>
           <div>{"사진을 업로드하면\n결과를 확인할 수 있습니다."}</div>
         </div>
-      )}
+        )
+      }
+      {!isImgPreview && page === 'B' && (
+        <div className="detect_blank_card font_3 comp_color text-center pre_wrap">
+          <div>{"디텍팅한 박스를 클릭하면\n결과를 확인할 수 있습니다."}</div>
+        </div>
+        )
+      }
     </div>
   );
 }

@@ -7,6 +7,10 @@ Chart.register(...registerables);
 Chart.register(ChartDataLabels)
 
 type BarChartProps = {
+    indexAxis: string;
+    barThickness: number;
+    width: string;
+    height: string;
     data: number[];
     labels: string[];
     colors: string[];
@@ -21,9 +25,12 @@ declare module 'chartjs-plugin-datalabels' {
 
 type alignType = "start" | "left" | "center" | "right" | "bottom" | "end" | "top";
 type anchorType = "start" | "center" | "end";
+type indexAxisType = "x" | "y";
 
-function BarChart ({ data, labels, colors, maxTick=110 }: BarChartProps){
+function BarChart ({ indexAxis, barThickness, width, height, data, labels, colors, maxTick=110 }: BarChartProps){
   const options = {
+    indexAxis: indexAxis as indexAxisType,
+    barThickness,
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -46,7 +53,7 @@ function BarChart ({ data, labels, colors, maxTick=110 }: BarChartProps){
         }
       },
     },
-    scales: {
+    scales: indexAxis === 'x' ? {
       y: {
         suggestedMin: 0,
         suggestedMax: maxTick,
@@ -60,6 +67,28 @@ function BarChart ({ data, labels, colors, maxTick=110 }: BarChartProps){
         }
       },
       x: {
+        ticks: {
+          color: '#F2FFFF',
+          font: {
+            family: 'Pretendard-Regular',
+            size: 18,
+          }
+        }
+      }
+    } : {
+      x: {
+        suggestedMin: 0,
+        suggestedMax: maxTick,
+        display: false,
+        ticks: {
+          color: '#F2FFFF',
+          font: {
+            family: 'Pretendard-Regular',
+            size: 18,
+          }
+        }
+      },
+      y: {
         ticks: {
           color: '#F2FFFF',
           font: {
@@ -84,7 +113,7 @@ function BarChart ({ data, labels, colors, maxTick=110 }: BarChartProps){
     };
 
   return (
-    <div className="bar_chart">
+    <div className="" style={{width: width, height: height}}>
       <Bar data={generateChartData} options={options} />
     </div>
   );
