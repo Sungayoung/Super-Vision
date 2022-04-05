@@ -6,7 +6,7 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 type ImageUploadCardProps = {
   page: string;
-  originImg: string;
+  originImg?: string;
   parentImgChange: Function;
   showCropImgModal?: Function;
 };
@@ -25,11 +25,21 @@ type Size = number[]
 function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal }: ImageUploadCardProps) {
   const [file, setFile] = useState<Blob>(new Blob());
   const [fileName, setFileName] = useState<string>("");
+  const fileRef = useRef<HTMLInputElement>(null);
+  
   const [imgPreviewUrl, setImgPreviewUrl] = useState<string>("");
   const [isImgPreview, setIsImgPreview] = useState<boolean>(false);
-  const [detectList, setDetectList] = useState<Path2D[]>([]);
+  const [originWidth, setOriginWidth] = useState<number>(0);
+  const [width, setWidth] = useState<number>(0);
+  const [originHeight, setOriginHeight] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+
+  const [isDetected, setIsDetected] = useState<boolean>(false);
+  const [detectList, setDetectList] = useState<DetectObj[]>([]);
+  const [detectPathList, setDetectPathList] = useState<Path2D[]>([]);
   const [detectSizeList, setDetectSizeList] = useState<Size[]>([]);
-  const fileRef = useRef<HTMLInputElement>(null);
+
+  
 
   useEffect(() => {
     setImgPreviewUrl(originImg)
@@ -80,6 +90,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
     // 백엔드 detect API 요청
     const form = document.forms[0];
     const data = new FormData(form);
+    setIsDetected(false)
   
     const headers = {
       "Content-Type": "multipart/form-data",
@@ -97,9 +108,12 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
         if (image) {
           const originWidth = image.naturalWidth
           const originHeight = image.naturalHeight
-          const imgPos = image.getBoundingClientRect()
           setDetectList(res.data)
-          setCanvas(imgPreviewUrl, res.data, imgPos, originWidth, originHeight)
+          setOriginWidth(image.naturalWidth)
+          setWidth(image.width)
+          setOriginHeight(image.naturalHeight)
+          setHeight(image.height)
+          setCanvas(imgPreviewUrl, res.data, originWidth, originHeight)
         }
       })
       .catch((err) => {
@@ -107,9 +121,9 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
       });
   }
 
-  function setCanvas(imgPreviewUrl: string, detectInfo: DetectObj[], imgPos: DOMRect, originWidth: number, originHeight: number) {
+  function setCanvas(imgPreviewUrl: string, detectInfo: DetectObj[], originWidth: number, originHeight: number) {
+    setIsDetected(true)
     const canvas = document.getElementById('canvas') as HTMLCanvasElement
-    console.log('canvas', canvas)
     if (canvas.getContext('2d')) {
         const ctx = canvas.getContext('2d');
         const imageObj = new Image();
@@ -125,41 +139,77 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
               const y = parseInt(item.y1)
               const w = parseInt(item.x2)-parseInt(item.x1)
               const h = parseInt(item.y2)-parseInt(item.y1)
-              
-              ctx.beginPath();
-
-              ctx.strokeStyle = '#CEF3FF';
-              ctx.lineWidth = 3;
-              
-              ctx.strokeRect(x, y, w, h);
-              console.log(x, y, w, h)
-              // Text 처리 
-              ctx.textBaseline = 'top';
-              ctx.font="18px Pretendard-Regular";
-              // ctx.fillStyle = '#CEF3FF';
-              ctx.fillText(item.class + ' (' + item.score.slice(0, 4) + ')', parseInt(item.x1), parseInt(item.y1) - 18);
-              ctx.fill();
-
+              const detect = item
+              const detectSize = [x, y, w, h]
+              drawCtx(ctx, '#CEF3FF', detectSize, '#CEF3FF', detect)
 
               const path = new Path2D();
               path.rect(x, y, w, h)
-              const newDetectList = detectList
+              const newDetectPathList = detectPathList
               const newDetectSizeList = detectSizeList
-              detectList.push(path)
+              detectPathList.push(path)
               detectSizeList.push([x, y, w, h])
-              setDetectList(newDetectList)
+              setDetectPathList(newDetectPathList)
               setDetectSizeList(newDetectSizeList)
             });
           }
         };
         imageObj.src = imgPreviewUrl;
-        console.log('detectList', detectList)
-        // console.log('imageObj', imageObj)
 		}
 	};
 
-  // 디텍트된 이미지 선택시
+  // Context에 그려넣기
+  function drawCtx (ctx: CanvasRenderingContext2D, strokeStyle: string, rectSize: Size, fillStyle: string, detect: DetectObj) {
+    ctx.beginPath();
+    ctx.strokeStyle = strokeStyle;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(rectSize[0], rectSize[1], rectSize[2], rectSize[3]);
+    ctx.fillStyle = fillStyle;
+    ctx.textBaseline = 'top';
+    ctx.font="18px Pretendard-Regular";
+    ctx.fillStyle = fillStyle;
+    ctx.fillText(detect.class + ' (' + detect.score.slice(0, 4) + ')', parseInt(detect.x1), parseInt(detect.y1) - 18);
+    ctx.fill();
+  }
+
+  // 디텍트된 이미지 위에 마우스오버시
   function handleSelectDetectedImg(event: React.MouseEvent) {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement
+    const image = document.querySelector("#preview_img") as HTMLImageElement
+
+    if (image) {
+      const originWidth = image.naturalWidth
+      const originHeight = image.naturalHeight
+      if (canvas.getContext('2d')) {
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+        ctx.drawImage(image, 0, 0, originWidth, originHeight);
+        const x = event.nativeEvent.offsetX * (originWidth / width)  // 원본이미지의 x, y좌표에 맞게 재계산
+        const y = event.nativeEvent.offsetY * (originHeight / height)
+        let isFound = false
+        let foundSize = [0, 0, 0, 0]
+        let found = null
+        for (let i=0; i<detectPathList.length; i++) {
+          const detectPath = detectPathList[i]
+          const detect = detectList[i]
+          const detectSize = detectSizeList[i]
+          if (ctx.isPointInPath(detectPath, x, y) && (!isFound || (isFound && foundSize[2] > detectSize[2] && foundSize[3] > detectSize[3]))) {
+            drawCtx(ctx, '#5F7B84', detectSize, '#5F7B84', detect)
+            if (found) {
+              drawCtx(ctx, '#5F7B84', detectSize, '#5F7B84', detect)
+            }
+            isFound = true
+            foundSize = detectSize
+            found = detect
+          } else {
+            drawCtx(ctx, '#CEF3FF', detectSize, '#CEF3FF', detect)
+          }
+        }
+      }
+    }
+  }
+
+  // 백엔드 필터 API 요청
+  function handleClickDetectedImg(event: React.MouseEvent) {
     const canvas = document.getElementById("canvas") as HTMLCanvasElement
     const image = document.querySelector("#preview_img") as HTMLImageElement
     if (image) {
@@ -167,34 +217,45 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
       const originHeight = image.naturalHeight
       if (canvas.getContext('2d')) {
         const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+        ctx.drawImage(image, 0, 0, originWidth, originHeight);
         const x = event.nativeEvent.offsetX * (originWidth / image.width)  // 원본이미지의 x, y좌표에 맞게 재계산
         const y = event.nativeEvent.offsetY * (originHeight / image.height)
-        for (let i=0; i<detectList.length; i++) {
+        let isFound = false
+        let foundSize = [0, 0, 0, 0]
+        let found = null
+        for (let i=0; i<detectPathList.length; i++) {
+          const detectPath = detectPathList[i]
           const detect = detectList[i]
           const detectSize = detectSizeList[i]
-          ctx.beginPath();
-          if (ctx.isPointInPath(detect, x, y)) {
-            ctx.strokeStyle = '#CEF3FF';
-            // ctx.fillStyle = '#CEF3FF';
-          } else {
-            ctx.strokeStyle = '#5F7B84';
-            // ctx.fillStyle = '#5F7B84';
+          if (ctx.isPointInPath(detectPath, x, y) && (!isFound || (isFound && foundSize[2] > detectSize[2] && foundSize[3] > detectSize[3]))) {
+            isFound = true
+            foundSize = detectSize
+            found = detect
           }
-          ctx.lineWidth = 3;
-          console.log(detect)
-          ctx.strokeRect(detectSize[0], detectSize[1], detectSize[2], detectSize[3]);
-          ctx.fill(detect)
-          // ctx.strokeRect(x, y, w, h)
         }
+        const data = {
+          coor: found
+        }
+        console.log('data', data)
+        axios({
+          method: "post",
+          url: "http://70.12.130.102:5000/crop",
+          data,
+        })
+          .then((res) => {
+            console.log("handleClickDetectedImg 성공", res);
+            const croppedImg = "data:image/jpeg;base64," + res.data.cropped
+            const normalImg = "data:image/jpeg;base64," + res.data.normal_upscaled
+            const srImg = "data:image/jpeg;base64," + res.data.sr_upscaled
+            const normalVmaf = res.data.normal_vmaf_score
+            const srVmaf = res.data.sr_vmaf_score
+            parentImgChange(croppedImg, normalImg, srImg, normalVmaf, srVmaf, true)
+          })
+          .catch((err) => {
+            console.log("handleClickDetectedImg 에러", err);
+          });
       }
     }
-    // const canvas = document.getElementById('canvas') as HTMLCanvasElement
-    // const rect = canvas.getBoundingClientRect()
-
-    // const x = event.clientX - rect.left
-    // const y = event.clientY - rect.top
-
-    // console.log()
   }
 
   function handleFileBtnClick(event: React.MouseEvent) {
@@ -215,8 +276,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
   return (
     <div className="card_container">
       
-
-      <div className="mb-2 font_2 main_color bold">원본</div>
+      {/* <div className="mb-2 font_2 main_color bold">원본</div> */}
 
       <form id="upload" action="/">
         <input ref={fileRef} type="file" onChange={handleImgChange} hidden={true} name="image" />
@@ -226,28 +286,39 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
         <div>
           <img
             id="preview_img"
+            className="clickable detect_img_card"
+            src={imgPreviewUrl}
+            alt="img"
+            onClick={onClickUploadBtn}
+            style={{visibility: "hidden"}}
+          />
+          {!isDetected &&
+          <img
             className="clickable full_img_card"
             src={imgPreviewUrl}
             alt="img"
             onClick={onClickUploadBtn}
           />
-          {
-            <canvas id='canvas' className="clickable full_img_card" onMouseMove={handleSelectDetectedImg}>Your browswer does not support HTML5 canvas</canvas>
+          }
+          {isDetected &&
+            <canvas id='canvas' className="clickable full_img_card" onMouseMove={handleSelectDetectedImg} onClick={handleClickDetectedImg}>Your browswer does not support HTML5 canvas</canvas>
           }
         </div>
       )}
       {!isImgPreview && (
-        <div className="blank_card">
-          <div className="clickable" onClick={handleFileBtnClick}>
-            <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
-          </div>
-          <div>
-            <Btn content="사진 업로드" onClick={onClickUploadBtn} />
-          </div>
-          <div className="font_3 comp_color text-center pre_wrap mt-3">
-            <div>10MB 이내 파일을</div>
-            <div>업로드 해주세요.</div>
-            <div>(jpg, jpeg, png)</div>
+        <div>
+          <div className={page === 'A' ? "blank_card" : "detect_upload_card"}>
+            <div className="clickable" onClick={onClickUploadBtn}>
+              <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
+            </div>
+            <div>
+              <Btn content="사진 업로드" onClick={onClickUploadBtn} />
+            </div>
+            <div className="font_3 comp_color text-center pre_wrap mt-3">
+              <div>10MB 이내 파일을</div>
+              <div>업로드 해주세요.</div>
+              <div>(jpg, jpeg, png)</div>
+            </div>
           </div>
         </div>
       )}

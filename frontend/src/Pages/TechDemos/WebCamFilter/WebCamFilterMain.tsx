@@ -17,8 +17,8 @@ function WebCamFilterMain() {
   }
 
   return (
-    <div className="relative">
-      <div className="center container">
+    <div className="container">
+      <div className="center">
         <div style={{textAlign: 'center', fontSize: '36px', fontWeight: "600",}}>실시간으로 당신 웹캠의 화질개선을 느껴보세요!</div>
         <div className="cards">
           <OutsideContentCard
@@ -38,12 +38,12 @@ function WebCamFilterMain() {
             imgSrc="https://images.pexels.com/photos/3030332/pexels-photo-3030332.jpeg"
           />
         </div>
-      </div>
-      <div className="mb-4 text-center"> 
-        <Btn
-          content="직접 해보기"
-          onClick={onClick}
-        />
+        <div className="mb-4 text-center"> 
+          <Btn
+            content="직접 해보기"
+            onClick={onClick}
+          />
+        </div>
       </div>
     </div>
   );

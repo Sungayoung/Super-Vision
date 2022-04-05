@@ -8,27 +8,22 @@ import { useInternalRouter } from "../../../Router/routing";
 function ImageFilterMain() {
   const router = useInternalRouter();
   function onClickA(event: React.MouseEvent<HTMLButtonElement>) {
-    router.push("/techDemos/ImageFilter/ExperienceA");
+    router.push("/techDemos/ImageFilter/A/Experience");
   }
   function onClickB(event: React.MouseEvent<HTMLButtonElement>) {
-    router.push("/techDemos/ImageFilter/ExperienceB");
+    router.push("/techDemos/ImageFilter/B/Experience");
   }
 
   const state = {
-    origin: {
-      title: "ORIGINAL",
-      content: "원본 이미지 그대로인\n화질로 보여줍니다.",
-      imgSrc: `${process.env.PUBLIC_URL}/Assets/Image/ImageFilterOrigin.jpg`,
+    A: {
+      title: "Image Filter by Upload",
+      content: "이미지를 업로드하고\n원하는 부분만 잘라서\nAI와 일반 필터의 차이를 볼 수 있습니다.",
+      imgSrc: `${process.env.PUBLIC_URL}/Assets/Image/uploadImageThumbnail.jpg`,
     },
-    normal: {
-      title: "일반 필터",
-      content: "일반 계산식에 의해 개선한\n화질로 보여줍니다.",
-      imgSrc: `${process.env.PUBLIC_URL}/Assets/Image/ImageFilterNormal.jpg`,
-    },
-    gan: {
-      title: "AI 필터",
-      content: "GAN 필터로 개선한\n화질로 보여줍니다.",
-      imgSrc: `${process.env.PUBLIC_URL}/Assets/Image/ImageFilterSr.jpg`,
+    B: {
+      title: "Image Filter by Detect",
+      content: "이미지 내 사물을 디텍팅하고\n디텍팅된 사물별로\nAI와 일반 필터의 차이를 볼 수 있습니다.",
+      imgSrc: `${process.env.PUBLIC_URL}/Assets/Image/detectImageThumbnail.png`,
     },
   };
 
@@ -40,28 +35,24 @@ function ImageFilterMain() {
             필터별 이미지 화질 개선을 VMAF SCORE와 함께 확인할 수 있어요!
           </div>
           <div className="cards">
-            <OutsideContentCard
-              title={state.origin.title}
-              content={state.origin.content}
-              imgSrc={state.origin.imgSrc}
-            />
-            <ArrowRightIcon className="mt-5 mx-4" sx={{ color: "#F2FFFF", fontSize: 50 }} />
-            <OutsideContentCard
-              title={state.normal.title}
-              content={state.normal.content}
-              imgSrc={state.normal.imgSrc}
-            />
-            <OutsideContentCard
-              title={state.gan.title}
-              content={state.gan.content}
-              imgSrc={state.gan.imgSrc}
-            />
-          </div>
-          <div className="mb-4 text-center">
-            <Btn content="이미지 크롭" onClick={onClickA} />
-          </div>
-          <div className="mb-4 text-center">
-            <Btn content="이미지 디텍팅" onClick={onClickB} />
+            <div className="m-5">
+              <InsideContentCard
+                title={state.A.title}
+                content={state.A.content}
+                imgSrc={state.A.imgSrc}
+                onClick={onClickA}
+                btnContent="지금 체험하기"
+              />
+            </div>
+            <div className="m-5">
+              <InsideContentCard
+                title={state.B.title}
+                content={state.B.content}
+                imgSrc={state.B.imgSrc}
+                onClick={onClickB}
+                btnContent="지금 체험하기"
+              />
+            </div>
           </div>
         </div>
       </div>
