@@ -4,6 +4,7 @@ import mainBackground from "../../Assets/Image/mainBackground.jpg";
 import logoWhite from "../../Assets/Image/logoWhite.png";
 import "./HomeMain.css";
 import { useInternalRouter } from "../../Router/routing"
+import Btn from "../Commons/Btn";
 const PageDiv = styled("div")({
   height: "100%",
   width: "99.5vw",
@@ -16,20 +17,6 @@ const PageDiv = styled("div")({
   alignItems: "center",
 });
 
-const Btn = styled(Button)({
-  borderRadius: "30px",
-  background: "#5F7B84",
-  fontFamily: "Pretendard-Regular",
-  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  "&:hover": {
-    backgroundColor: "#516970",
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  },
-  "&:active": {
-    boxShadow: "none",
-    backgroundColor: "#516970",
-  },
-});
 const scroll = keyframes`
   0% { opacity: 0; }
   10% { transform: translateY(0); opacity: 1; }
@@ -66,13 +53,14 @@ function HomeMain() {
   return (
     <PageDiv>
       <Box component="img" src={logoWhite} sx={{ height: 102 }}></Box>
-      <div>
-        <div className="home-main-text">Super Vision은 Super Resolution 기술을 이용해</div>
-        <div className="home-main-text">이미지 및 영상의 화질을 개선하는 서비스입니다</div>
+      <div className="mt-1 mb-4">
+        <div className="font_3 sub_color text-center">Super Vision은 Super Resolution 기술을 이용해</div>
+        <div className="font_3 sub_color text-center">이미지 및 영상의 화질을 개선하는 서비스입니다</div>
       </div>
-      <Btn variant="contained" onClick={onClick} sx={{ margin: "30px" }}>
-        GET STARTED
-      </Btn>
+      <div className="mb-4">
+        <Btn content="GET STARTED" onClick={onClick} />
+      </div>
+        
       <ScrollDownIcon><Scroller></Scroller></ScrollDownIcon>
     </PageDiv>
   );
