@@ -202,8 +202,8 @@ function WebCamFilterExperience() {
               <WebCamUploadCard videoSrc={videoSrc} toggleWebcam={toggleWebcam} sendImage={sendImage} />
             </div>
             <ArrowRight sx={{ color: "#F2FFFF", fontSize: 50 }} />
-            <ResultCard imgSrc={normalImageSrc} title="일반 필터" width="36em" height="27em" setMousePos={sendMousePos} pos={mousePos} />
-            <ResultCard imgSrc={aiImageSrc} title="AI 필터" width="36em" height="27em" setMousePos={sendMousePos} pos={mousePos} />
+            <ResultCard imgSrc={normalImageSrc} title="일반 필터" width="640px" height="480px" setMousePos={sendMousePos} pos={mousePos} />
+            <ResultCard imgSrc={aiImageSrc} title="AI 필터" width="640px" height="480px" setMousePos={sendMousePos} pos={mousePos} />
           </WebcamContainerDiv>
         </div>
       </div>

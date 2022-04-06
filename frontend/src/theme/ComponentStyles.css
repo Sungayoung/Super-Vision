@@ -251,3 +251,8 @@ canvas, img {
     white-space: "pre-wrap";
     color: "#F2FFFF";
 }
+
+.navbar_btn:hover {
+    color:#5F7B84;
+    font-weight: 500;
+}

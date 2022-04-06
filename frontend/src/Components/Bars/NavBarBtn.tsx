@@ -38,6 +38,7 @@ function NavBarBtn({ route }: NavBarBtnProps) {
         size="large"
         sx={{ fontFamily: "Pretendard-Regular", color: fontColor, fontWeight }}
         component={RouterLink}
+        className="navbar_btn"
       >
         {route.name}
       </Button>
@@ -46,7 +47,7 @@ function NavBarBtn({ route }: NavBarBtnProps) {
           <Paper>
             {route.children.map((child) => {
               return (
-                <MenuItem key={child.name} to={`${route.path}/${child.path}`} component={RouterLink}>
+                <MenuItem className="navbar_btn" key={child.name} to={`${route.path}/${child.path}`} component={RouterLink}>
                   {child.name}
                 </MenuItem>
               );
