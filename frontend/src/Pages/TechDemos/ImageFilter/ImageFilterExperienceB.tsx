@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ImageUploadCard from "../../../Components/Cards/ImageUploadCard";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import ImageResultCard from "../../../Components/Cards/ImageResultCard";
@@ -7,6 +7,7 @@ import VmafResult from "../../../Components/TechDemos/ImageFilter/VmafResult";
 import CropImage from "../../../Components/TechDemos/ImageFilter/CropImage";
 import { Switch, SwitchProps, Tooltip, SvgIconProps, SvgIcon } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 
 const SearchIcon = (props: SvgIconProps) => {
   return (
@@ -71,6 +72,7 @@ const CustomSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 );
 
 function ImageFilterExperienceB() {
+  const [parentImgPreviewUrl, setParentImgPreviewUrl] = useState<string>("");
   const [isImgPreview, setIsImgPreview] = useState<boolean>(false);
   const [originImg, setOriginImg] = useState<string>("");
   const [croppedImg, setCroppedImg] = useState<string>("");
@@ -81,7 +83,7 @@ function ImageFilterExperienceB() {
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | undefined>(undefined);
   const [showMagnify, setShowMagnify] = useState<boolean>(true);
 
-
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const title: string = "Try SUPER VISION on {{ DETECTED IMAGE }}";
   const content: string =
@@ -117,15 +119,56 @@ function ImageFilterExperienceB() {
     setShowMagnify(prev => !prev);
   };
 
+  function handleFileBtnClick(event: React.MouseEvent) {
+    if (fileRef.current) {
+      fileRef.current.click();
+    }
+  }
+
+  function handleImgChange(event: React.ChangeEvent<HTMLInputElement>) {
+    event.preventDefault();
+
+    // 사진 미리보기
+    if (event.target.files) {
+      const reader = new FileReader();
+      const uploadFile = event.target.files[0];
+
+      // 확장자 예외 처리
+      if (
+        String(uploadFile.type) !== "image/png" &&
+        String(uploadFile.type) !== "image/jpeg" &&
+        String(uploadFile.type) !== "image/jpg"
+      ) {
+        alert("파일 확장자는 [.png/.jpg/.jpeg] 로 끝나야 합니다.");
+        return false;
+      }
+
+      // 사이즈 예외 처리
+      if (uploadFile.size > 10e6) {
+        alert("파일 크기는 10MB 이하로 업로드해야 합니다.");
+        return false;
+      }
+
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          setParentImgPreviewUrl(reader.result);
+          setIsImgPreview(true);
+        }
+      };
+      reader.readAsDataURL(uploadFile);
+
+    }
+  }
+
   return (
     <>
       <div className="relative container">
         <div className="center">
           <Content title={title} content={content} />
           <div className="cards mt-5">
-            <div className="mx-5 d-flex flex-column">
+            <div className="d-flex flex-column">
               <div className="origin_card_txt">
-              <div className="mb-2 text-center font_2 main_color bold" style={{visibility: "hidden"}}>사진 업로드</div>
+
                 <div className="magnify">
                   <Tooltip title="돋보기 켜기">
                     <span>
@@ -138,19 +181,12 @@ function ImageFilterExperienceB() {
                     </span>
                   </Tooltip>
                 </div>
+
               </div>
-              <ImageUploadCard page="B" originImg={originImg} parentImgChange={parentImgChange} />
+              <ImageUploadCard page="B" originImg={originImg} parentImgChange={parentImgChange} parentImgPreviewURL={parentImgPreviewUrl} />
             </div>
-            <ImageResultCard
-              page="B"
-              title="원본"
-              imgPreviewUrl={croppedImg}
-              isImgPreview={isImgPreview}
-              setMousePos={sendMousePos}
-              pos={mousePos}
-            />
-            <ArrowRightIcon className="mt-5 mx-2" sx={{ color: "#F2FFFF", fontSize: 50 }} />
-            <div className="me-4">
+            <ArrowRightIcon className="mt-5 mx-5" sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <div className="me-5">
               <ImageResultCard
                 page="B"
                 title="일반 필터"
@@ -158,16 +194,20 @@ function ImageFilterExperienceB() {
                 isImgPreview={isImgPreview}
                 setMousePos={sendMousePos}
                 pos={mousePos}
+                showMagnify={showMagnify}
               />
             </div>
-            <ImageResultCard
-              page="B"
-              title="AI 필터"
-              imgPreviewUrl={srImg}
-              isImgPreview={isImgPreview}
-              setMousePos={sendMousePos}
-              pos={mousePos}
-            />
+            <div className="mx-3">
+              <ImageResultCard
+                page="B"
+                title="AI 필터"
+                imgPreviewUrl={srImg}
+                isImgPreview={isImgPreview}
+                setMousePos={sendMousePos}
+                pos={mousePos}
+                showMagnify={showMagnify}
+              />
+            </div>
             <VmafResult normalVmaf={normalVmaf} srVmaf={srVmaf} />
           </div>
         </div>

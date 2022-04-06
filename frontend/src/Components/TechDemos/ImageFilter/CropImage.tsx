@@ -189,7 +189,7 @@ function CropImage({ src, parentImgChange, showCropImgModal }: CropProps) {
           headers,
         })
           .then((res) => {
-            console.log("handleImgChange 성공", res);
+            console.log("handleImgChange 크롭O 성공", res);
             const normalImgSrc = "data:image/jpeg;base64," + res.data.normal_upscaled;
             const normalVmaf = res.data.normal_vmaf_score;
             const srImgSrc = "data:image/jpeg;base64," + res.data.sr_upscaled;
@@ -199,12 +199,14 @@ function CropImage({ src, parentImgChange, showCropImgModal }: CropProps) {
             showCropImgModal();
           })
           .catch((err) => {
-            console.log("handleImgChange 에러", err);
+            console.log("handleImgChange 크롭O 에러", err);
           });
       })
     } else if (originImg) {  // 자르기 안한 경우 처리
-      const form = document.forms[0];
-      const data = new FormData(form);
+      // const form = document.forms[0];
+      const data = new FormData();
+      const file = dataURLtoFile(imgPreviewUrl, 'file name') as File
+      data.append("image", file)
       const headers = {
         "Content-Type": "multipart/form-data",
       };
@@ -215,7 +217,7 @@ function CropImage({ src, parentImgChange, showCropImgModal }: CropProps) {
         headers,
       })
         .then((res) => {
-          console.log("handleImgChange 성공", res);
+          console.log("handleImgChange 크롭x 성공", res);
           const normalImgSrc = "data:image/jpeg;base64," + res.data.normal_upscaled;
           const normalVmaf = res.data.normal_vmaf_score;
           const srImgSrc = "data:image/jpeg;base64," + res.data.sr_upscaled;
@@ -224,7 +226,7 @@ function CropImage({ src, parentImgChange, showCropImgModal }: CropProps) {
           showCropImgModal();
         })
         .catch((err) => {
-          console.log("handleImgChange 에러", err);
+          console.log("handleImgChange 크롭x 에러", err);
         });
     }
   }

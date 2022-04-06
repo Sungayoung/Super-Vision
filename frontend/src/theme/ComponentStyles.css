@@ -59,8 +59,16 @@
     border: 1.5px dashed #F2FFFF;
 }
 
+.img_card {
+    position: relative;
+    height: 24em;
+    object-fit: contain;
+    border-radius: 20px;
+}
+
 /* 세로가 더 큰 버전 */
 .full_img_card {
+
     object-fit: contain;
     /* min-height: 25vh; */
     height: 24em;
@@ -68,6 +76,25 @@
     /* min-width: 30vw; */
     border-radius: 20px;
     border: 1.5px dashed #F2FFFF;
+}
+
+.download_img_card {
+    object-fit: contain;
+    height: 24em;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.459);
+    border-radius: 20px;
+    border: 1.5px dashed #F2FFFF;
+}
+
+.img_card:hover .download_img_card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .detect_card {
@@ -87,8 +114,8 @@
 
 .magnify {
     position: absolute;
-    right: 6px;
-    bottom: 14px;
+    right: 54px;
+    bottom: -34px;
 }
 
 .clickable {
@@ -184,4 +211,12 @@
 .sub_icon {
     color: #F2FFFF;
     font-size: 50px;
+}
+
+canvas, img {
+    image-rendering: optimizeSpeed;
+    /* image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast; */
+    -ms-interpolation-mode: nearest-neighbor;
 }

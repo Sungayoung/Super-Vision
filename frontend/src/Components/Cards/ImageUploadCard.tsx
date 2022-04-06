@@ -9,6 +9,7 @@ type ImageUploadCardProps = {
   originImg?: string;
   parentImgChange: Function;
   showCropImgModal?: Function;
+  parentImgPreviewURL: string;
 };
 
 type DetectObj = {
@@ -22,7 +23,7 @@ type DetectObj = {
 
 type Size = number[]
 
-function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal }: ImageUploadCardProps) {
+function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal, parentImgPreviewURL }: ImageUploadCardProps) {
   const [file, setFile] = useState<Blob>(new Blob());
   const [fileName, setFileName] = useState<string>("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -47,6 +48,10 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
       setIsImgPreview(true)
     }
   }, [originImg])
+
+  // useEffect(() => {
+  //   handleImgChange(e)
+  // }, [parentImgPreviewURL])
 
   function handleImgChange(event: React.ChangeEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -258,11 +263,6 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
     }
   }
 
-  function handleFileBtnClick(event: React.MouseEvent) {
-    if (fileRef.current) {
-      fileRef.current.click();
-    }
-  }
 
   // 사진 업로드 클릭시 크롭 모달창 show
   function onClickUploadBtn(event: React.MouseEvent) {
@@ -281,6 +281,11 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
       <form id="upload" action="/">
         <input ref={fileRef} type="file" onChange={handleImgChange} hidden={true} name="image" />
       </form>
+
+     
+      <div className="clickable ms-auto px-1" onClick={onClickUploadBtn} >
+        <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 46 }} />
+      </div>
 
       {isImgPreview && (
         <div>
