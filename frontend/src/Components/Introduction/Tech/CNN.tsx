@@ -62,20 +62,11 @@ function CNN() {
       Content: explanation[index].Content
     });
     setShowExplain(true);
-    console.log(layerExplanation)
   };
   const handleMouseLeave = () => {
     setShowExplain(false);
   };
-  // const setLayerDescription = function ( index : number) {
-  //   layerExplanation.Title = explanation[index].Title
-  //   layerExplanation.Content = explanation[index].Content
-  //   // console.log(11231231231231)
-  // }
-  const layerExplanation = {
-    Title: '왜 안 바뀌니',
-    Content: '바뀌는게 좋지 않겠니..!',
-  };
+
   const explanation = [
     {
       Title: 'Input',
@@ -95,14 +86,6 @@ function CNN() {
     },
   ]
   
-//   .big_title {
-//     text-align: center;
-//     font-size: 36px;
-//     font-weight: 600;
-//     margin: 20px;
-//     min-width: 300px;
-// }
-
   return (
     <PageDiv id="cnn">
       <div className="d-flex align-items-center">

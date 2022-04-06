@@ -71,7 +71,9 @@ function VMAF1 () {
         >
         <Grid
           item xs = {12}
+          marginBottom = { 4 }
         >
+          {/* <div className='big_title'>What is VMAF?</div> */}
           <Content
             title='What is VMAF?'
             content='VMAF는 인간 지각 비전 모델링과 인공지능을 결합하여
