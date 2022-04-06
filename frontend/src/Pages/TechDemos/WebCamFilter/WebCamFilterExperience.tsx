@@ -162,44 +162,51 @@ function WebCamFilterExperience() {
     setDialog((prev) => !prev);
   };
   return (
-    <div className="d-flex flex-column align-items-center">
-      <Content
-        title="Try SUPER RESOLUTION on WEB CAM"
-        content="실시간으로 일반 필터와 AI 필터의 웹캠 화질 개선을 느껴보세요!\n어떤 필터의 화질이 더 좋아보이나요?"
-      />
-      <div>
-        <Tooltip title="큰화면으로 보기">
-          <span>
-            <IconButton onClick={toggleDialog} disabled={!Boolean(videoSrc)}>
-              <ImageSearch className="sub_color" />
-            </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="돋보기 켜기">
-          <span>
-            <CustomSwitch
-              onChange={toggleMagnify}
-              checked={showMagnify}
-              icon={<SearchIcon className="comp_color" sx={{ height: "20px", width: "20px" }} />}
-              disabled={!Boolean(videoSrc)}
-            />
-          </span>
-        </Tooltip>
+    <div className="relative container">
+      <div className="center">
+        <div className="d-flex flex-column align-items-center">
+          <Content
+            title="Try SUPER RESOLUTION on WEB CAM"
+            content="실시간으로 일반 필터와 AI 필터의 웹캠 화질 개선을 느껴보세요!\n어떤 필터의 화질이 더 좋아보이나요?"
+          />
+
+          <WebcamBeforeAfterDialog
+            width="960px"
+            height="720px"
+            aiImgSrc={aiImageSrc}
+            normalImgSrc={normalImageSrc}
+            open={dialog}
+            handleClose={toggleDialog}
+          />
+          <WebcamContainerDiv>
+            <div className="relative">
+              <div className="webcam_magnify">
+                <Tooltip title="큰화면으로 보기">
+                  <span>
+                    <IconButton onClick={toggleDialog} disabled={!Boolean(videoSrc)}>
+                      <ImageSearch className="sub_color" />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+                <Tooltip title="돋보기 켜기">
+                  <span>
+                    <CustomSwitch
+                      onChange={toggleMagnify}
+                      checked={showMagnify}
+                      icon={<SearchIcon className="comp_color" sx={{ height: "20px", width: "20px" }} />}
+                      disabled={!Boolean(videoSrc)}
+                    />
+                  </span>
+                </Tooltip>
+              </div>
+              <WebCamUploadCard videoSrc={videoSrc} toggleWebcam={toggleWebcam} sendImage={sendImage} />
+            </div>
+            <ArrowRight sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <ResultCard imgSrc={normalImageSrc} title="일반 필터" width="36em" height="27em" setMousePos={sendMousePos} pos={mousePos} />
+            <ResultCard imgSrc={aiImageSrc} title="AI 필터" width="36em" height="27em" setMousePos={sendMousePos} pos={mousePos} />
+          </WebcamContainerDiv>
+        </div>
       </div>
-      <WebcamBeforeAfterDialog
-        width="960px"
-        height="720px"
-        aiImgSrc={aiImageSrc}
-        normalImgSrc={normalImageSrc}
-        open={dialog}
-        handleClose={toggleDialog}
-      />
-      <WebcamContainerDiv>
-        <WebCamUploadCard videoSrc={videoSrc} toggleWebcam={toggleWebcam} sendImage={sendImage} />
-        <ArrowRight sx={{ color: "#F2FFFF", fontSize: 50 }} />
-        <ResultCard imgSrc={normalImageSrc} title="일반 필터" width="640px" height="480px" setMousePos={sendMousePos} pos={mousePos} />
-        <ResultCard imgSrc={aiImageSrc} title="AI 필터" width="640px" height="480px" setMousePos={sendMousePos} pos={mousePos} />
-      </WebcamContainerDiv>
     </div>
   );
 }

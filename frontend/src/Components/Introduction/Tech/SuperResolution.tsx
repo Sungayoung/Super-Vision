@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import explainSuperResolution from "../../../Assets/Image/explainSuperResolution.png";
+import explainSuperResolution2 from "../../../Assets/Image/explainSuperResolution2.png";
 import Content from "../../../Components/Commons/Content";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import Grid from "@material-ui/core/Grid";
@@ -21,12 +21,12 @@ function SuperResolution() {
     <PageDiv id="super-resolution">
       <Content
         title="About SUPER RESOLUTION"
-        content="이미지 장치의 원래 sampling grid 
+        content="이미지 확대시 기본적으로 적용되는 Sampling Grid 
             보다 더 높은 해상도의 이미지를 만들기 위해\n
-            Pixel 해상도를 높여서 더 정교한 해상도의
+            AI를 통해 계산식을 학습하여 정교한 해상도의
             이미지를 만들어 내는 기술."
       />
-      <img style={{marginTop: '4rem'}} src={explainSuperResolution} alt="explainSuperResolution" />
+      <img style={{height: '20rem', marginTop: '4rem'}} src={explainSuperResolution2} alt="explainSuperResolution" />
     </PageDiv>
   );
 }

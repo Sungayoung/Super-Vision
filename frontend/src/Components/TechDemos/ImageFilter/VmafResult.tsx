@@ -18,7 +18,7 @@ function VmafResult({ normalVmaf, srVmaf }: VmafResultProps) {
               indexAxis="x"
               barThickness={40}
               width="10em"
-              height="22em"
+              height="24em"
               data={[normalVmaf, srVmaf]}
               labels={["일반 필터", "AI 필터"]}
               colors={colors}

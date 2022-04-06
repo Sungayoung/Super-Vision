@@ -46,7 +46,7 @@ function ImageResultCard({ page, title, file, imgPreviewUrl, isImgPreview, setMo
           <div className={showMagnify ? "" : "img_card"}>
             <img ref={imgRef} onLoad={setSize} className="full_img_card" src={imgPreviewUrl} alt="img" />
             <div className="download_img_card text-center" style={{display: showMagnify ? "none" : undefined}}>
-              <a href={imgPreviewUrl} download="Super Vision" className="text-decoration-none">
+              <a href={imgPreviewUrl} download={title === "AI 필터" ? "Super Vision" : "Normal Filter"} className="text-decoration-none">
                 <div className="clickable">
                   <DownloadIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
                 </div>

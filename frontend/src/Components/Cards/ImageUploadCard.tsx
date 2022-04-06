@@ -297,7 +297,15 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
             onClick={onClickUploadBtn}
             style={{visibility: "hidden"}}
           />
-          {!isDetected &&
+          {page === 'A' &&
+          <img
+            className="clickable full_img_upload_card"
+            src={imgPreviewUrl}
+            alt="img"
+            onClick={onClickUploadBtn}
+          />
+          }
+          {page === 'B' && !isDetected &&
           <img
             className="clickable full_img_card"
             src={imgPreviewUrl}
@@ -305,14 +313,14 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
             onClick={onClickUploadBtn}
           />
           }
-          {isDetected &&
+          {page === 'B' && isDetected &&
             <canvas id='canvas' className="clickable full_img_card" onMouseMove={handleSelectDetectedImg} onClick={handleClickDetectedImg}>Your browswer does not support HTML5 canvas</canvas>
           }
         </div>
       )}
       {!isImgPreview && (
         <div>
-          <div className={page === 'A' ? "blank_card" : "detect_upload_card"}>
+          <div className="blank_card">
             <div className="clickable" onClick={onClickUploadBtn}>
               <FileUploadOutlinedIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
             </div>

@@ -15,7 +15,7 @@ const TitleSpan = styled("span")({
   fontSize: "1.5rem",
   fontWeight: "600",
   padding: "5px",
-  marginBottom: "36px",
+  marginBottom: "6px",
 });
 
 function ResultCard({ imgSrc, title, width, height, setMousePos, pos }: ResultCardProps) {
@@ -53,10 +53,13 @@ function ResultCard({ imgSrc, title, width, height, setMousePos, pos }: ResultCa
           {imgSrc ? (
             <>
               <Magnify pos={pos} imgSrc={imgSrc} RATIO={4} width={width} height={height} />
-              <img src={imgSrc} style={{ height, width }} alt="img" />
+              <img src={imgSrc} style={{ height, width, objectFit: "cover" }} alt="img" />
             </>
           ) : (
-            "웹캠을 켜주세요"
+            <div>
+              <div className="font_3 comp_color">웹캠을 키면 결과를</div>
+              <div className="font_3 comp_color">확인할 수 있습니다.</div>
+            </div>
           )}
         </div>
       </div>
