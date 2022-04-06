@@ -13,9 +13,12 @@ const MagnifyDiv = styled("div")({
   width: "300px",
   height: "300px",
   position: "absolute",
-  boxShadow: "0 0 0 3px rgba(255, 255, 255, 0.85), 0 0 3px 3px rgba(0, 0, 0, 0.25)",
+  boxShadow: "0px 1px 12px rgba(0, 0, 0, 0.40)",
   display: "none",
   overflow: "hidden",
+  border: "2px solid",
+  borderColor: "#F2FFFF",
+  borderRadius: "100%",
 });
 
 function Magnify({ width, height, RATIO, imgSrc, pos }: MagnifyProps) {

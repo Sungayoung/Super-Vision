@@ -73,13 +73,13 @@ const CustomSwitch = styled((props: SwitchProps) => <Switch focusVisibleClassNam
 
 function ImageFilterExperienceA() {
   const [file, setFile] = useState<Blob>(new Blob());
+  const [parentImgPreviewUrl, setParentImgPreviewUrl] = useState<string>("");
   const [isImgPreview, setIsImgPreview] = useState<boolean>(false);
   const [originImg, setOriginImg] = useState<string>("");
   const [normalImg, setNormalImg] = useState<string>("");
   const [srImg, setSrImg] = useState<string>("");
   const [normalVmaf, setNormalVmaf] = useState<number>(0);
   const [srVmaf, setSrVmaf] = useState<number>(0);
-  const [diff, setDiff] = useState<number>(0);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | undefined>(undefined);
   const [showMagnify, setShowMagnify] = useState<boolean>(true);
 
@@ -103,8 +103,6 @@ function ImageFilterExperienceA() {
     setNormalVmaf(parseInt(normalVmaf));
     setSrVmaf(parseInt(srVmaf));
     setIsImgPreview(isImgPreview);
-    const diff = parseInt(srVmaf) - parseInt(normalVmaf);
-    setDiff(diff);
     console.log("parentImgChange", originImg);
   }
 
@@ -133,7 +131,7 @@ function ImageFilterExperienceA() {
           <div className="cards mt-5">
             <div className="d-flex flex-column">
               <div className="origin_card_txt">
-                <div className="mb-2 text-center font_2 main_color bold">원본</div>
+                {/* <div className="mb-2 text-center font_2 main_color bold">원본</div> */}
                 <div className="magnify">
                   <Tooltip title="돋보기 켜기">
                     <span>
@@ -147,9 +145,9 @@ function ImageFilterExperienceA() {
                   </Tooltip>
                 </div>
               </div>
-              <ImageUploadCard page="A" originImg={originImg} parentImgChange={parentImgChange} showCropImgModal={showCropImgModal} />
+              <ImageUploadCard page="A" originImg={originImg} parentImgChange={parentImgChange} parentImgPreviewURL={parentImgPreviewUrl} showCropImgModal={showCropImgModal} />
             </div>
-            <ArrowRightIcon className="mt-5 mx-4" sx={{ color: "#F2FFFF", fontSize: 50 }} />
+            <ArrowRightIcon className="mt-5 mx-5" sx={{ color: "#F2FFFF", fontSize: 50 }} />
             <div className="me-5">
               <ImageResultCard
                 page="A"
@@ -158,16 +156,20 @@ function ImageFilterExperienceA() {
                 isImgPreview={isImgPreview}
                 setMousePos={sendMousePos}
                 pos={mousePos}
+                showMagnify={showMagnify}
               />
             </div>
-            <ImageResultCard
-              page="A"
-              title="AI 필터"
-              imgPreviewUrl={srImg}
-              isImgPreview={isImgPreview}
-              setMousePos={sendMousePos}
-              pos={mousePos}
-            />
+            <div className="mx-3">
+              <ImageResultCard
+                page="A"
+                title="AI 필터"
+                imgPreviewUrl={srImg}
+                isImgPreview={isImgPreview}
+                setMousePos={sendMousePos}
+                pos={mousePos}
+                showMagnify={showMagnify}
+              />
+            </div>
             <VmafResult normalVmaf={normalVmaf} srVmaf={srVmaf} />
           </div>
         </div>

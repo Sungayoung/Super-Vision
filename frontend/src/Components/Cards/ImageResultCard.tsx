@@ -1,6 +1,8 @@
 import { styled } from "@mui/material/styles";
 import { useEffect, useRef, useState, MouseEvent, SyntheticEvent } from "react";
 import Magnify from "../Commons/Magnify";
+import DownloadIcon from '@mui/icons-material/Download';
+import Btn from "../Commons/Btn";
 
 type ImageResultCardProps = {
   page: string;
@@ -10,9 +12,10 @@ type ImageResultCardProps = {
   isImgPreview: boolean;
   setMousePos: Function;
   pos: { x: number; y: number } | undefined;
+  showMagnify: boolean;
 };
 
-function ImageResultCard({ page, title, file, imgPreviewUrl, isImgPreview, setMousePos, pos }: ImageResultCardProps) {
+function ImageResultCard({ page, title, file, imgPreviewUrl, isImgPreview, setMousePos, pos, showMagnify }: ImageResultCardProps) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
@@ -40,10 +43,34 @@ function ImageResultCard({ page, title, file, imgPreviewUrl, isImgPreview, setMo
       {isImgPreview && (
         <span onMouseMove={handleMove}>
           <Magnify pos={pos} imgSrc={imgPreviewUrl} RATIO={3} width={`${width}px`} height={`${height}px`} />
-          <img ref={imgRef} onLoad={setSize} className="full_img_card" src={imgPreviewUrl} alt="img" />
+          <div className={showMagnify ? "" : "img_card"}>
+            <img ref={imgRef} onLoad={setSize} className="full_img_card" src={imgPreviewUrl} alt="img" />
+            <div className="download_img_card text-center" style={{display: showMagnify ? "none" : undefined}}>
+              <a href={imgPreviewUrl} download="Super Vision" className="text-decoration-none">
+                <div className="clickable">
+                  <DownloadIcon sx={{ color: "#5F7B84", fontSize: 70 }} />
+                </div>
+                <div>
+                  <Btn content="사진 다운로드" />
+                </div>
+              </a>
+            </div>
+          </div>
         </span>
       )}
       {!isImgPreview && page === 'A' && (
+        <div className={"blank_card font_3 comp_color text-center pre_wrap"}>
+          <div>{"사진을 업로드하면\n결과를 확인할 수 있습니다."}</div>
+        </div>
+        )
+      }
+      {!isImgPreview && page === 'B' && (
+        <div className="blank_card font_3 comp_color text-center pre_wrap">
+          <div>{"디텍팅한 박스를 클릭하면\n결과를 확인할 수 있습니다."}</div>
+        </div>
+        )
+      }
+      {/* {!isImgPreview && page === 'A' && (
         <div className={"blank_card font_3 comp_color text-center pre_wrap"}>
           <div>{"사진을 업로드하면\n결과를 확인할 수 있습니다."}</div>
         </div>
@@ -54,7 +81,7 @@ function ImageResultCard({ page, title, file, imgPreviewUrl, isImgPreview, setMo
           <div>{"디텍팅한 박스를 클릭하면\n결과를 확인할 수 있습니다."}</div>
         </div>
         )
-      }
+      } */}
     </div>
   );
 }
