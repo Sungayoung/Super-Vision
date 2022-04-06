@@ -39,10 +39,11 @@ function VMAFCard ({imgSrc, content}: VMAFCardProps) {
   return (
     <Card
       sx = {{ 
-        bgcolor: theme.palette.primary.dark
+        bgcolor: theme.palette.primary.dark,
       }}
     >
       <CardMedia
+        height={215}
         component="img"
         image = { imgSrc }
       >
