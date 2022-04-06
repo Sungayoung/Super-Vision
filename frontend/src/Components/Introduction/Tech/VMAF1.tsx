@@ -153,7 +153,7 @@ function VMAF1 () {
             </div>
             <div className='card_container mx-2' style={{width: "14em"}}>
               <img src={ imgAI } alt="imgVmafLogo" style={{objectFit: "cover", height: "12em", width: "14em", borderRadius: 20, marginBottom: 6}} />
-              <ContentOnly content={'통신으로 인해 열화된 화질을\n원본에 가깝게 복원한 정도를\n수치로 측정하는 시스템'} />
+              <ContentOnly content={'열화된 화질을\n원본에 가깝게 복원한 정도를\n수치로 측정하는 시스템'} />
             </div>
           </div>
         </div>
