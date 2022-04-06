@@ -81,6 +81,7 @@ function SideBar() {
                 onClick={() => handleClick(SideBarContent.id)}
               >
                 <ListItemText
+                  key={SideBarContent.title}
                   className={
                     clickedSubItems[SideBarContent.id].some((item) => item) || clickedItems[SideBarContent.id] ? styles.active : ""
                   }
@@ -103,7 +104,11 @@ function SideBar() {
                       key={subtitle.title + subtitle.id}
                       sx={{ pl: 4, color: "white", "&:hover": { color: "white" } }}
                     >
-                      <ListItemText primary={subtitle.title} className={clickedSubItems[SideBarContent.id][index] ? styles.active : ""} />
+                      <ListItemText
+                        key={subtitle.title + subtitle.id}
+                        primary={subtitle.title}
+                        className={clickedSubItems[SideBarContent.id][index] ? styles.active : ""}
+                      />
                     </ListItem>
                   );
                 })}
