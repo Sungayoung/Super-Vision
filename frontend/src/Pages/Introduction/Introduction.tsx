@@ -4,7 +4,7 @@ import "./Introduction.css";
 import { styled } from "@mui/material/styles";
 
 // Local
-import Btn from "../../Components/Commons/Btn";
+
 import { useInternalRouter } from "../../Router/routing";
 // 사이드 바
 import { useState, useEffect } from 'react'
@@ -19,10 +19,7 @@ import Project from "../../Components/Introduction/Project/Project";
 import Content from "../../Components/Commons/Content";
 
 function Introduction() {
-  const router = useInternalRouter();
-  function onClick(event: React.MouseEvent<HTMLButtonElement>) {
-    router.push("/Introduction/QuickStart");
-  }
+
   const [page, setPage] = useState<number>(0);
   const MIN_PAGE = 0;
   const MAX_PAGE = 4;
@@ -49,11 +46,8 @@ function Introduction() {
       <CNN />
       <SuperResolution />
       <VMAF1 />
-      <VMAF2 />
+      <VMAF2 page={page} />
       <Project />
-      <div className="mb-4 text-center">
-        <Btn content="QUICK START" onClick={onClick} />
-      </div>
     </>
   );
 }

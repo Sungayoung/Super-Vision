@@ -78,6 +78,17 @@
     border: 1.5px dashed #F2FFFF;
 }
 
+.full_img_upload_card {
+
+    object-fit: contain;
+    /* min-height: 25vh; */
+    height: 14em;
+    /* max-width: 22em; */
+    /* min-width: 30vw; */
+    border-radius: 20px;
+    border: 1.5px dashed #F2FFFF;
+}
+
 .download_img_card {
     object-fit: contain;
     height: 24em;
@@ -118,6 +129,12 @@
     bottom: -34px;
 }
 
+.webcam_magnify {
+    position: absolute;
+    right: 26px;
+    top: 20px;
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -139,6 +156,7 @@
         position:absolute;
         top:50%;
         left:50%;
+        overflow: visible;
         transform:translate(-50%,-50%);
     }
 }
@@ -219,4 +237,17 @@ canvas, img {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast; */
     -ms-interpolation-mode: nearest-neighbor;
+}
+
+.cat_img {
+    width: 18em;
+    margin: 0px 20px;
+    border-radius: 10px;
+}
+
+.content {
+    font-size: "18px";
+    padding: "10px";
+    white-space: "pre-wrap";
+    color: "#F2FFFF";
 }

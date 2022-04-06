@@ -38,7 +38,7 @@ function ImageFilterMain() {
             AI 및 일반 필터를 통한 화질 개선을 체험할 수 있어요!
           </div> */}
           <div className="d-flex flex-column">
-            <div className="my-5">
+            <div className="my-4">
               <HorizontalContentCard
                 title={state.image.title}
                 content={state.image.content}
@@ -48,7 +48,7 @@ function ImageFilterMain() {
                 reversed={true}
               />
             </div>
-            <div className="my-5">
+            <div className="my-4">
               <HorizontalContentCard
                 title={state.webcam.title}
                 content={state.webcam.content}

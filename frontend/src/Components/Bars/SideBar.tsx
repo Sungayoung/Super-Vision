@@ -65,15 +65,19 @@ function SideBar() {
     >
       <Toolbar />
       <List
+        className="px-3 pt-4"
         id="side-bar"
         sx={{ width: "100%", maxWidth: 360, overflow: "auto", paddingTop: "20px" }}
         component="nav"
         aria-labelledby="SideBar"
-        subheader={<SearchBar></SearchBar>}
+        subheader={
+          <SearchBar></SearchBar>
+        }
       >
         {SideBarContents.map((SideBarContent: any, idx) => {
           return (
-            <div>
+            <div className="my-1">
+              
               {/* 1. 목차 */}
               <ListItemButton
                 id={`side-bar-${SideBarContent.id}`}

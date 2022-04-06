@@ -88,13 +88,13 @@ function CNN() {
 
   return (
     <PageDiv id="cnn">
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center justify-content-center">
         <div style={{ marginRight: "5rem" }}>
           <h1 className="cnnName fs-1 text-start big_title">Convolution</h1>
           <h1 className="cnnName fs-1 text-start big_title">Neural</h1>
           <h1 className="cnnName fs-1 text-start big_title">Network</h1>
         </div>
-        <div className="d-flex pb-3">
+        <div className="d-flex pb-3 pe-5 me-5">
           <LayerSquare isDark={true} onMouseOver={() => handleMouseOver(0)} onMouseLeave={handleMouseLeave} />
           <LayerSquare isDark={false} onMouseOver={() => handleMouseOver(1)} onMouseLeave={handleMouseLeave} />
           <LayerSquare isDark={true} onMouseOver={() => handleMouseOver(2)} onMouseLeave={handleMouseLeave} />

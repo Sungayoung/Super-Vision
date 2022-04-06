@@ -3,8 +3,8 @@ import { styled } from "@mui/material/styles";
 import {useTheme} from "@material-ui/core/styles"
 import { Box, IconButton } from "@mui/material";
 import { useState } from "react";
-import beforeImage from "../../Assets/Image/beforeImage.png";
-import afterImage from "../../Assets/Image/afterImage.png";
+import before2 from "../../Assets/Image/before2.png";
+import after2 from "../../Assets/Image/after2.jpg";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
@@ -12,7 +12,7 @@ const PageDiv = styled("div")({
   position: "relative",
   height: "100vh",
   width: "99.5vw",
-  background: `url(${afterImage})`,
+  background: `url(${after2})`,
   backgroundSize: "cover",
   overflow: "hidden",
 });
@@ -28,14 +28,14 @@ function HomeBeforeAfter() {
     cursor: "move",
   };
   const beforeTextStyle = {
-    color: theme.palette.primary.contrastText,
+    color: "#F2FFFF",
     position: "absolute",
     top: "50%",
     left: window.screen.availWidth / 2 - 100 - 200 * ((window.screen.availWidth - imgWidth) / window.screen.availWidth),
     transform: "translate(-50%, -50%)",
   };
   const AfterTextStyle = {
-    color: theme.palette.primary.main,
+    color: "#CEF3FF",
     position: "absolute",
     top: "50%",
     left: window.screen.availWidth / 2 + 100 + 200 * (1 - (window.screen.availWidth - imgWidth) / window.screen.availWidth),
@@ -69,7 +69,7 @@ function HomeBeforeAfter() {
           <CustomTypography sx={beforeTextStyle}>Before</CustomTypography>
           <Box
             component="img"
-            src={beforeImage}
+            src={before2}
             sx={{ width: "99.5vw", height: "100%", objectFit: "cover", objectPosition: "left top" }}
           ></Box>
         </div>

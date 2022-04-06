@@ -4,6 +4,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined";
 import { VideoHTMLAttributes, useEffect, useRef, ChangeEvent, useState } from "react";
 import "./WebCamUploadCard.css";
+import Btn from "../Commons/Btn";
 
 type PropsType = VideoHTMLAttributes<HTMLVideoElement> & {
   srcObject: MediaStream;
@@ -127,6 +128,11 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam, sendImage }: WebCa
     }
   };
 
+  const onClick = async (e: React.MouseEvent) => {
+    setWebcamOn((prev) => !prev);
+    setWebcamOn(await toggleWebcam(true));
+  };
+
   const drawImg = () => {
     const ctx = canvasRef.current?.getContext("2d");
     ctx?.drawImage(refVideo.current, 0, 0, 320, 240);
@@ -137,7 +143,6 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam, sendImage }: WebCa
 
   return (
     <div className="card-container">
-      <TitleSpan>ORIGINAL</TitleSpan>
       <FormControlLabel
         control={<CustomSwitch sx={{ m: 1 }} onChange={onChange} checked={webcamOn} />}
         label={`웹캠 ${webcamOn ? "On" : "Off"}`}
@@ -151,8 +156,13 @@ function WebCamUploadCardTmp({ videoSrc = null, toggleWebcam, sendImage }: WebCa
           </>
         ) : (
           <>
-            <VideocamOutlinedIcon sx={{ color: "#5F7B84", fontSize: 50 }} />
-            <span>웹캠을 켜주세요</span>
+            <div className="clickable" onClick={onClick}>
+              <VideocamOutlinedIcon sx={{ color: "#5F7B84", fontSize: 60 }} />
+            </div>
+            <div>
+              <Btn content="웹캡 켜기" onClick={onClick} />
+            </div>
+            <div className="font_3 comp_color mt-2">웹캠을 켜주세요.</div>
           </>
         )}
       </WebCamUploadDiv>
