@@ -3,6 +3,7 @@ import Btn from "../Commons/Btn";
 import axios from "axios";
 import { styled } from "@mui/material/styles";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import { Backdrop, CircularProgress } from '@mui/material';
 
 type ImageUploadCardProps = {
   page: string;
@@ -28,6 +29,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
   const [fileName, setFileName] = useState<string>("");
   const fileRef = useRef<HTMLInputElement>(null);
   
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [imgPreviewUrl, setImgPreviewUrl] = useState<string>("");
   const [isImgPreview, setIsImgPreview] = useState<boolean>(false);
   const [originWidth, setOriginWidth] = useState<number>(0);
@@ -96,7 +98,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
     const form = document.forms[0];
     const data = new FormData(form);
     setIsDetected(false)
-  
+    setIsLoading(true)
     const headers = {
       "Content-Type": "multipart/form-data",
     };
@@ -107,6 +109,7 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
       headers,
     })
       .then((res) => {
+        setIsLoading(false)
         console.log("handleImgChange 성공", res);
         const image = document.querySelector("#preview_img") as HTMLImageElement
         console.log('detecting', image)
@@ -277,7 +280,12 @@ function ImageUploadCard({ page, originImg="", parentImgChange, showCropImgModal
     <div className="card_container">
       
       {/* <div className="mb-2 font_2 main_color bold">원본</div> */}
-
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <form id="upload" action="/">
         <input ref={fileRef} type="file" onChange={handleImgChange} hidden={true} name="image" />
       </form>
